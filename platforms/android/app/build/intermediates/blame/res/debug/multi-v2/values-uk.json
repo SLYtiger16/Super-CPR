@@ -1,0 +1,150 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\610Ind\\superCPR\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-ads-11.6.2.aar\\7677bde8321fa4754a24f6dc135abfb7\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "237,313,422,488,555,637,741",
+                        "endColumns": "75,108,65,66,81,103,75",
+                        "endOffsets": "312,421,487,554,636,740,816"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "413,493,606,676,747,833,941",
+                        "endColumns": "79,112,69,70,85,107,79",
+                        "endOffsets": "488,601,671,742,828,936,1016"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.6.2.aar\\e2c3594afe4588dbe741f742f7520bb6\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "285",
+                        "endColumns": "204",
+                        "endOffsets": "489"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "204",
+                        "endOffsets": "305"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\e02d1759afe4e26a2c5fa9e6a05af64c\\res\\values-uk\\values-uk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "1021",
+                        "endColumns": "100",
+                        "endOffsets": "1117"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-11.6.2.aar\\30ac0abc7276c2f25caabbcd211654da\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "243",
+                        "endColumns": "98",
+                        "endOffsets": "341"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "310",
+                        "endColumns": "102",
+                        "endOffsets": "408"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\610Ind\\cpr\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-ads-11.6.2.aar\\7677bde8321fa4754a24f6dc135abfb7\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "237,313,422,488,555,637,741",
+                        "endColumns": "75,108,65,66,81,103,75",
+                        "endOffsets": "312,421,487,554,636,740,816"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "413,493,606,676,747,833,941",
+                        "endColumns": "79,112,69,70,85,107,79",
+                        "endOffsets": "488,601,671,742,828,936,1016"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.6.2.aar\\e2c3594afe4588dbe741f742f7520bb6\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "285",
+                        "endColumns": "204",
+                        "endOffsets": "489"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "204",
+                        "endOffsets": "305"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\e02d1759afe4e26a2c5fa9e6a05af64c\\res\\values-uk\\values-uk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "1021",
+                        "endColumns": "100",
+                        "endOffsets": "1117"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-11.6.2.aar\\30ac0abc7276c2f25caabbcd211654da\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "243",
+                        "endColumns": "98",
+                        "endOffsets": "341"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "310",
+                        "endColumns": "102",
+                        "endOffsets": "408"
+                    }
+                }
+            ]
+        }
+    ]
+}

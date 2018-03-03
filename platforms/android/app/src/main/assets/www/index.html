@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *"/>
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>CPR Helper</title>
+  </head>
+  <body>
+
+    <audio id="sound_cowbell" src="img/cowbell.wav" id="audio"></audio>
+    <audio id="sound_ding" src="img/ding.wav" id="audio"></audio>
+
+    <div class="overlay"></div>
+
+    <div id="sidebar" class="sidebar">
+      <img id="menuImg" src="img/menuHead.png"/>
+      <div style="padding-left:15px;">
+        <h5 class="yellowText">MENU</h5>
+        <ul>
+          <hr/>
+          <li class="menuItem" id="menu_home" target="HomeScreen">
+            <i class="material-icons">&#xE88A;</i>HOME
+          </li>
+          <hr/>
+          <li class="menuItem" id="menu_log" target="LogScreen">
+            <i class="material-icons">&#xE8EF;</i>LOG
+          </li>
+          <hr/>
+          <li class="menuItem" id="menu_settings" target="SettingsScreen">
+            <i class="material-icons">&#xE8B8;</i>SETTINGS
+          </li>
+          <hr/>
+          <li class="menuItem" id="menu_about" target="AboutScreen">
+            <i class="material-icons">&#xE88F;</i>ABOUT
+          </li>
+          <hr/>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row header no-mar" style="background-color:black;padding-top:10px;">
+      <h5 id="header_menu" class="col s9 sidebar-toggle no-mar">
+        <i class="material-icons" style="font-size:35px;margin-right:20px;">&#xE5D2;</i>Super CPR
+      </h5>
+      <h4 class="col s3 right-align info no-mar" style="margin-top: -5px">
+        <img class="menuItem" src="img/iconWithText40.png" target="HomeScreen"/>
+      </h4>
+    </div>
+
+    <main id="HomeScreen" class="grey lighten-3 Screen" style="display:inline-block;">
+      <div class="row no-mar">
+        <div id="cpr" class="card-panel center-align z-depth-5 waves-effect waves-light" style="width:100%;">
+          <div class="section">
+            <h4 class="no-mar" id="clock">00:00 AM</h4>
+          </div>
+          <img id="super" src="img/logoOnly200x143.png"/>
+          <div class="section">
+            <h2 class="no-mar" id="timer">00:00</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row no-mar">
+        <div id="start" class="card-panel center-align white-text z-depth-5 waves-effect waves-light" style="width:100%;">
+          <h3 id="startBtn">START</h3>
+          <h6 id="startedAt">---</h6>
+        </div>
+      </div>
+    </main>
+
+    <main id="LogScreen" class="grey lighten-3 Screen">
+      <div class="row no-mar">
+        <div id="logListCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+          <div class="card-content white-text">
+            <div class="row">
+              <h5 class="card-title col s6" style="font-weight:bold;color:#efe06e;">Usage Log</h5>
+              <a id="clearLog" class="waves-effect waves-light btn red yellow-text right" style="padding-top:5px;">Clear</a>
+            </div>
+            <ul id="logList" style="overflow-y:auto;"></ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <main id="SettingsScreen" class="grey lighten-3 Screen">
+      <div class="row no-mar">
+        <div id="settingsCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+          <div class="card-content white-text">
+            <h4 class="card-title" style="font-weight:bold;color:#efe06e;">Settings</h4>
+            <form id="soundRadio">
+              <ul id="settingsList">
+                <li><h5>Select a metronome sound </h5></li>
+                <p>Alert: Changing the preferred sound will cause an active metronome to stop.</p>
+                <li>
+                  <input class="with-gap" id="cowbell" type="radio" name="sound">
+                  <label for="cowbell">Cowbell</label>
+                </li>
+                <hr/>
+                <li>
+                  <input class="with-gap" id="ding" type="radio" name="sound">
+                  <label for="ding">Ding</label>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <main id="AboutScreen" class="grey lighten-3 Screen">
+      <div class="row no-mar">
+        <div id="aboutCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+          <h4 class="right-align info no-mar center-align">About Super CPR</h4>
+          <p>&copy;&nbsp;2018 - 610 Industries, LLC</p>
+          <p>Super CPR is meant to be a tempo guide only and in no way is designed to establish any clinical standard. Use at your own risk. By using this application you agree to remove any liability associated with it's use from 610 Industries, LLC and it's owners, customers, contractors, or anyone in any way associated with 610 Insutries, LLC and this application.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="page-footer black white-text no-pad">
+      <div class="footer-copyright">
+        <div class="container">
+          <a href="https://610ind.com" class="white-text">© 2018 610 Industries, LLC</a>
+        </div>
+      </div>
+    </footer>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/hammer.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+      app.initialize();
+    </script>
+
+  </body>
+</html>

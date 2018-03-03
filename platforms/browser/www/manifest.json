@@ -1,0 +1,12 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Super CPR",
+  "short_name": "Super CPR",
+  "version": "com.sixten.superCPR",
+  "description": "A Super CPR metronome tempo assistant.",
+  "author": "610 Industries, LLC",
+  "icons": [],
+  "orientation": "portrait",
+  "start_url": "index.html"
+}

@@ -1,0 +1,40 @@
+{
+    "android": {
+        "debug": {
+            "keystore": "/610Ind/610KeyStore.keystore",
+            "storePassword": "Saddog11",
+            "alias": "610ind",
+            "password" : "Saddog11",
+            "keystoreType": ""
+        },
+        "release": {
+            "keystore": "/610Ind/610KeyStore.keystore",
+            "storePassword": "Saddog11",
+            "alias": "610ind",
+            "password" : "Saddog11",
+            "keystoreType": ""
+        }
+    },
+    "ios": {
+        "debug": {
+            "codeSignIdentity": "iPhone Developer",
+            "developmentTeam": "FG35JLLMXX4A",
+            "packageType": "development",
+            "buildFlag": [
+                "EMBEDDED_CONTENT_CONTAINS_SWIFT = YES",
+                "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=NO",
+                "LD_RUNPATH_SEARCH_PATHS = \"@executable_path/Frameworks\""
+            ]
+        },
+        "release": {
+            "codeSignIdentity": "iPhone Developer",
+            "developmentTeam": "FG35JLLMXX4A",
+            "packageType": "app-store",
+            "buildFlag": [
+                "EMBEDDED_CONTENT_CONTAINS_SWIFT = YES",
+                "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES=NO",
+                "LD_RUNPATH_SEARCH_PATHS = \"@executable_path/Frameworks\""
+            ]
+        }
+    }
+}

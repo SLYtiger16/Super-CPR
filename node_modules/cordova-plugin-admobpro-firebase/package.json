@@ -1,0 +1,137 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-admobpro-firebase",
+        "scope": null,
+        "escapedName": "cordova-plugin-admobpro-firebase",
+        "name": "cordova-plugin-admobpro-firebase",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\610Ind\\cpr"
+    ]
+  ],
+  "_from": "cordova-plugin-admobpro-firebase@latest",
+  "_id": "cordova-plugin-admobpro-firebase@2.30.1",
+  "_inCache": true,
+  "_location": "/cordova-plugin-admobpro-firebase",
+  "_nodeVersion": "6.11.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-admobpro-firebase-2.30.1.tgz_1515821382418_0.8624907243065536"
+  },
+  "_npmUser": {
+    "name": "floatinghotpot",
+    "email": "rjfun.mobile@gmail.com"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-admobpro-firebase",
+    "scope": null,
+    "escapedName": "cordova-plugin-admobpro-firebase",
+    "name": "cordova-plugin-admobpro-firebase",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-admobpro-firebase/-/cordova-plugin-admobpro-firebase-2.30.1.tgz",
+  "_shasum": "ab5fc672d892aa894df87b09f0bc99a17cf5cfff",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-admobpro-firebase",
+  "_where": "C:\\610Ind\\cpr",
+  "author": {
+    "name": "Liming Xie"
+  },
+  "bugs": {
+    "url": "https://github.com/floatinghotpot/cordova-admob-pro/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-admobpro-firebase",
+    "platforms": [
+      "android",
+      "ios",
+      "amazon-fireos",
+      "wp8"
+    ]
+  },
+  "dependencies": {},
+  "description": "Ultimate Cordova Plugin for Google AdMob and DFP to monetize hybrid apps. Show mobile Ad with single line of JavaScript. Compatible with Cordova CLI, PhoneGap Build, Intel XDK/Crosswalk, Google ChromeApp, Ionic, Meteor, etc.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "ab5fc672d892aa894df87b09f0bc99a17cf5cfff",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-admobpro-firebase/-/cordova-plugin-admobpro-firebase-2.30.1.tgz"
+  },
+  "gitHead": "4faafb4c6f03fff3dd9023a62bcaa518af51108e",
+  "homepage": "https://github.com/floatinghotpot/cordova-admob-pro#readme",
+  "keywords": [
+    "cordova",
+    "admob",
+    "plugin",
+    "phonegap",
+    "intel-xdk",
+    "intel",
+    "xdk",
+    "crosswalk",
+    "ionic",
+    "meteor",
+    "ad",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-wp8",
+    "cordova-amazon-fireos",
+    "google",
+    "ads",
+    "eclipse",
+    "android-studio",
+    "simple",
+    "easy",
+    "android",
+    "ios",
+    "windows",
+    "phonegap",
+    "monetization",
+    "monetisation",
+    "money",
+    "banner",
+    "interstitial",
+    "advertisement",
+    "advertising",
+    "earn",
+    "cordova-admob",
+    "admobpro",
+    "iad",
+    "flurry",
+    "mobfox",
+    "mopub",
+    "inmobi",
+    "chartboost",
+    "domob",
+    "rjfun"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "floatinghotpot",
+      "email": "rjfun.mobile@gmail.com"
+    }
+  ],
+  "name": "cordova-plugin-admobpro-firebase",
+  "optionalDependencies": {},
+  "readme": "## AdMob Plugin Pro \n\nCordova / PhoneGap Plugin for Google Ads, including AdMob / DFP (doubleclick for publisher) and mediations to other Ad networks.\n\n## Contents\n\n1. [Description](#description)\n2. [History](#history)\n3. [Features](#features)\n4. [Demo](#quick-demo)\n5. [Quick Start](#quick-start)\n6. [Installation](#installation)\n7. [Usage](#usage)\n8. [API](#api)\n9. [Wiki and Docs](#wiki-and-docs)\n10. [Important Tips & Warning](#tips)\n11. [Video Tutorial](#video-tutorial)\n12. [Screenshots](#screenshots)\n13. [License](#license)\n14. [Credits](#credits)\n\n## Description\n\nThis Cordova / PhoneGap plugin enables displaying mobile Ads with single line of javascript code. Designed for the use in HTML5-based cross-platform hybrid games and other applications.\n\nThis version is used with Firebase, and compatible with other plugins using Firebase, such as FCM.\n\nIf you don't plan to include Firebase in your app, use the standalone version cordova-plugin-admobpro.\n\n## History\n\nCommunity-driven project. Designed and maintained by [Raymond Xie](http://github.com/floatinghotpot/) since August 2014. It also features integration in AngularJS projects via [ngCordova] (http://www.ngcordova.com).\n\nIt was published to Cordova registry with id \"com.google.cordova.admob\" since Aug 2014, and  has been downloaded more than 120,000 times. Now it's the No. 1 monetization plugin for Cordova community.\n\n![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/trend.png)\n\nFrom May 2015, Cordova team announced the deprecation of Cordova registry, and suggest all plugins to be moved to npm repository. Now, the AdMob plugin is published to npm and renamed as \"cordova-plugin-admobpro\".\n\n## Features\n\nPlatforms supported:\n- [x] iOS, via SDK v7.27.0 (see [Release Notes](https://developers.google.com/admob/ios/rel-notes))\n- [x] Android, via Android SDK (part of Google Play service, see [Release Notes](https://developers.google.com/admob/android/rel-notes))\n- [x] Amazon-FireOS, via Android SDK (part of Google Play service)\n- [x] Windows Phone, via SDK v6.5.13 (see [Release Notes](https://developers.google.com/admob/wp/rel-notes))\n\nAd Types:\n- [x] Banner\n- [x] Interstitial (text, picture, video), highly recommended. :fire:\n- [x] Reward Video, highly recommended. :fire:\n- [ ] Native Ads (on roadmap)\n- [ ] Native Ads Advanced (on roadmap)\n\nMediation to other Ad networks:\n* [x] AdMob (built-in)\n* [x] DFP (DoubleClick for Publisher, built-in)\n* [x] Facebook Audience Network\n* [x] Flurry\n* [x] iAd\n* [x] InMobi\n* [x] Millennial Media\n* [x] MobFox\n\n## Quick Demo\n\nWanna quickly see the mobile ad on your simulator or device? Try the following commands.\n\n```bash\n    # install cordova CLI\n    [sudo] npm install cordova -g\n\n    # install a small utility to run all the commands for you\n    [sudo] npm install plugin-verify -g\n\n    # Demo 1: run admob demo with sample index.html\n    plugin-verify cordova-plugin-admobpro\n\n    # Demo 2/3: run admob demo in game powered by PIXI/phaser HTML5 engine\n    plugin-verify admob-demo-game-pixi ios --landscape\n    plugin-verify admob-demo-game-phaser ios --landscape\n\n    # Demo 4: run admob demo in app powered by ionic/angular framework\n    plugin-verify admob-demo-app-ionic ios --portrait\n```\n\n## Quick start\n```bash\n\t# create a demo project\n    cordova create test1 com.rjfun.test1 Test1\n    cd test1\n    cordova platform add android\n    cordova platform add ios\n\n    # now add the plugin, cordova CLI will handle dependency automatically\n    cordova plugin add cordova-plugin-admobpro\n\n    # now remove the default www content, copy the demo html file to www\n    rm -r www/*;\n    cp plugins/cordova-plugin-admobpro/test/* www/;\n\n\t# now build and run the demo in your device or emulator\n    cordova prepare; \n    cordova run android; \n    cordova run ios;\n    # or import into Xcode / eclipse\n```\n\n## Installation\n\n* If use with Cordova CLI:\n```bash\ncordova plugin add cordova-plugin-admobpro\n```\nOr, if you see conflict when using Firebase, use this one instead:\n```bash\ncordova plugin add cordova-plugin-admobpro-firebase\n```\n\nIf use other tools or online build services, see:\n* [x] Apache Cordova CLI, v3.0+ ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/01.-How-to-Use-with-Cordova-CLI))\n* [x] Intel XDK, r1095+ ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/02.-How-to-Use-with-Intel-XDK))\n* [x] IBM Worklight, v6.2+ ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/04.-How-to-Use-with-IBM-Worklight))\n* [x] Google Mobile Chrome App ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/05.-How-to-Use-with-Mobile-Chrome-App))\n* [x] Adobe PhoneGap Build. ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/00.-How-To-Use-with-PhoneGap-Build))\n* [x] Meteor ([How To ...](https://github.com/floatinghotpot/cordova-admob-pro/wiki/06.-How-To-Use-with-Meteor))\n* [x] Ionic V1, [Ionic V1 Demo](https://github.com/jaivehall/admob-ionic-demo)\n* [x] Ionic, [Ionic Demo](https://github.com/jaivehall/admob-ionic2-demo)\n\nWhat's difference of these plugin IDs, which one shall I use ?\n* com.google.cordova.admob\n* cordova-plugin-admob\n* cordova-plugin-admobpro\n* cordova-plugin-admobpro-firebase\n\nRead: [Difference of Plugin ID](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Difference-of-Plugin-IDs)\n\nNotice:\n* If build locally using ```cordova-plugin-admobpro```, to avoid build error, you need install some extras in Android SDK manager (type ```android sdk``` to launch it):\n![android extra](https://cloud.githubusercontent.com/assets/2339512/8176143/20533ec0-1429-11e5-8e17-a748373d5110.png)\n\n## Usage\n\nShow Mobile Ad with single line of javascript code.\n\nStep 1: Create Ad Unit Id for your banner and interstitial, in [AdMob portal](http://www.admob.com/), then write it in your javascript code.\n\n```javascript\n// select the right Ad Id according to platform\n  var admobid = {};\n  if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos\n    admobid = {\n      banner: 'ca-app-pub-xxx/xxx', // or DFP format \"/6253334/dfp_example_ad\"\n      interstitial: 'ca-app-pub-xxx/yyy'\n    };\n  } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios\n    admobid = {\n      banner: 'ca-app-pub-xxx/zzz', // or DFP format \"/6253334/dfp_example_ad\"\n      interstitial: 'ca-app-pub-xxx/kkk'\n    };\n  } else { // for windows phone\n    admobid = {\n      banner: 'ca-app-pub-xxx/zzz', // or DFP format \"/6253334/dfp_example_ad\"\n      interstitial: 'ca-app-pub-xxx/kkk'\n    };\n  }\n```\n\nStep 2: Want cheap and basic banner? single line of javascript code.\n\n```javascript\n// it will display smart banner at top center, using the default options\nif(AdMob) AdMob.createBanner({\n  adId: admobid.banner,\n  position: AdMob.AD_POSITION.TOP_CENTER,\n  autoShow: true });\n```\n\nStep 3: Want interstitial Ad to earn more money ? Easy, 2 lines of code. \n\n```javascript\n// preppare and load ad resource in background, e.g. at begining of game level\nif(AdMob) AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false} );\n\n// show the interstitial later, e.g. at end of game level\nif(AdMob) AdMob.showInterstitial();\n```\n\nOr, you can just copy this [admob_simple.js](https://github.com/floatinghotpot/cordova-admob-pro/blob/master/test/admob_simple.js) to your project, change the ad unit id to your own, and simply reference it in your index.html, like this:\n```html\n<script type=\"text/javascript\" src=\"admob_simple.js\"></script>\n```\n\nRemember to remove `isTesting:true` if release for production.\n\n## AdMob Mediation Adapters ##\n\nOptional mediations to increase your revenue (Read about [AdMob Mediation Networks](https://developers.google.com/mobile-ads-sdk/docs/admob/android/mediation-networks)):\n```bash\ncordova plugin add cordova-plugin-admob-facebook\ncordova plugin add cordova-plugin-admob-flurry\ncordova plugin add cordova-plugin-admob-unityads\ncordova plugin add cordova-plugin-admob-inmobi\ncordova plugin add cordova-plugin-admob-mmedia\ncordova plugin add cordova-plugin-admob-mobfox\n```\n\nNotice: If you want to add multiple mediations, please balance flexibility and binary size.\n\n## API\n\nMethods:\n```javascript\n// use banner\ncreateBanner(adId/options, success, fail);\nremoveBanner();\nshowBanner(position);\nshowBannerAtXY(x, y);\nhideBanner();\n\n// use interstitial\nprepareInterstitial(adId/options, success, fail);\nshowInterstitial();\nisInterstitialReady(function(ready){ if(ready){ } });\n\n// use reward video\nprepareRewardVideoAd(adId/options, success, fail);\nshowRewardVideoAd();\n\n// set values for configuration and targeting\nsetOptions(options, success, fail);\n\n// get user ad settings\ngetAdSettings(function(inf){ inf.adId; inf.adTrackingEnabled; }, fail);\n```\n\nEvents:\n```javascript\n// onAdLoaded\n// onAdFailLoad\n// onAdPresent\n// onAdDismiss\n// onAdLeaveApp\ndocument.addEventListener('onAdFailLoad', function(e){\n    // handle the event\n});\n```\n\n## Wiki and Docs\n\nQuick start, simply copy & paste:\n* [Example Code](https://github.com/floatinghotpot/cordova-admob-pro/wiki/1.0-Quick-Start-Example-Code)\n* [Complete Demo index.html](https://github.com/floatinghotpot/cordova-admob-pro/blob/master/test/index.html)\n\nAPI Reference:\n* [API Overview](https://github.com/floatinghotpot/cordova-admob-pro/wiki/1.1-API-Overview)\n* [How to Use Banner](https://github.com/floatinghotpot/cordova-admob-pro/wiki/1.3-Methods-for-Banner)\n* [How to Use Interstitial](https://github.com/floatinghotpot/cordova-admob-pro/wiki/1.4-Methods-for-Interstitial)\n* [How to Handle Ad Events](https://github.com/floatinghotpot/cordova-admob-pro/wiki/1.5-Events)\n* [Chinese/中文文档](https://github.com/floatinghotpot/cordova-admob-pro/wiki/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3)\n\nOther Documentations:\n* [ChangeLog](https://github.com/floatinghotpot/cordova-admob-pro/wiki/ChangeLog)\n* [Known issues & solutions/workarounds](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Known-Issues-&-Solution---Workaround)\n* [FAQ](https://github.com/floatinghotpot/cordova-admob-pro/wiki/FAQ)\n* [Notice for Android Proguard](https://github.com/floatinghotpot/cordova-admob-pro/wiki/Notice-for-Android-Proguard)\n\nDemo projects:\n* [App demo for Ionic V1](https://github.com/jaivehall/admob-ionic-demo), by Jaive\n* [App demo for Ionic](https://github.com/jaivehall/admob-ionic2-demo), by Jaive\n* [Game demo using phaser game engine](https://github.com/floatinghotpot/admob-demo-game-phaser/tree/master/demo)\n* [Game demo using PIXI game engine](https://github.com/floatinghotpot/admob-demo-game-pixi/tree/master/demo)\n\n## Video Tutorial\n\n* Using Cordova CLI to Add AdMob Plugin:\n\n[![Video](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/youtube_video0.jpg)](http://youtu.be/dBCRW_swoYU)\n\n* Run AdMob Demo App on Android:\n\n[![Video](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/youtube_video.jpg)](http://youtu.be/GsBI97WjFQo)\n\nMore video by developers:\n* [How to add banner ads to phonegap apps using AdMob Pro for android](https://youtu.be/VzoukTxnbhc), by pointDeveloper\n* [How to add Banner ads To Ionic apps with Admob Pro For android](https://youtu.be/qNg8c4J03dE), by pointDeveloper\n* [How To Add Banner Ads To Ionic 2 with AdMob Cordova Plugin](https://youtu.be/dfHPlVvIUR0), by pointDeveloper\n* [How to add Interstitial Add on navigation for phonegap using JavaScript and AdMob Pro plugin](https://youtu.be/5YvikM3ySXc), by pointDeveloper\n* [How to add banner ads to jQuery Mobile Apps using Phonegap AdMob Pro Plugin](https://youtu.be/ceCHJl0c908), by pointDeveloper\n* [Intel XDK - Monetizando seu aplicativo com Admob e intel xdk.](https://youtu.be/Bo_deb1vKYk), in Portuguese, by XDK PLUS\n* Interesting [Evolution of cordova-admob-pro (Gource Visualization)](https://youtu.be/yH66cHnY06M), by Landon Wilkins\n\n## Screenshots\n\niPhone Banner | iPhone Interstitial\n-------|---------------\n![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/iphone.jpg) | ![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/iphone_interstitial.jpg)\nAndroid Banner | Android Interstitial\n![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/android.jpg) | ![ScreenShot](https://github.com/floatinghotpot/cordova-admob-pro/raw/master/docs/android_interstitial.jpg)\n\n## Tips\n\nSome important tips, FYI.\n\n- [x] Why Google AdMob is recommended ?\n\nAdvertisement is main business and income source of Google, so clients are all around the world. Google is one of the most rialable partners for its high standard service.\n\n* High fill rate, nearly 100% all around world.\n* High quality Ad, bring high RPM.\n* Stable price, auto pay on time. Pay on every 20th next month.\n\n- [x] Strongly recommend Interstitial, more than 10 times profit than banner Ad. \n\nAd Format | Banner | Interstitial\n---|-------|--------------\nClick Rate | < 1% | 3-15%\nRPM (revenue per 1000 impression) |  US$ 0.5~4 | US$ 10~50\n\n- [x] Using SMART_BANNER to auto-fit the screen width, avoid using BANNER or FULL_BANNER (unless you are using DFP)\n\n⚠：Remember Google's slogan: \"Don't be evil\". Invalid usage violating Google rules, may cause your AdMob account suspended ! \n\n* AdMob publisher may NOT abuse or encourage abuse any Google products, including Google Play, YouTube or Blogger, incuding allow user downloading YouTube video, or embed YouTube video in your own apps.\n\n* Publishers may NOT click their own ads or use any means to inflate impressions and/or clicks artificially, including manual methods. Testing your own ads by clicking on them is not allowed.\n\nMore details, please read [AdMob & AdSense policies](https://support.google.com/admob/answer/6128543?hl=en&ref_topic=2745287)\n\n## License\n\nYou can use the plugin for free, or you can also pay to get a license. IMPORTANT!!! Before using the plugin, please read the following content and accept the agreement. THIS WILL AVOID POTENTIAL PROBLEM AND DISPUTE.\n\nThere are 3 license options, fully up to you:\n1. Free and Open Source, no support\n2. Commercial, with email/skype support\n3. Win-win partnership, with forum support\n\nIf you hope to get a fully open source plugin (either need DIY, or hope to get full control on the code), use this open source one instead. Fork and pull request is welcome, but please mention it's derived source. Simply renaming then publishing to npm is forbidden. Open source project URL:\nhttps://github.com/floatinghotpot/cordova-plugin-admob\n\nIf use in commercial project, please [get a license](http://rjfun.github.io/), or, you have monetized more than $1000 using this plugin, you are also required to either get a commercial license ($20). As a commercial customer, you will be supported with high priority, via private email or even Skype chat.\n\nIf you don't want to get a license as your apps may not earn too much, or you don't have a PayPal account to pay, here is a compromised option. You don't have to pay, we are also okay if just share 2 percent user traffic, so that we can cover our effort and focus on maintenance and online support. (We have maintained this project over 3 years, and closed more than 560 support issues)\n\nPlease read the [License Agreement](https://github.com/floatinghotpot/cordova-admob-pro/wiki/License-Agreement) for details.\n\n## Credits\n\nThis project is created and maintained by Raymond Xie.\n\nMore Cordova/PhoneGap plugins by Raymond Xie, [find them in plugin registry](http://plugins.cordova.io/#/search?search=rjfun), or [find them in npm](https://www.npmjs.com/~floatinghotpot).\n\nProject outsourcing and consulting service is also available. Please [contact us](mailto:rjfun.mobile@gmail.com) if you have the business needs.\n\n\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/floatinghotpot/cordova-admob-pro.git"
+  },
+  "scripts": {},
+  "version": "2.30.1"
+}

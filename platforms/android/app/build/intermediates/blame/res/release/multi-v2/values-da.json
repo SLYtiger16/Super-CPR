@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\610Ind\\superCPR\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-da\\values-da.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-ads-11.6.2.aar\\7677bde8321fa4754a24f6dc135abfb7\\res\\values-da\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "237,305,417,483,546,628,745",
+                        "endColumns": "67,111,65,62,81,116,68",
+                        "endOffsets": "304,416,482,545,627,744,813"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "291,363,479,549,616,702,823",
+                        "endColumns": "71,115,69,66,85,120,72",
+                        "endOffsets": "358,474,544,611,697,818,891"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.6.2.aar\\e2c3594afe4588dbe741f742f7520bb6\\res\\values-da\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "285",
+                        "endColumns": "185",
+                        "endOffsets": "470"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "185",
+                        "endOffsets": "286"
+                    }
+                }
+            ]
+        }
+    ]
+}

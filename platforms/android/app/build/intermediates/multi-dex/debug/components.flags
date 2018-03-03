@@ -1,0 +1,79 @@
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\38'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\0.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\3.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\4.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\5.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\6.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\7.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\8.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\9.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\10.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\11.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\12.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\13.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\14.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\15.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\16.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\17.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\18.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\19.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\20.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\21.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\22.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\23.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\24.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\25.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\26.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\27.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\28.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\29.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\30.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\31.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\32.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\33.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\34.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\35.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\36.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\37.jar'(**.class)
+-injars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\transforms\desugar\debug\39.jar'(**.class)
+-outjars 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\multi-dex\debug\componentClasses.jar'
+
+-libraryjars 'C:\Users\Kyle Meadows\AppData\Local\Android\Sdk\build-tools\27.0.3\lib\shrinkedAndroid.jar'
+
+-forceprocessing
+-dontoptimize
+-dontobfuscate
+-dontusemixedcaseclassnames
+-dontpreverify
+-dontnote **
+-dontwarn **
+-printconfiguration 'C:\610Ind\superCPR\platforms\android\app\build\intermediates\multi-dex\debug\components.flags'
+
+
+# Referenced at C:\610Ind\superCPR\platforms\android\app\build\intermediates\manifests\full\debug\AndroidManifest.xml:54
+-keep class android.support.multidex.MultiDexApplication {
+    <init>(...);
+}
+
+-keep public class * extends android.app.Instrumentation {
+    <init>();
+}
+
+-keep public class * extends android.app.Application {
+    <init>();
+    void attachBaseContext(android.content.Context);
+}
+
+-keep public class * extends android.app.backup.BackupAgent {
+    <init>();
+}
+
+-keep public class * extends java.lang.annotation.Annotation {
+    <fields>;
+    <methods>;
+}
+
+-keep class com.android.tools.ir.** {
+    <fields>;
+    <methods>;
+}

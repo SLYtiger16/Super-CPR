@@ -1,0 +1,79 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\610Ind\\superCPR\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.6.2.aar\\e2c3594afe4588dbe741f742f7520bb6\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4,7",
+                        "startColumns": "0,0",
+                        "startOffsets": "276,439",
+                        "endColumns": "63,166",
+                        "endOffsets": "339,605"
+                    },
+                    "to": {
+                        "startLines": "3,6",
+                        "startColumns": "4,4",
+                        "startOffsets": "279,458",
+                        "endColumns": "67,166",
+                        "endOffsets": "342,620"
+                    }
+                },
+                {
+                    "source": "C:\\610Ind\\superCPR\\platforms\\android\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "4,2,3",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "161,55,102",
+                        "endColumns": "63,46,58",
+                        "endOffsets": "220,97,156"
+                    },
+                    "to": {
+                        "startLines": "4,5,7",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "347,411,625",
+                        "endColumns": "63,46,58",
+                        "endOffsets": "406,453,679"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-ads-11.6.2.aar\\7677bde8321fa4754a24f6dc135abfb7\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "170,208,281,315,350,399,463",
+                        "endColumns": "37,72,33,34,48,63,34",
+                        "endOffsets": "207,280,314,349,398,462,497"
+                    },
+                    "to": {
+                        "startLines": "8,9,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "684,726,803,841,880,933,1001",
+                        "endColumns": "41,76,37,38,52,67,38",
+                        "endOffsets": "721,798,836,875,928,996,1035"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kyle Meadows\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-ads-lite-11.6.2.aar\\839fc48e3746b800a818ac98a5fb69c8\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "167",
+                        "endLines": "11",
+                        "endColumns": "8",
+                        "endOffsets": "560"
+                    },
+                    "to": {
+                        "startLines": "15",
+                        "startColumns": "4",
+                        "startOffsets": "1040",
+                        "endLines": "22",
+                        "endColumns": "8",
+                        "endOffsets": "1433"
+                    }
+                }
+            ]
+        }
+    ]
+}
