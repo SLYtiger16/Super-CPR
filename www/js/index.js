@@ -1,16 +1,18 @@
 let app = {
-  timerInterval: null,
-  clockInterval: null,
 
   initialize: function () {
     $(document).on( 'deviceready', app.onDeviceReady );
   },
 
   onDeviceReady: function () {
-    app.clockStart();
+    window.localStorage = NativeStorage;
+    
+    app.clock.start();
+
     app.nav('HomeScreen');
+
     app.settings.ret();
-    console.log( 'deviceready: ' + app.now() );
+
     $( '#cpr' ).height( $( 'main' ).height() - 240 );
     $( '#start' ).on( 'click', app.cpr.start );
     $('.sidebar-toggle').on('click', function(){
@@ -34,8 +36,9 @@ let app = {
       StatusBar.backgroundColorByHexString("#333");
     }
 
-    app.initAd();
-    // app.pushInit();
+    app.admob();
+
+    navigator.splashscreen.hide();
   },
 
   sidebar: function (x) {
@@ -96,42 +99,24 @@ let app = {
     }
   },
 
-  ajax: function (x) {
-    console.log( 'start AJAX' );
-    $.ajax( {
-      url: 'https://610ind.com/test/ajax.php',
-      method: 'POST',
-      dataType: 'json',
-      data: {
-        data: String(x)
-      }
-    }).done( function ( res ) {
-      console.log( 'success AJAX' );
-    }).fail( function ( res ) {
-      console.log( res );
-      console.log( 'fail AJAX' );
-    });
-  },
-
   settings: {
-    last: (localStorage.getItem("sound") === null) ? "cowbell":localStorage.getItem("sound"),
-
     next: "",
+    last: (NativeStorage.getItem("sound", app.storage.success, app.storage.fail) === null || item === undefined) ? "cowbell":NativeStorage.getItem("sound", app.storage.success, app.storage.fail),
 
     ret: function(){
-      let s = localStorage.getItem("sound");
-      if (s === null) {
-        localStorage.setItem("sound","cowbell");
+      let s = NativeStorage.getItem("sound", app.storage.success, app.storage.fail);
+      if (s === null || s === undefined) {
+        NativeStorage.setItem("sound","cowbell", app.storage.success, app.storage.fail);
         s = "cowbell";
       }
       return s;
     },
 
     onChangeConfirm: function(x) {
-      if(x === 2){
+      if(x == 1){
         app.cpr.stop();
         app.settings.last = app.settings.next;
-        localStorage.setItem("sound",app.settings.next);
+        NativeStorage.setItem( "sound", app.settings.next, app.storage.success, app.storage.fail );
         app.settings.next = "";
       }else{
         $('input#'+app.settings.last).prop('checked','checked');
@@ -145,158 +130,30 @@ let app = {
         'Change metronome sound to '+x+'?',
          app.settings.onChangeConfirm,
         'Are you sure?',
-        ['No way!','Yes!']
+        ['OK','Cancel']
       );
     }
   },
 
-  now: function () {
-    let x = new Date(),
-      d = x.toLocaleDateString(),
-      t = x.toLocaleTimeString();
-    return d + " " + t;
+  storage: {
+    success: function( obj ) {
+      console.log(obj.name + " saved!");
+    },
+    fail: function( error ) {
+      console.log(error.code);
+      if (error.exception !== "") console.log(error.exception);
+    }
   },
 
   cpr: {
-    start: function () {
-      app.timerFunc.start();
-      app.play();
-      $( '#start' )
-        .off( 'click' )
-        .on( 'click', app.cpr.stop )
-        .css( 'background-color', 'red' );
-    },
-
-    stop: function () {
-      app.timerFunc.stop();
-      $( '#startBtn' ).text( "START" );
-      $( '#timer' ).text("00:00");
-      $( '#startedAt' ).text("---");
-      $( '#start' )
-        .off( 'click' )
-        .on( 'click', app.cpr.start )
-        .css( 'background-color', 'rgba(0,0,255,0.7)' );
-      clearInterval( app.timerInterval );
-    }
-  },
-
-  clockStart: function () {
-    let c = $( '#clock' );
-    app.clockInterval = setInterval( function () {
-      navigator.globalization.dateToString( new Date(), function ( date ) {
-        c.text(date.value);
-      }, function () {
-        c.text('Error');
-      }, {
-        formatLength: 'full',
-        selector: 'time'
-      } );
-    }, 1000 );
-  },
-
-  play: function () {
-    let a = $('audio#sound_'+app.settings.ret())[0];
-    if ( typeof a.loop == 'boolean' ) {
-      a.loop = true;
-    } else {
-      a.addEventListener( 'ended', function () {
-        this.currentTime = 0;
-        this.play();
-      }, false );
-    }
-    a.play();
-  },
-
-  log:{
-    clear: function(x) {
-      navigator.vibrate(1000);
-      navigator.notification.confirm(
-        'Clear entire log?',
-         app.log.onChangeConfirm,
-        'Are you sure?',
-        ['No way!','Yes!']
-      );
-    },
-
-    onChangeConfirm: function(x) {
-      if(x === 2){
-        localStorage.setItem("log","[]");
-        $('#logList').html(app.log.ret());
-      }
-    },
-
-    change: function(x) {
-      let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
-      let json = JSON.parse(log);
-      try {
-        json.unshift(x);
-        if(json.length > 30){
-          json = json.slice(0,29);
-        }
-        localStorage.setItem("log",JSON.stringify(json));
-      }catch(e){
-        console.log("Logging Error");
-      }
-    },
-
-    ret: function(){
-      let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
-      let json = JSON.parse(log);
-      let html = "";
-      for (var k in json){
-        if (json.hasOwnProperty(k)) {
-          for (var l in json[k]){
-            if (json[k].hasOwnProperty(l)) {
-              let type = (l === "Start") ? '#efe06e':'red';
-              html += "<hr/><li style='color:"+type+";'>" + l + ": " + json[k][l] + "</li>";
-            }
-          }
-        }
-      }
-      return html += "<hr/>";
-    }
-  },
-
-  timerFunc: {
     sec: 0,
     min: 0,
-
-    stop: function () {
-      let a = $('audio#sound_'+app.settings.ret())[0];
-      if ( typeof a.loop == 'boolean' ) {
-        a.loop = false;
-      }
-      a.pause();
-      a.currentTime = 0;
-      app.timerFunc.sec = 0;
-      app.timerFunc.min = 0;
-
-      navigator.globalization.dateToString( new Date(), function ( date ) {
-        app.log.change({Stop:date.value});
-      }, function () {
-        app.log.change({Stop:'Error Saving Time'});
-      }, {
-        formatLength: 'medium',
-        selector: 'date and time'
-      } );
-    },
-
-    timer: function () {
-      app.timerFunc.sec++;
-      if ( app.timerFunc.sec === 60 ) {
-        app.timerFunc.sec = 0;
-        app.timerFunc.min++;
-      }
-      if ( app.timerFunc.min === 60 ) {
-        app.timerFunc.min = 0;
-      }
-      $( '#timer' ).text(app.timerFunc.normalize( app.timerFunc.min ) + ":" + app.timerFunc.normalize( app.timerFunc.sec ));
-    },
+    timerInt: null,
 
     start: function () {
-      app.timerFunc.timer();
-      app.timerInterval = setInterval( function(){
-        app.timerFunc.timer();
+      app.cpr.timer();
+      app.cpr.timerInt = setInterval( function(){
+        app.cpr.timer();
       }, 1000 );
       $( '#startBtn' ).text( "STOP" );
 
@@ -317,23 +174,150 @@ let app = {
         formatLength: 'medium',
         selector: 'date and time'
       } );
+
+      app.cpr.audio();
+      $( '#start' )
+        .off( 'click' )
+        .on( 'click', app.cpr.stop )
+        .css( 'background-color', 'red' );
     },
 
-    normalize: function ( x ) {
-      return ( x < 10 )
-        ? "0" + x
-        : "" + x;
+    stop: function () {
+      let a = $('audio#sound_'+app.settings.ret())[0];
+      if ( typeof a.loop == 'boolean' ) {
+        a.loop = false;
+      }
+      a.pause();
+      a.currentTime = 0;
+      app.cpr.sec = 0;
+      app.cpr.min = 0;
+
+      navigator.globalization.dateToString( new Date(), function ( date ) {
+        app.log.change({Stop:date.value});
+      }, function () {
+        app.log.change({Stop:'Error Saving Time'});
+      }, {
+        formatLength: 'medium',
+        selector: 'date and time'
+      } );
+
+      $( '#startBtn' ).text( "START" );
+      $( '#timer' ).text("00:00");
+      $( '#startedAt' ).text("---");
+      $( '#start' )
+        .off( 'click' )
+        .on( 'click', app.cpr.start )
+        .css( 'background-color', 'rgba(0,0,255,0.7)' );
+      clearInterval( app.cpr.timerInt );
+    },
+
+    audio: function () {
+      let a = $('audio#sound_'+app.settings.ret())[0];
+      if ( typeof a.loop == 'boolean' ) {
+        a.loop = true;
+      } else {
+        a.addEventListener( 'ended', function () {
+          this.currentTime = 0;
+          this.play();
+        }, false );
+      }
+      a.play();
+    },
+
+    timer: function () {
+      app.cpr.sec++;
+      if ( app.cpr.sec === 60 ) {
+        app.cpr.sec = 0;
+        app.cpr.min++;
+      }
+      if ( app.cpr.min === 60 ) {
+        app.cpr.min = 0;
+      }
+      app.cpr.min = ( String(app.cpr.min).length < 2 )
+        ? "0" + app.cpr.min
+        : "" + app.cpr.min;
+      app.cpr.sec = ( String(app.cpr.sec).length < 2 )
+        ? "0" + app.cpr.sec
+        : "" + app.cpr.sec;
+      $( '#timer' ).text( app.cpr.min + ":" + app.cpr.sec );
+    },
+  },
+
+  clock: {
+    clockInt: null,
+    start: function () {
+      let c = $( '#clock' );
+      app.clock.clockInt = setInterval( function () {
+        navigator.globalization.dateToString( new Date(), function ( date ) {
+          c.text(date.value);
+        }, function (e) {
+          console.log(e)
+          c.text('Error');
+        }, {
+          formatLength: 'short',
+          selector: 'time'
+        } );
+      }, 1000 );
+    },
+  },
+
+  log:{
+    clear: function(x) {
+      navigator.vibrate(1000);
+      navigator.notification.confirm(
+        'Clear entire log?',
+         this.onChangeConfirm,
+        'Are you sure?',
+        ['OK','Cancel']
+      );
+    },
+
+    onChangeConfirm: function(x) {
+      console.log(x)
+      if(x == 1){
+        NativeStorage.setItem("log","[]", app.storage.success, app.storage.fail );
+        $('#logList').html(app.log.ret());
+      }
+    },
+
+    change: function(x) {
+      let item = NativeStorage.getItem("log", app.storage.success, app.storage.fail );
+      let log = (item === null || item === undefined) ? "[]":item;
+      let json = JSON.parse(log);
+      json.unshift(x);
+      if(json.length > 30){
+        json = json.slice(0,29);
+      }
+      NativeStorage.setItem("log",JSON.stringify(json), app.storage.success, app.storage.fail );
+    },
+
+    ret: function(){
+      let item = NativeStorage.getItem("log", app.storage.success, app.storage.fail );
+      let log = (item === null || item === undefined) ? "[]":item;
+      let json = JSON.parse(log);
+      let html = "";
+      for (var k in json){
+        if (json.hasOwnProperty(k)) {
+          for (var l in json[k]){
+            if (json[k].hasOwnProperty(l)) {
+              let type = (l === "Start") ? '#efe06e':'red';
+              html += "<hr/><li style='color:"+type+";'>" + l + ": " + json[k][l] + "</li>";
+            }
+          }
+        }
+      }
+      return html += "<hr/>";
     }
   },
 
-  initAd: function(){
+  admob: function(){
     var admobid = {};
     if( /(android)/i.test(navigator.userAgent) ) {
-      admobid = { // for Android
+      admobid = {
         banner: 'ca-app-pub-1667173736779668/1176510567'
       };
     } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
-      admobid = { // for iOS
+      admobid = {
         banner: 'ca-app-pub-1667173736779668/4205998582'
       };
     }
@@ -358,38 +342,4 @@ let app = {
       document.addEventListener('onAdLeaveApp', function(){console.log('onAdLeaveApp')});
     }
   },
-
-  push: null,
-  pushInit: function() {
-    app.push = PushNotification.init({
-      android:{
-        forceShow: true
-      },
-      ios:{
-        alert: true,
-        sound: true
-      }
-    });
-    PushNotification.hasPermission((data) => {
-      if (data.isEnabled) {
-        console.log('Push is Enabled');
-      }
-    });
-    app.push.on('registration', (data) => {
-      console.log("Reg ID: "+data.registrationId);
-      console.log("Reg Type: "+data.registrationType);
-      let oldRegId = localStorage.getItem('registrationId');
-      if (oldRegId !== data.registrationId) {
-        localStorage.setItem('registrationId', data.registrationId);
-        app.ajax(data.registrationId);
-        console.log("AJAX: PUSH ID SENT");
-      }
-    });
-    app.push.on('error', (e) => {
-    	console.log("Push Error: "+e.message);
-    });
-  },
-
-
-
 };
