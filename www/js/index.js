@@ -35,10 +35,6 @@ let app = {
     }
 
     app.admob();
-
-    setTimeout(function(){
-      navigator.splashscreen.hide()
-    },500);
   },
 
   sidebar: function (x) {
