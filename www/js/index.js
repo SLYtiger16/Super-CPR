@@ -5,8 +5,6 @@ let app = {
   },
 
   onDeviceReady: function () {
-    window.localStorage = NativeStorage;
-    
     app.clock.start();
 
     app.nav('HomeScreen');
@@ -38,7 +36,9 @@ let app = {
 
     app.admob();
 
-    navigator.splashscreen.hide();
+    setTimeout(function(){
+      navigator.splashscreen.hide()
+    },500);
   },
 
   sidebar: function (x) {
@@ -100,13 +100,14 @@ let app = {
   },
 
   settings: {
+    last: (localStorage.getItem("sound") === null) ? "cowbell":localStorage.getItem("sound"),
+
     next: "",
-    last: (NativeStorage.getItem("sound", app.storage.success, app.storage.fail) === null || item === undefined) ? "cowbell":NativeStorage.getItem("sound", app.storage.success, app.storage.fail),
 
     ret: function(){
-      let s = NativeStorage.getItem("sound", app.storage.success, app.storage.fail);
-      if (s === null || s === undefined) {
-        NativeStorage.setItem("sound","cowbell", app.storage.success, app.storage.fail);
+      let s = localStorage.getItem("sound");
+      if (s === null) {
+        localStorage.setItem("sound","cowbell");
         s = "cowbell";
       }
       return s;
@@ -116,7 +117,7 @@ let app = {
       if(x == 1){
         app.cpr.stop();
         app.settings.last = app.settings.next;
-        NativeStorage.setItem( "sound", app.settings.next, app.storage.success, app.storage.fail );
+        localStorage.setItem("sound",app.settings.next);
         app.settings.next = "";
       }else{
         $('input#'+app.settings.last).prop('checked','checked');
@@ -132,16 +133,6 @@ let app = {
         'Are you sure?',
         ['OK','Cancel']
       );
-    }
-  },
-
-  storage: {
-    success: function( obj ) {
-      console.log(obj.name + " saved!");
-    },
-    fail: function( error ) {
-      console.log(error.code);
-      if (error.exception !== "") console.log(error.exception);
     }
   },
 
@@ -266,7 +257,7 @@ let app = {
       navigator.vibrate(1000);
       navigator.notification.confirm(
         'Clear entire log?',
-         this.onChangeConfirm,
+         app.log.onChangeConfirm,
         'Are you sure?',
         ['OK','Cancel']
       );
@@ -275,25 +266,27 @@ let app = {
     onChangeConfirm: function(x) {
       console.log(x)
       if(x == 1){
-        NativeStorage.setItem("log","[]", app.storage.success, app.storage.fail );
+        localStorage.setItem("log","[]");
         $('#logList').html(app.log.ret());
       }
     },
 
     change: function(x) {
-      let item = NativeStorage.getItem("log", app.storage.success, app.storage.fail );
-      let log = (item === null || item === undefined) ? "[]":item;
+      let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
       let json = JSON.parse(log);
-      json.unshift(x);
-      if(json.length > 30){
-        json = json.slice(0,29);
+      try {
+        json.unshift(x);
+        if(json.length > 30){
+          json = json.slice(0,29);
+        }
+        localStorage.setItem("log",JSON.stringify(json));
+      }catch(e){
+        console.log("Logging Error");
       }
-      NativeStorage.setItem("log",JSON.stringify(json), app.storage.success, app.storage.fail );
     },
 
     ret: function(){
-      let item = NativeStorage.getItem("log", app.storage.success, app.storage.fail );
-      let log = (item === null || item === undefined) ? "[]":item;
+      let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
       let json = JSON.parse(log);
       let html = "";
       for (var k in json){
@@ -313,11 +306,11 @@ let app = {
   admob: function(){
     var admobid = {};
     if( /(android)/i.test(navigator.userAgent) ) {
-      admobid = {
+      admobid = { // for Android
         banner: 'ca-app-pub-1667173736779668/1176510567'
       };
     } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
-      admobid = {
+      admobid = { // for iOS
         banner: 'ca-app-pub-1667173736779668/4205998582'
       };
     }
