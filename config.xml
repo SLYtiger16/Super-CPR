@@ -63,13 +63,13 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <preference name="SplashScreen" value="screen" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-targetSdkVersion" value="23" />
-    <preference name="SplashScreen" value="www/res/screen/android" />
     <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="3000" />
     <preference name="orientation" value="portrait" />
-    <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <plugin name="cordova-plugin-globalization" spec="~1.0.9" />
