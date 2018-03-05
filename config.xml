@@ -8,9 +8,6 @@
         610 Industries, LLC
     </author>
     <content src="index.html" />
-    <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-targetSdkVersion" value="23" />
     <platform name="android">
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="www/res/icon/android/drawable-mdpi-icon.png" />
@@ -66,15 +63,19 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="SplashScreen" value="www/res/screen/android" />
     <preference name="AutoHideSplashScreen" value="true" />
-    <preference name="SplashScreenDelay" value="2000" />
     <preference name="orientation" value="portrait" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <plugin name="cordova-plugin-globalization" spec="~1.0.9" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.3" />
     <plugin name="cordova-plugin-admobpro-firebase" spec="^2.30.1" />
     <plugin name="cordova-plugin-dialogs" spec="^2.0.1" />
-    <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
 </widget>
