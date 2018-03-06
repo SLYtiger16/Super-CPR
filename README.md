@@ -1,3 +1,3 @@
 # Super CPR
 
-This is the current project published on Google Play.
+This is a public app project. Currently version 1.0.6
