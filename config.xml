@@ -6,8 +6,8 @@
 
 This applications is designed to be easy to use. Simply press the start button to START the audible metronome at 110 BPM. When you are done, press the STOP button. A timer starts when the START button is pressed. This application also displays the current time and what time the metronome was started. A log is available to display history. Have fun!
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="support@610ind.com" href="http://610ind.com">
+        610 Industries, LLC
     </author>
     <content src="index.html" />
     <preference name="android-minSdkVersion" value="14" />
