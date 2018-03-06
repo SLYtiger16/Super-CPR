@@ -345,7 +345,6 @@ let app = {
         navigator.globalization.dateToString( new Date(), function ( date ) {
           c.text(date.value);
         }, function (e) {
-          console.log(e)
           c.text('Error');
         }, {
           formatLength: 'short',
@@ -367,7 +366,6 @@ let app = {
     },
 
     onChangeConfirm: function(x) {
-      console.log(x)
       if(x == 1){
         localStorage.setItem("log","[]");
         $('#logList').html(app.log.ret());
@@ -377,15 +375,11 @@ let app = {
     change: function(x) {
       let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
       let json = JSON.parse(log);
-      try {
-        json.unshift(x);
-        if(json.length > 30){
-          json = json.slice(0,29);
-        }
-        localStorage.setItem("log",JSON.stringify(json));
-      }catch(e){
-        console.log("Logging Error");
+      json.unshift(x);
+      if(json.length > 30){
+        json = json.slice(0,29);
       }
+      localStorage.setItem("log",JSON.stringify(json));
     },
 
     ret: function(){
