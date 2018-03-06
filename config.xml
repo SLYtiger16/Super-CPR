@@ -10,7 +10,7 @@
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
-    <preference name="phonegap-version" value="7.1.0" />
+    <preference name="phonegap-version" value="6.4.0" />
     <preference name="SplashScreen" value="splash" />
     <preference name="orientation" value="portrait" />
     <preference name="StatusBarOverlaysWebView" value="false" />
