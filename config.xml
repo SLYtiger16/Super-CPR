@@ -22,6 +22,7 @@
     <plugin name="cordova-plugin-admobpro-firebase" spec="~2.30.1" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <platform name="android">
+        <preference name="SplashScreen" value="splash" />
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="www/res/icon/android/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="www/res/icon/android/drawable-hdpi-icon.png" />
