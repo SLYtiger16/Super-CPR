@@ -15,6 +15,9 @@
     <preference name="orientation" value="portrait" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="SplashMaintainAspectRatio" value="false" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="SplashScreenSpinnerColor" value="white" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="1.2.4" />
     <plugin name="cordova-plugin-device" source="npm" spec="1.1.6" />
     <plugin name="cordova-plugin-dialogs" source="npm" spec="1.3.3" />
