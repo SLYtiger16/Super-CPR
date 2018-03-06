@@ -42,87 +42,108 @@
       </div>
     </div>
 
-    <div class="row header no-mar" style="background-color:black;padding-top:10px;">
-      <h5 id="header_menu" class="col s9 sidebar-toggle no-mar">
-        <i class="material-icons" style="font-size:35px;margin-right:20px;">&#xE5D2;</i>Super CPR
-      </h5>
-      <h4 class="col s3 right-align info no-mar" style="margin-top: -5px">
+    <div class="row header no-mar valign-wrapper">
+      <div id="header_menu" class="col s9 sidebar-toggle no-mar">
+        <i class="material-icons" style="font-size:30px;margin-right:10px;">&#xE5D2;</i>
+        <span class="no-mar" style="font-size:22px;">Super CPR</span>
+      </div>
+      <h4 class="col s3 right-align info no-mar">
         <img class="menuItem" src="img/iconWithText40.png" target="HomeScreen"/>
       </h4>
     </div>
 
-    <main id="HomeScreen" class="grey lighten-3 Screen" style="display:inline-block;">
-      <div class="row no-mar">
-        <div id="cpr" class="card-panel center-align z-depth-5 waves-effect waves-light" style="width:100%;">
-          <div class="section">
-            <h4 class="no-mar" id="clock">00:00 AM</h4>
-          </div>
-          <img id="super" src="img/logoOnly200x143.png"/>
-          <div class="section">
-            <h2 class="no-mar" id="timer">00:00</h2>
-          </div>
-        </div>
-      </div>
-      <div class="row no-mar">
-        <div id="start" class="card-panel center-align white-text z-depth-5 waves-effect waves-light" style="width:100%;">
-          <h3 id="startBtn">START</h3>
-          <h6 id="startedAt">---</h6>
-        </div>
-      </div>
-    </main>
-
-    <main id="LogScreen" class="grey lighten-3 Screen">
-      <div class="row no-mar">
-        <div id="logListCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
-          <div class="card-content white-text">
-            <div class="row">
-              <h5 class="card-title col s6" style="font-weight:bold;color:#efe06e;">Usage Log</h5>
-              <a id="clearLog" class="waves-effect waves-light btn red yellow-text right" style="padding-top:5px;">Clear</a>
+    <main>
+      <div id="HomeScreen" class="Screen active">
+        <div class="row no-mar flex_p" style="flex:2;">
+          <div id="cpr" class="card-panel center-align z-depth-5 waves-effect waves-light col s12 flex flex_p flex_col">
+            <div class="valign-wrapper center-align flex">
+              <h4 class="center-margin" id="clock">00:00 AM</h4>
             </div>
-            <ul id="logList" style="overflow-y:auto;"></ul>
+            <div class="valign-wrapper center-align flex">
+              <img class="timerToggle center-margin" id="super" src="img/logoOnly200x143.png"/>
+              <h2 class="timerToggle center-margin" id="timer" style="display:none;">00:00</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row no-mar flex flex_p">
+          <div class="flex flex_p">
+            <div class="no-mar flex flex_p" style="margin-right:7.5px;">
+              <div id="drug" class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p">
+                <div class="valign-wrapper flex">
+                  <h5 id="drugLabel" class="button-text center-margin">Med</h5>
+                </div>
+              </div>
+            </div>
+            <div class="no-mar flex flex_p" style="margin-left:7.5px;">
+              <div id="shock" class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p">
+                <div class="valign-wrapper flex">
+                  <h5 id="shockLabel" class="button-text center-margin">Shock</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row no-mar flex flex_p">
+          <div id="start" class="card-panel center-align white-text z-depth-5 waves-effect waves-light flex flex_p">
+            <div class="valign-wrapper flex">
+              <h4 id="startBtn" class="button-text center-margin">START</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="LogScreen" class="Screen">
+        <div class="row no-mar">
+          <div id="logListCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+            <div class="card-content white-text">
+              <div class="row">
+                <h5 class="card-title col s6" style="font-weight:bold;color:#efe06e;">Usage Log</h5>
+                <a id="clearLog" class="waves-effect waves-light btn red yellow-text right valign-wrapper">Clear</a>
+              </div>
+              <ul id="logList" style="overflow-y:auto;"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="SettingsScreen" class="Screen">
+        <div class="row no-mar">
+          <div id="settingsCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+            <div class="card-content white-text">
+              <h4 class="card-title" style="font-weight:bold;color:#efe06e;">Settings</h4>
+              <form id="soundRadio">
+                <ul id="settingsList">
+                  <li><h5>Select a metronome sound </h5></li>
+                  <p>Alert: Changing the preferred sound will cause an active metronome to stop.</p>
+                  <li>
+                    <input class="with-gap" id="cowbell" type="radio" name="sound">
+                    <label for="cowbell">Cowbell</label>
+                  </li>
+                  <hr/>
+                  <li>
+                    <input class="with-gap" id="ding" type="radio" name="sound">
+                    <label for="ding">Ding</label>
+                  </li>
+                </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="AboutScreen" class="Screen">
+        <div class="row no-mar">
+          <div id="aboutCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+            <h4 class="right-align info no-mar center-align">About Super CPR</h4>
+            <p>&copy;&nbsp;2018 - 610 Industries, LLC</p>
+            <p>Super CPR is meant to be a tempo guide only and in no way is designed to establish any clinical standard. Use at your own risk. By using this application you agree to remove any liability associated with it's use from 610 Industries, LLC and it's owners, customers, contractors, or anyone in any way associated with 610 Insutries, LLC and this application.</p>
           </div>
         </div>
       </div>
     </main>
-
-    <main id="SettingsScreen" class="grey lighten-3 Screen">
-      <div class="row no-mar">
-        <div id="settingsCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
-          <div class="card-content white-text">
-            <h4 class="card-title" style="font-weight:bold;color:#efe06e;">Settings</h4>
-            <form id="soundRadio">
-              <ul id="settingsList">
-                <li><h5>Select a metronome sound </h5></li>
-                <p>Alert: Changing the preferred sound will cause an active metronome to stop.</p>
-                <li>
-                  <input class="with-gap" id="cowbell" type="radio" name="sound">
-                  <label for="cowbell">Cowbell</label>
-                </li>
-                <hr/>
-                <li>
-                  <input class="with-gap" id="ding" type="radio" name="sound">
-                  <label for="ding">Ding</label>
-                </li>
-              </ul>
-            </form>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <main id="AboutScreen" class="grey lighten-3 Screen">
-      <div class="row no-mar">
-        <div id="aboutCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
-          <h4 class="right-align info no-mar center-align">About Super CPR</h4>
-          <p>&copy;&nbsp;2018 - 610 Industries, LLC</p>
-          <p>Super CPR is meant to be a tempo guide only and in no way is designed to establish any clinical standard. Use at your own risk. By using this application you agree to remove any liability associated with it's use from 610 Industries, LLC and it's owners, customers, contractors, or anyone in any way associated with 610 Insutries, LLC and this application.</p>
-        </div>
-      </div>
-    </main>
-
-    <footer class="page-footer black white-text no-pad">
+    <footer class="page-footer black white-text no-pad" style="position:fixed;bottom:0;left:0;width:100%;">
       <div class="footer-copyright">
-        <div class="container">
+        <div class="container center-align">
           <a href="https://610ind.com" class="white-text">© 2018 610 Industries, LLC</a>
         </div>
       </div>

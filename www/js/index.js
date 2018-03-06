@@ -7,12 +7,10 @@ let app = {
   onDeviceReady: function () {
     app.clock.start();
 
-    app.nav('HomeScreen');
-
     app.settings.ret();
-
-    $( '#cpr' ).height( $( 'main' ).height() - 240 );
     $( '#start' ).on( 'click', app.cpr.start );
+    $( '#drug' ).on( 'click', app.drug.start );
+    $( '#shock' ).on( 'click', app.shock.start );
     $('.sidebar-toggle').on('click', function(){
       app.sidebar('open');
     });
@@ -138,20 +136,12 @@ let app = {
     timerInt: null,
 
     start: function () {
-      app.cpr.timer();
+      navigator.vibrate(1000);
       app.cpr.timerInt = setInterval( function(){
         app.cpr.timer();
       }, 1000 );
+      $('.timerToggle').toggle();
       $( '#startBtn' ).text( "STOP" );
-
-      navigator.globalization.dateToString( new Date(), function ( date ) {
-        $( '#startedAt' ).text("Started at: " + date.value);
-      }, function () {
-        $( '#startedAt' ).text("Started at: ERROR");
-      }, {
-        formatLength: 'full',
-        selector: 'time'
-      } );
 
       navigator.globalization.dateToString( new Date(), function ( date ) {
         app.log.change({Start:date.value});
@@ -170,6 +160,7 @@ let app = {
     },
 
     stop: function () {
+      $('.timerToggle').toggle();
       let a = $('audio#sound_'+app.settings.ret())[0];
       if ( typeof a.loop == 'boolean' ) {
         a.loop = false;
@@ -190,12 +181,28 @@ let app = {
 
       $( '#startBtn' ).text( "START" );
       $( '#timer' ).text("00:00");
-      $( '#startedAt' ).text("---");
       $( '#start' )
         .off( 'click' )
         .on( 'click', app.cpr.start )
         .css( 'background-color', 'rgba(0,0,255,0.7)' );
       clearInterval( app.cpr.timerInt );
+
+      if (app.drug.min !== 4 && app.drug.sec !== 0 || app.shock.min !== 2 && app.shock.sec !== 0){
+        navigator.vibrate(1000);
+        navigator.notification.confirm(
+          'Reset other timers?',
+           app.cpr.onChangeConfirm,
+          'Are you sure?',
+          ['Yes','No']
+        );
+      }
+    },
+
+    onChangeConfirm: function(x) {
+      if(x == 1){
+        app.drug.stop();
+        app.shock.stop();
+      }
     },
 
     audio: function () {
@@ -228,6 +235,106 @@ let app = {
         : "" + app.cpr.sec;
       $( '#timer' ).text( app.cpr.min + ":" + app.cpr.sec );
     },
+  },
+
+  drug:{
+    min: 4,
+    sec: 0,
+    timer: null,
+    start: function(){
+      navigator.vibrate(1000);
+      $( '#drugLabel' ).text( "Med: 0" + app.drug.min + ":0" + app.drug.sec );
+      $('#drug').css('background-color','rgba(255,150,50,0.4)');
+      $('#drug').off('click').on('click', app.drug.stop);
+      app.drug.timer = setInterval(function(){
+        app.drug.sec--;
+        if ( app.drug.sec === -1 ) {
+          app.drug.sec = 59;
+          app.drug.min--;
+        }
+        if ( app.drug.min === 0 && app.drug.sec === 0 ) {
+          app.drug.alert();
+        }
+        app.drug.min = ( String(app.drug.min).length < 2 )
+          ? "0" + app.drug.min
+          : "" + app.drug.min;
+        app.drug.sec = ( String(app.drug.sec).length < 2 )
+          ? "0" + app.drug.sec
+          : "" + app.drug.sec;
+        $( '#drugLabel' ).text( "Med: " + app.drug.min + ":" + app.drug.sec );
+      },1000);
+
+      navigator.globalization.dateToString( new Date(), function ( date ) {
+        app.log.change({"Med given":date.value});
+      }, function () {
+        app.log.change({"Med given":'Error Saving Time'});
+      }, {
+        formatLength: 'medium',
+        selector: 'date and time'
+      } );
+    },
+    stop: function(){
+      navigator.vibrate(1000);
+      clearInterval(app.drug.timer);
+      $( '#drugLabel' ).text( "Med" );
+      $('#drug').css('background-color','rgba(0,100,255,0.4)');
+      $('#drug').off('click').on('click', app.drug.start);
+      app.drug.min = 4;
+      app.drug.sec = 0;
+    },
+    alert:function(){
+      alert('Some kind of alert here!');
+    }
+  },
+
+  shock:{
+    min: 2,
+    sec: 0,
+    timer: null,
+    start: function(){
+      navigator.vibrate(1000);
+      $( '#shockLabel' ).text( "Shock: 0" + app.shock.min + ":0" + app.shock.sec );
+      $('#shock').css('background-color','rgba(255,150,50,0.4)');
+      $('#shock').off('click').on('click', app.shock.stop);
+      app.shock.timer = setInterval(function(){
+        app.shock.sec--;
+        if ( app.shock.sec === -1 ) {
+          app.shock.sec = 59;
+          app.shock.min--;
+        }
+        if ( app.shock.min === 0 && app.shock.sec === 0 ) {
+          app.shock.alert();
+        }
+        app.shock.min = ( String(app.shock.min).length < 2 )
+          ? "0" + app.shock.min
+          : "" + app.shock.min;
+        app.shock.sec = ( String(app.shock.sec).length < 2 )
+          ? "0" + app.shock.sec
+          : "" + app.shock.sec;
+        $( '#shockLabel' ).text( "Shock: " + app.shock.min + ":" + app.shock.sec );
+      },1000);
+
+      navigator.globalization.dateToString( new Date(), function ( date ) {
+        app.log.change({"Shock delivered":date.value});
+      }, function () {
+        app.log.change({"Shock delivered":'Error Saving Time'});
+      }, {
+        formatLength: 'medium',
+        selector: 'date and time'
+      } );
+    },
+    stop: function(){
+      navigator.vibrate(1000);
+      clearInterval(app.shock.timer);
+      $( '#shockLabel' ).text( "Shock" );
+      $('#shock').css('background-color','rgba(0,100,255,0.4)');
+      $('#shock').off('click').on('click', app.shock.start);
+      app.shock.min = 4;
+      app.shock.sec = 0;
+    },
+    alert:function(){
+      alert('Some kind of alert here!');
+    }
   },
 
   clock: {
@@ -289,7 +396,7 @@ let app = {
         if (json.hasOwnProperty(k)) {
           for (var l in json[k]){
             if (json[k].hasOwnProperty(l)) {
-              let type = (l === "Start") ? '#efe06e':'red';
+              let type = (l === "Start") ? '#efe06e':(l === "Stop") ? 'red':'white';
               html += "<hr/><li style='color:"+type+";'>" + l + ": " + json[k][l] + "</li>";
             }
           }
