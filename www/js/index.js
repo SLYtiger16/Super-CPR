@@ -87,6 +87,25 @@ let app = {
         $('#soundRadio input').off('change').on('change', function(){
           app.settings.change($(this).attr("id"));
         });
+        $('#medMin').val(Number(app.drug.ret()));
+        $('#shockMin').val(Number(app.shock.ret()));
+        $('#medMin, #shockMin').off('change').on('change', function(){
+          let i = $(this).attr('id');
+          let v = $(this).val();
+          if(v > 0 && v < 6){
+            localStorage.setItem(i,String(v));
+          }else{
+            alert('Invalid number of minutes!, Try again. Must be 1-5!');
+            if (i === "medMin") {
+              $(this).val(4);
+              v = 4;
+            }else{
+              $(this).val(2);
+              v = 2;
+            }
+            localStorage.setItem(i,String(v));
+          }
+        })
         break;
       case "AboutScreen":
         break;
@@ -94,13 +113,13 @@ let app = {
   },
 
   settings: {
-    last: (localStorage.getItem("sound") === null) ? "cowbell":localStorage.getItem("sound"),
+    last: (localStorage.getItem("sound") === null || localStorage.getItem("sound") === undefined) ? "cowbell":localStorage.getItem("sound"),
 
     next: "",
 
     ret: function(){
       let s = localStorage.getItem("sound");
-      if (s === null) {
+      if (s === null || s === undefined) {
         localStorage.setItem("sound","cowbell");
         s = "cowbell";
       }
@@ -119,7 +138,7 @@ let app = {
     },
 
     change: function(x){
-      navigator.vibrate(1000);
+      navigator.vibrate(500);
       app.settings.next = x;
       navigator.notification.confirm(
         'Change metronome sound to '+x+'?',
@@ -136,7 +155,7 @@ let app = {
     timerInt: null,
 
     start: function () {
-      navigator.vibrate(1000);
+      navigator.vibrate(500);
       app.cpr.timerInt = setInterval( function(){
         app.cpr.timer();
       }, 1000 );
@@ -188,7 +207,7 @@ let app = {
       clearInterval( app.cpr.timerInt );
 
       if (app.drug.min !== 4 && app.drug.sec !== 0 || app.shock.min !== 2 && app.shock.sec !== 0){
-        navigator.vibrate(1000);
+        navigator.vibrate(500);
         navigator.notification.confirm(
           'Reset other timers?',
            app.cpr.onChangeConfirm,
@@ -238,12 +257,21 @@ let app = {
   },
 
   drug:{
-    min: 4,
+    min: 0,
     sec: 0,
     timer: null,
+    ret: function(){
+      let s = localStorage.getItem("medMin");
+      if (s === null || s === undefined) {
+        localStorage.setItem("medMin","4");
+        s = "4";
+      }
+      return s;
+    },
     start: function(){
-      navigator.vibrate(1000);
-      $( '#drugLabel' ).text( "Med: 0" + app.drug.min + ":0" + app.drug.sec );
+      app.drug.min = (localStorage.getItem("medMin") === null || localStorage.getItem("medMin") === undefined)? 4:Number(localStorage.getItem("medMin"));
+      navigator.vibrate(500);
+      $( '#drugLabel' ).text( "MED: 0" + app.drug.min + ":0" + app.drug.sec );
       $('#drug').css('background-color','rgba(255,150,50,0.4)');
       $('#drug').off('click').on('click', app.drug.stop);
       app.drug.timer = setInterval(function(){
@@ -252,16 +280,17 @@ let app = {
           app.drug.sec = 59;
           app.drug.min--;
         }
-        if ( app.drug.min === 0 && app.drug.sec === 0 ) {
-          app.drug.alert();
-        }
         app.drug.min = ( String(app.drug.min).length < 2 )
           ? "0" + app.drug.min
           : "" + app.drug.min;
         app.drug.sec = ( String(app.drug.sec).length < 2 )
           ? "0" + app.drug.sec
           : "" + app.drug.sec;
-        $( '#drugLabel' ).text( "Med: " + app.drug.min + ":" + app.drug.sec );
+        $( '#drugLabel' ).text( "MED: " + app.drug.min + ":" + app.drug.sec );
+        if ( Number(app.drug.min) == 0 && Number(app.drug.sec) == 0 ) {
+          app.drug.alert();
+          app.drug.stop();
+        }
       },1000);
 
       navigator.globalization.dateToString( new Date(), function ( date ) {
@@ -274,26 +303,36 @@ let app = {
       } );
     },
     stop: function(){
-      navigator.vibrate(1000);
+      navigator.vibrate(500);
       clearInterval(app.drug.timer);
-      $( '#drugLabel' ).text( "Med" );
+      $( '#drugLabel' ).text( "MED" );
       $('#drug').css('background-color','rgba(0,100,255,0.4)');
       $('#drug').off('click').on('click', app.drug.start);
       app.drug.min = 4;
       app.drug.sec = 0;
     },
     alert:function(){
-      alert('Some kind of alert here!');
+      let a = $('audio#sound_ting')[0];
+      a.play();
     }
   },
 
   shock:{
-    min: 2,
+    min: 0,
     sec: 0,
     timer: null,
+    ret: function(){
+      let s = localStorage.getItem("shockMin");
+      if (s === null || s === undefined) {
+        localStorage.setItem("shockMin","2");
+        s = "2";
+      }
+      return s;
+    },
     start: function(){
-      navigator.vibrate(1000);
-      $( '#shockLabel' ).text( "Shock: 0" + app.shock.min + ":0" + app.shock.sec );
+      app.shock.min = (localStorage.getItem("shockMin") === null || localStorage.getItem("shockMin") === undefined)? 2:Number(localStorage.getItem("shockMin"));
+      navigator.vibrate(500);
+      $( '#shockLabel' ).text( "SHOCK: 0" + app.shock.min + ":0" + app.shock.sec );
       $('#shock').css('background-color','rgba(255,150,50,0.4)');
       $('#shock').off('click').on('click', app.shock.stop);
       app.shock.timer = setInterval(function(){
@@ -302,16 +341,17 @@ let app = {
           app.shock.sec = 59;
           app.shock.min--;
         }
-        if ( app.shock.min === 0 && app.shock.sec === 0 ) {
-          app.shock.alert();
-        }
         app.shock.min = ( String(app.shock.min).length < 2 )
           ? "0" + app.shock.min
           : "" + app.shock.min;
         app.shock.sec = ( String(app.shock.sec).length < 2 )
           ? "0" + app.shock.sec
           : "" + app.shock.sec;
-        $( '#shockLabel' ).text( "Shock: " + app.shock.min + ":" + app.shock.sec );
+        $( '#shockLabel' ).text( "SHOCK: " + app.shock.min + ":" + app.shock.sec );
+        if ( Number(app.shock.min) == 0 && Number(app.shock.sec) == 0 ) {
+          app.shock.alert();
+          app.shock.stop();
+        }
       },1000);
 
       navigator.globalization.dateToString( new Date(), function ( date ) {
@@ -324,16 +364,17 @@ let app = {
       } );
     },
     stop: function(){
-      navigator.vibrate(1000);
+      navigator.vibrate(500);
       clearInterval(app.shock.timer);
-      $( '#shockLabel' ).text( "Shock" );
+      $( '#shockLabel' ).text( "SHOCK" );
       $('#shock').css('background-color','rgba(0,100,255,0.4)');
       $('#shock').off('click').on('click', app.shock.start);
       app.shock.min = 4;
       app.shock.sec = 0;
     },
     alert:function(){
-      alert('Some kind of alert here!');
+      let a = $('audio#sound_ting')[0];
+      a.play();
     }
   },
 
@@ -356,7 +397,7 @@ let app = {
 
   log:{
     clear: function(x) {
-      navigator.vibrate(1000);
+      navigator.vibrate(500);
       navigator.notification.confirm(
         'Clear entire log?',
          app.log.onChangeConfirm,
@@ -373,7 +414,7 @@ let app = {
     },
 
     change: function(x) {
-      let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
+      let log = (localStorage.getItem("log") === null || localStorage.getItem("log") === undefined) ? "[]":localStorage.getItem("log");
       let json = JSON.parse(log);
       json.unshift(x);
       if(json.length > 30){
@@ -383,7 +424,7 @@ let app = {
     },
 
     ret: function(){
-      let log = (localStorage.getItem("log") === null) ? "[]":localStorage.getItem("log");
+      let log = (localStorage.getItem("log") === null || localStorage.getItem("log") === undefined) ? "[]":localStorage.getItem("log");
       let json = JSON.parse(log);
       let html = "";
       for (var k in json){

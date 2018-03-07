@@ -13,6 +13,7 @@
   <body>
     <audio id="sound_cowbell" src="img/cowbell.wav" id="audio"></audio>
     <audio id="sound_anvil" src="img/anvil.wav" id="audio"></audio>
+    <audio id="sound_ting" src="img/ting.wav" id="audio"></audio>
 
     <div class="overlay"></div>
 
@@ -70,14 +71,14 @@
             <div class="no-mar flex flex_p" style="margin-right:7.5px;">
               <div id="drug" class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p">
                 <div class="valign-wrapper flex">
-                  <h5 id="drugLabel" class="button-text center-margin">Med</h5>
+                  <h5 id="drugLabel" class="button-text center-margin">MED</h5>
                 </div>
               </div>
             </div>
             <div class="no-mar flex flex_p" style="margin-left:7.5px;">
               <div id="shock" class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p">
                 <div class="valign-wrapper flex">
-                  <h5 id="shockLabel" class="button-text center-margin">Shock</h5>
+                  <h5 id="shockLabel" class="button-text center-margin">SHOCK</h5>
                 </div>
               </div>
             </div>
@@ -123,6 +124,20 @@
                   <li>
                     <input class="with-gap" id="anvil" type="radio" name="sound">
                     <label for="anvil">Anvil</label>
+                  </li>
+                </ul>
+              </form>
+              <hr/>
+              <form id="timeSttings">
+                <ul id="timeSettingsList">
+                  <li>
+                    <label class="yellowText"style="font-size:15px;" for="medMin">Med Minutes: <span style="font-size:10px;color:white;">(Min-1; Max-5)</span></label>
+                    <input class="with-gap" id="medMin" type="number" min="1" max="5">
+                  </li>
+                  <hr/>
+                  <li>
+                    <label class="yellowText"style="font-size:15px;" for="shockMin">Shock Minutes <span style="font-size:10px;color:white;">(Min-1; Max-5)</span></label>
+                    <input class="with-gap" id="shockMin" type="number" min="1" max="5">
                   </li>
                 </ul>
               </form>
