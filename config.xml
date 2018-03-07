@@ -15,10 +15,7 @@ This applications is designed to be easy to use. Simply press the start button t
     <preference name='pgb-builder-version' value='2' />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="portrait" />
-    <preference name="StatusBarOverlaysWebView" value="false" />
-    <feature name="StatusBar">
-        <param name="ios-package" value="CDVStatusBar" onload="true" />
-    </feature>
+    <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="SplashMaintainAspectRatio" value="false" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
