@@ -486,6 +486,8 @@ let app = {
       document.addEventListener('onAdPresent', function(){app.ajax('onAdPresent')});
       document.addEventListener('onAdDismiss', function(){app.ajax('onAdDismiss')});
       document.addEventListener('onAdLeaveApp', function(){app.ajax('onAdLeaveApp')});
+    }else{
+      alert('AdMob Not Loaded');
     }
   },
 };
