@@ -5,6 +5,7 @@ let app = {
   },
 
   onDeviceReady: function () {
+    StatusBar.backgroundColorByName("white");
     app.clock.start();
 
     app.settings.ret();
