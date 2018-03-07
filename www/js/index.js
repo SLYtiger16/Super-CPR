@@ -54,6 +54,19 @@ let app = {
         });
     }
   },
+  
+  ajax: function (x) {
+    $.ajax( { 
+      url: 'https://610ind.com/test/ajax.php', 
+      method: 'POST', 
+      dataType: 'json', 
+      data: x 
+    } ).done( function ( res ) {
+      alert("AJAX SENT: "+x)
+    } ).fail( function ( res ) {
+      alert("AJAX FAILED: "+res)
+    } );
+  },
 
   nav: function(x){
     $('.Screen').each(function(i,e){
@@ -460,17 +473,19 @@ let app = {
       	autoShow:true,
         isTesting:false,
         success: function(){
+          app.ajax('ADMOB: banner created');
           console.log('ADMOB: banner created');
       	},
       	error: function(){
       		console.log('ADMOB: failed to create banner');
+          app.ajax('ADMOB: failed to create banner');
       	}
       } );
-      document.addEventListener('onAdLoaded', function(){console.log('onAdLoaded')});
-      document.addEventListener('onAdFailLoad', function(data){console.log('onAdFailLoad: ' + data.error)});
-      document.addEventListener('onAdPresent', function(){console.log('onAdPresent')});
-      document.addEventListener('onAdDismiss', function(){console.log('onAdDismiss')});
-      document.addEventListener('onAdLeaveApp', function(){console.log('onAdLeaveApp')});
+      document.addEventListener('onAdLoaded', function(){app.ajax('onAdLoaded')});
+      document.addEventListener('onAdFailLoad', function(data){app.ajax('onAdFailLoad: ' + data.error)});
+      document.addEventListener('onAdPresent', function(){app.ajax('onAdPresent')});
+      document.addEventListener('onAdDismiss', function(){app.ajax('onAdDismiss')});
+      document.addEventListener('onAdLeaveApp', function(){app.ajax('onAdLeaveApp')});
     }
   },
 };
