@@ -65,6 +65,7 @@ let app = {
         $(e).removeClass('active');
         $(e).hide("fast",function(){
           $('#' + x).show("fast");
+          $('#' + x).css('display','flex');
         });
       }
     });
