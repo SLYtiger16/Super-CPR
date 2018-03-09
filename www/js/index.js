@@ -27,10 +27,9 @@ let app = {
     $('#overlay, #sidebar').hammer().on("swipeleft", function() {
       app.sidebar('close');
     });
-
-    if (cordova.platformId == 'android') {
-      StatusBar.backgroundColorByHexString("#333");
-    }
+    StatusBar.backgroundColorByName("black");
+    StatusBar.styleBlackTranslucent();
+    StatusBar.overlaysWebView(false);
 
     app.admob();
   },
