@@ -47,7 +47,7 @@ footer{
 }
 
 #super{
-  width: 75px;
+  width: 150px;
   height: auto;
 }
 
@@ -102,6 +102,10 @@ footer{
 
 #start{
   background-color: rgba(0,0,255,0.5);
+}
+
+#timer {
+  font-weight: bold;
 }
 
 .button-text{
