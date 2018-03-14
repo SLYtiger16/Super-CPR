@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sixten.superCPR" version="1.1.11" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.sixten.superCPR" version="1.1.12" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Super CPR</name>
     <description>
       **** FOR ENTERTAINMENT ONLY ****
@@ -16,6 +16,7 @@ This applications is designed to be easy to use. Simply press the start button t
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="portrait" />
     <preference name="SplashMaintainAspectRatio" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreenSpinnerColor" value="white" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="1.2.4" />
