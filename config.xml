@@ -17,6 +17,8 @@ This applications is designed to be easy to use. Simply press the start button t
     <preference name="orientation" value="portrait" />
     <preference name="SplashMaintainAspectRatio" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreenSpinnerColor" value="white" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="1.2.4" />
