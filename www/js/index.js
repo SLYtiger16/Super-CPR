@@ -30,18 +30,38 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
-    app.cpr.audio = new Media("img/cowbell.wav",
-        // success callback
-        function () {
-            console.log("Audio Success");
-        },
-        // error callback
-        function (err) {
-            console.log(err.code);
-            console.log(err.message);
-        }
-    ),
+    app.audio.assign();
+    app.audio.timer = new Media( "ting.wav", null,
+      function (err) {
+        console.log(err.code);
+        console.log(err.message);
+      }
+    );
     app.admob();
+  },
+
+
+  audio: {
+    cpr: null,
+    timer: null,
+    sounds:[
+      "cowbell",
+      "anvil"
+    ],
+    assign: function(){
+      if (app.audio.cpr !== null){
+        app.audio.cpr.release();
+      }
+      app.audio.cpr = new Media( app.settings.ret() + ".wav", null,
+        function (err) {
+          console.log(err.code);
+          console.log(err.message);
+        },
+        function (status) {
+          if(status === Media.MEDIA_STOPPED && app.cpr.timerInt !== null) app.audio.cpr.play();
+        }
+      );
+    }
   },
 
   sidebar: function (x) {
@@ -142,6 +162,7 @@ let app = {
         app.settings.last = app.settings.next;
         localStorage.setItem("sound",app.settings.next);
         app.settings.next = "";
+        app.audio.assign();
       }else{
         $('input#'+app.settings.last).prop('checked','checked');
       }
@@ -182,9 +203,7 @@ let app = {
         selector: 'date and time'
       } );
 
-      // app.cpr.audio();
-
-      app.cpr.audio.play({ numberOfLoops: 2000 });
+      app.audio.cpr.play();
       $( '#start' )
         .off( 'click' )
         .on( 'click', app.cpr.stop )
@@ -192,16 +211,12 @@ let app = {
     },
 
     stop: function () {
+      clearInterval( app.cpr.timerInt );
+      app.cpr.timerInt = null;
       window.plugins.insomnia.allowSleepAgain();
       $('.timerToggle').toggle();
-      app.cpr.audio.stop();
-      app.cpr.audio.release();
-      // let a = $('audio#sound_'+app.settings.ret())[0];
-      // if ( typeof a.loop == 'boolean' ) {
-      //   a.loop = false;
-      // }
-      // a.pause();
-      // a.currentTime = 0;
+      app.audio.cpr.stop();
+      app.audio.cpr.release();
       app.cpr.sec = 0;
       app.cpr.min = 0;
 
@@ -220,7 +235,6 @@ let app = {
         .off( 'click' )
         .on( 'click', app.cpr.start )
         .css( 'background-color', 'rgba(0,0,255,0.7)' );
-      clearInterval( app.cpr.timerInt );
 
       if (app.drug.min !== 4 && app.drug.sec !== 0 || app.shock.min !== 2 && app.shock.sec !== 0){
         navigator.vibrate(500);
@@ -239,20 +253,6 @@ let app = {
         app.shock.stop();
       }
     },
-
-
-    // Play audio
-      // let a = $('audio#sound_'+app.settings.ret())[0];
-      // if ( typeof a.loop == 'boolean' ) {
-      //   a.loop = true;
-      // } else {
-      //   a.addEventListener( 'ended', function () {
-      //     this.currentTime = 0;
-      //     this.play();
-      //   }, false );
-      // }
-      // a.play();
-    // },
 
     timer: function () {
       app.cpr.sec++;
@@ -305,7 +305,7 @@ let app = {
           : "" + app.drug.sec;
         $( '#drugLabel' ).text( "MED: " + app.drug.min + ":" + app.drug.sec );
         if ( Number(app.drug.min) == 0 && Number(app.drug.sec) == 0 ) {
-          app.drug.alert();
+          app.audio.timer.play();
           app.drug.stop();
         }
       },1000);
@@ -327,10 +327,6 @@ let app = {
       $('#drug').off('click').on('click', app.drug.start);
       app.drug.min = 4;
       app.drug.sec = 0;
-    },
-    alert:function(){
-      let a = $('audio#sound_ting')[0];
-      a.play();
     }
   },
 
@@ -366,7 +362,7 @@ let app = {
           : "" + app.shock.sec;
         $( '#shockLabel' ).text( "SHOCK: " + app.shock.min + ":" + app.shock.sec );
         if ( Number(app.shock.min) == 0 && Number(app.shock.sec) == 0 ) {
-          app.shock.alert();
+          app.audio.timer.play();
           app.shock.stop();
         }
       },1000);
@@ -388,10 +384,6 @@ let app = {
       $('#shock').off('click').on('click', app.shock.start);
       app.shock.min = 4;
       app.shock.sec = 0;
-    },
-    alert:function(){
-      let a = $('audio#sound_ting')[0];
-      a.play();
     }
   },
 
