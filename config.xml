@@ -32,6 +32,7 @@ This applications is designed to be easy to use. Simply press the start button t
     <plugin name="cordova-plugin-statusbar" spec="2.2.3" />
     <plugin name="cordova-plugin-admobpro-firebase" spec="2.30.1" />
     <plugin name="cordova-plugin-splashscreen" spec="4.0.3" />
+    <plugin name="cordova-plugin-insomnia" version="4.3.0" source="npm" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
