@@ -155,6 +155,7 @@ let app = {
     timerInt: null,
 
     start: function () {
+      window.plugins.insomnia.keepAwake();
       navigator.vibrate(500);
       app.cpr.timerInt = setInterval( function(){
         app.cpr.timer();
@@ -179,6 +180,7 @@ let app = {
     },
 
     stop: function () {
+      window.plugins.insomnia.allowSleepAgain();
       $('.timerToggle').toggle();
       let a = $('audio#sound_'+app.settings.ret())[0];
       if ( typeof a.loop == 'boolean' ) {
