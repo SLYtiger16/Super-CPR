@@ -36,7 +36,7 @@ let app = {
       url = "/android_asset/www/" + url;
     }
     app.audio.timer = new Media( url, function () {
-      alert("success");
+      console.log("success");
     },
       function (err) {
         alert(err.code);
@@ -59,7 +59,7 @@ let app = {
         url = "/android_asset/www/" + url;
       }
       app.audio.cpr = new Media( url, function () {
-        alert("success");
+        console.log("success");
       },
       function (err) {
         alert(err.code);
