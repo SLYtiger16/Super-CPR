@@ -31,7 +31,11 @@ let app = {
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
     app.audio.assign();
-    app.audio.timer = new Media( "sounds/ting.wav", function () {
+    let url = "sounds/ting.wav";
+    if(device.platform.toLowerCase() === "android"){
+      url = "/android_asset/www/" + url;
+    }
+    app.audio.timer = new Media( url, function () {
       alert("success");
     },
       function (err) {
@@ -50,7 +54,11 @@ let app = {
       if (app.audio.cpr !== null){
         app.audio.cpr.release();
       }
-      app.audio.cpr = new Media( "sounds/" + app.settings.ret() + ".wav", function () {
+      let url = "sounds/" + app.settings.ret() + ".wav";
+      if(device.platform.toLowerCase() === "android"){
+        url = "/android_asset/www/" + url;
+      }
+      app.audio.cpr = new Media( url, function () {
         alert("success");
       },
       function (err) {
