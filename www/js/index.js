@@ -46,10 +46,6 @@ let app = {
   audio: {
     cpr: null,
     timer: null,
-    sounds:[
-      "cowbell",
-      "anvil"
-    ],
     assign: function(){
       if (app.audio.cpr !== null){
         app.audio.cpr.release();
