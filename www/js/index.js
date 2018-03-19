@@ -31,10 +31,12 @@ let app = {
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
     app.audio.assign();
-    app.audio.timer = new Media( "ting.wav", null,
+    app.audio.timer = new Media( "sounds/ting.wav", function () {
+      alert("success");
+    },
       function (err) {
-        console.log(err.code);
-        console.log(err.message);
+        alert(err.code);
+        alert(err.message);
       }
     );
     app.admob();
@@ -52,15 +54,16 @@ let app = {
       if (app.audio.cpr !== null){
         app.audio.cpr.release();
       }
-      app.audio.cpr = new Media( app.settings.ret() + ".wav", null,
-        function (err) {
-          console.log(err.code);
-          console.log(err.message);
-        },
-        function (status) {
-          if(status === Media.MEDIA_STOPPED && app.cpr.timerInt !== null) app.audio.cpr.play();
-        }
-      );
+      app.audio.cpr = new Media( "sounds/" + app.settings.ret() + ".wav", function () {
+        alert("success");
+      },
+      function (err) {
+        alert(err.code);
+        alert(err.message);
+      },
+      function (status) {
+        if(status === Media.MEDIA_STOPPED && app.cpr.timerInt !== null) app.audio.cpr.play();
+      });
     }
   },
 
