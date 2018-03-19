@@ -30,7 +30,17 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
-
+    app.cpr.audio = new Media("img/cowbell.wav",
+        // success callback
+        function () {
+            console.log("Audio Success");
+        },
+        // error callback
+        function (err) {
+            console.log(err.code);
+            console.log(err.message);
+        }
+    ),
     app.admob();
   },
 
@@ -172,7 +182,9 @@ let app = {
         selector: 'date and time'
       } );
 
-      app.cpr.audio();
+      // app.cpr.audio();
+
+      app.cpr.audio.play({ numberOfLoops: 2000 });
       $( '#start' )
         .off( 'click' )
         .on( 'click', app.cpr.stop )
@@ -182,12 +194,14 @@ let app = {
     stop: function () {
       window.plugins.insomnia.allowSleepAgain();
       $('.timerToggle').toggle();
-      let a = $('audio#sound_'+app.settings.ret())[0];
-      if ( typeof a.loop == 'boolean' ) {
-        a.loop = false;
-      }
-      a.pause();
-      a.currentTime = 0;
+      app.cpr.audio.stop();
+      app.cpr.audio.release();
+      // let a = $('audio#sound_'+app.settings.ret())[0];
+      // if ( typeof a.loop == 'boolean' ) {
+      //   a.loop = false;
+      // }
+      // a.pause();
+      // a.currentTime = 0;
       app.cpr.sec = 0;
       app.cpr.min = 0;
 
@@ -226,18 +240,19 @@ let app = {
       }
     },
 
-    audio: function () {
-      let a = $('audio#sound_'+app.settings.ret())[0];
-      if ( typeof a.loop == 'boolean' ) {
-        a.loop = true;
-      } else {
-        a.addEventListener( 'ended', function () {
-          this.currentTime = 0;
-          this.play();
-        }, false );
-      }
-      a.play();
-    },
+
+    // Play audio
+      // let a = $('audio#sound_'+app.settings.ret())[0];
+      // if ( typeof a.loop == 'boolean' ) {
+      //   a.loop = true;
+      // } else {
+      //   a.addEventListener( 'ended', function () {
+      //     this.currentTime = 0;
+      //     this.play();
+      //   }, false );
+      // }
+      // a.play();
+    // },
 
     timer: function () {
       app.cpr.sec++;

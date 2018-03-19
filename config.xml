@@ -10,9 +10,9 @@ This applications is designed to be easy to use. Simply press the start button t
         610 Industries, LLC
     </author>
     <content src="index.html" />
-    <preference name="android-minSdkVersion" value="14" />
-    <preference name='phonegap-version' value='cli-7.1.0' />
-    <preference name='pgb-builder-version' value='2' />
+    <preference name="android-minSdkVersion" value="15" />
+    <preference name="phonegap-version" value="cli-7.1.0" />
+    <preference name="pgb-builder-version" value="2" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="portrait" />
     <preference name="SplashMaintainAspectRatio" value="false" />
@@ -32,7 +32,8 @@ This applications is designed to be easy to use. Simply press the start button t
     <plugin name="cordova-plugin-statusbar" spec="2.2.3" />
     <plugin name="cordova-plugin-admobpro-firebase" spec="2.30.1" />
     <plugin name="cordova-plugin-splashscreen" spec="4.0.3" />
-    <plugin name="cordova-plugin-insomnia" version="4.3.0" source="npm" />
+    <plugin name="cordova-plugin-insomnia" source="npm" version="4.3.0" />
+    <plugin name="cordova-plugin-media" spec="~5.0.2" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
