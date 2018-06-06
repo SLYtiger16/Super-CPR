@@ -1,0 +1,5 @@
+plugins/
+platforms/
+node_modules/
+hooks/
+Super-CPR.code-workspace
