@@ -33,6 +33,45 @@ let app = {
     $(".sidebar-toggle").on("click", function() {
       app.sidebar("open");
     });
+    $("#menu_support").on("click", function() {
+      if (AdMob) AdMob.showInterstitial();
+    });
+    $("#menu_rate").on("click", function() {
+      AppRate.preferences = {
+        displayAppName: "My custom app title",
+        usesUntilPrompt: 5,
+        promptAgainForEachNewVersion: false,
+        inAppReview: true,
+        storeAppURL: {
+          ios: "1355403048",
+          android: "market://details?id=com.sixten.superCPR"
+        },
+        customLocale: {
+          title: "Would you mind rating Super CPR?",
+          message:
+            "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
+          cancelButtonLabel: "No, Thanks",
+          laterButtonLabel: "Remind Me Later",
+          rateButtonLabel: "Rate It Now",
+          yesButtonLabel: "Yes!",
+          noButtonLabel: "Not really",
+          appRatePromptTitle: "Do you like using Super CPR",
+          feedbackPromptTitle: "Mind giving us some feedback?"
+        },
+        callbacks: {
+          handleNegativeFeedback: function() {
+            window.open("mailto:support@610ind.com.com", "_system");
+          },
+          onRateDialogShow: function(callback) {
+            callback(1); // cause immediate click on 'Rate Now' button
+          },
+          onButtonClicked: function(buttonIndex) {
+            console.log("onButtonClicked -> " + buttonIndex);
+          }
+        }
+      };
+      AppRate.promptForRating();
+    });
     $(".menuItem").on("click", function() {
       app.nav($(this).attr("target"));
       app.sidebar("close");
@@ -54,6 +93,11 @@ let app = {
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
     app.admob();
+    if (AdMob)
+      AdMob.prepareInterstitial({
+        adId: admobid.interstitial,
+        autoShow: false
+      });
   },
 
   audio: {
