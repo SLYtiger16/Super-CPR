@@ -1,87 +1,126 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta name="msapplication-tap-highlight" content="no"/>
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *"/>
-    <link rel="stylesheet" type="text/css" href="css/materialize.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *"
+    />
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
     <title>CPR Helper</title>
   </head>
   <body>
     <div class="overlay"></div>
 
     <div id="sidebar" class="sidebar">
-      <img id="menuImg" src="img/menuHead.png"/>
+      <img id="menuImg" src="img/menuHead.png" />
       <div style="padding-left:15px;">
         <h5 class="yellowText">MENU</h5>
         <ul>
-          <hr/>
+          <hr />
           <li class="menuItem" id="menu_home" target="HomeScreen">
             <i class="material-icons">&#xE88A;</i>HOME
           </li>
-          <hr/>
+          <hr />
           <li class="menuItem" id="menu_log" target="LogScreen">
             <i class="material-icons">&#xE8EF;</i>LOG
           </li>
-          <hr/>
+          <hr />
           <li class="menuItem" id="menu_settings" target="SettingsScreen">
             <i class="material-icons">&#xE8B8;</i>SETTINGS
           </li>
-          <hr/>
+          <hr />
           <li class="menuItem" id="menu_about" target="AboutScreen">
             <i class="material-icons">&#xE88F;</i>ABOUT
           </li>
-          <hr/>
+          <hr />
         </ul>
       </div>
     </div>
 
     <div class="row header no-mar valign-wrapper">
       <div id="header_menu" class="col s9 sidebar-toggle no-mar">
-        <i class="material-icons" style="font-size:30px;margin-right:10px;">&#xE5D2;</i>
+        <i class="material-icons" style="font-size:30px;margin-right:10px;"
+          >&#xE5D2;</i
+        >
         <span class="no-mar" style="font-size:22px;">Super CPR</span>
       </div>
       <h4 class="col s3 right-align info no-mar">
-        <img class="menuItem" src="img/logo.png" target="HomeScreen" style="border-radius:7px;"/>
+        <img
+          class="menuItem"
+          src="img/logo.png"
+          target="HomeScreen"
+          style="border-radius:7px;"
+        />
       </h4>
     </div>
 
     <main>
       <div id="HomeScreen" class="Screen active">
         <div class="row no-mar flex_p" style="flex:2;">
-          <div id="cpr" class="card-panel center-align z-depth-5 waves-effect waves-light col s12 flex flex_p flex_col">
+          <div
+            id="cpr"
+            class="card-panel center-align z-depth-5 waves-effect waves-light col s12 flex flex_p flex_col"
+          >
             <div class="valign-wrapper center-align flex">
               <h4 class="center-margin" id="clock">12:00 AM</h4>
             </div>
             <div class="valign-wrapper center-align flex">
-              <img class="timerToggle center-margin" id="super" src="img/noBackground200.png"/>
-              <h2 class="timerToggle center-margin" id="timer" style="display:none;">00:00</h2>
+              <img
+                class="timerToggle center-margin"
+                id="super"
+                src="img/noBackground200.png"
+              />
+              <h2
+                class="timerToggle center-margin"
+                id="timer"
+                style="display:none;"
+              >
+                00:00
+              </h2>
             </div>
           </div>
         </div>
         <div class="row no-mar flex flex_p">
           <div class="flex flex_p">
             <div class="no-mar flex flex_p" style="margin-right:7.5px;">
-              <div id="drug" class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p">
+              <div
+                id="drug"
+                class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p"
+              >
                 <div class="valign-wrapper flex">
                   <h5 id="drugLabel" class="button-text center-margin">MED</h5>
                 </div>
               </div>
             </div>
             <div class="no-mar flex flex_p" style="margin-left:7.5px;">
-              <div id="shock" class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p">
+              <div
+                id="shock"
+                class="button-card card-panel center-align text-yellow z-depth-5 waves-effect waves-light flex flex_p"
+              >
                 <div class="valign-wrapper flex">
-                  <h5 id="shockLabel" class="button-text center-margin">SHOCK</h5>
+                  <h5 id="shockLabel" class="button-text center-margin">
+                    SHOCK
+                  </h5>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="row no-mar flex flex_p">
-          <div id="start" class="card-panel center-align white-text z-depth-5 waves-effect waves-light flex flex_p">
+          <div
+            id="start"
+            class="card-panel center-align white-text z-depth-5 waves-effect waves-light flex flex_p"
+          >
             <div class="valign-wrapper flex">
               <h4 id="startBtn" class="button-text center-margin">START</h4>
             </div>
@@ -91,11 +130,31 @@
 
       <div id="LogScreen" class="Screen">
         <div class="row no-mar">
-          <div id="logListCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+          <div
+            id="logListCard"
+            class="card-panel z-depth-5 waves-effect waves-light"
+            style="width:100%;"
+          >
             <div class="card-content white-text">
               <div class="row">
-                <h5 class="card-title col s6" style="font-weight:bold;color:#efe06e;">Usage Log</h5>
-                <a id="clearLog" class="waves-effect waves-light btn red yellow-text right valign-wrapper">Clear</a>
+                <h5
+                  class="card-title col s6"
+                  style="font-weight:bold;color:#efe06e;"
+                >
+                  Usage Log
+                </h5>
+              </div>
+              <div class="row">
+                <a
+                  id="clearLog"
+                  class="waves-effect waves-light btn red yellow-text left valign-wrapper"
+                  >Clear</a
+                >
+                <a
+                  id="copyLog"
+                  class="waves-effect waves-light btn red yellow-text right valign-wrapper"
+                  >Copy Log</a
+                >
               </div>
               <ul id="logList" style="overflow-y:auto;"></ul>
             </div>
@@ -105,35 +164,71 @@
 
       <div id="SettingsScreen" class="Screen">
         <div class="row no-mar">
-          <div id="settingsCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
+          <div
+            id="settingsCard"
+            class="card-panel z-depth-5 waves-effect waves-light"
+            style="width:100%;"
+          >
             <div class="card-content white-text">
-              <h4 class="card-title" style="font-weight:bold;color:#efe06e;">Settings</h4>
-              <form id="soundRadio">
-                <ul id="settingsList">
-                  <li><h5>Select a metronome sound </h5></li>
-                  <p>Alert: Changing the preferred sound will cause an active metronome to stop.</p>
-                  <li>
-                    <input class="with-gap" id="cowbell" type="radio" name="sound">
-                    <label for="cowbell">Cowbell</label>
-                  </li>
-                  <hr/>
-                  <li>
-                    <input class="with-gap" id="anvil" type="radio" name="sound">
-                    <label for="anvil">Anvil</label>
-                  </li>
-                </ul>
-              </form>
-              <hr/>
+              <h4 class="card-title" style="font-weight:bold;color:#efe06e;">
+                Settings
+              </h4>
+              <!--
+                <form id="soundRadio">
+                  <ul id="settingsList">
+                    <li><h5>Select a metronome sound </h5></li>
+                    <p>Alert: Changing the preferred sound will cause an active metronome to stop.</p>
+                    <li>
+                      <input class="with-gap" id="cowbell" type="radio" name="sound">
+                      <label for="cowbell">Cowbell</label>
+                    </li>
+                    <hr/>
+                    <li>
+                      <input class="with-gap" id="anvil" type="radio" name="sound">
+                      <label for="anvil">Anvil</label>
+                    </li>
+                  </ul>
+                </form>
+              -->
+              <hr />
               <form id="timeSttings">
                 <ul id="timeSettingsList">
                   <li>
-                    <label class="yellowText"style="font-size:15px;" for="medMin">Med Minutes: <span style="font-size:10px;color:white;">(Min-1; Max-5)</span></label>
-                    <input class="with-gap" id="medMin" type="number" min="1" max="5">
+                    <label
+                      class="yellowText"
+                      style="font-size:15px;"
+                      for="medMin"
+                      >Med Minutes:
+                      <span style="font-size:10px;color:white;"
+                        >(Min-1; Max-5)</span
+                      ></label
+                    >
+                    <input
+                      class="with-gap"
+                      id="medMin"
+                      type="number"
+                      min="1"
+                      max="5"
+                    />
                   </li>
-                  <hr/>
+                  <hr />
                   <li>
-                    <label class="yellowText"style="font-size:15px;" for="shockMin">Shock Minutes <span style="font-size:10px;color:white;">(Min-1; Max-5)</span></label>
-                    <input class="with-gap" id="shockMin" type="number" min="1" max="5">
+                    <label
+                      class="yellowText"
+                      style="font-size:15px;"
+                      for="shockMin"
+                      >Shock Minutes
+                      <span style="font-size:10px;color:white;"
+                        >(Min-1; Max-5)</span
+                      ></label
+                    >
+                    <input
+                      class="with-gap"
+                      id="shockMin"
+                      type="number"
+                      min="1"
+                      max="5"
+                    />
                   </li>
                 </ul>
               </form>
@@ -144,22 +239,39 @@
 
       <div id="AboutScreen" class="Screen">
         <div class="row no-mar">
-          <div id="aboutCard" class="card-panel z-depth-5 waves-effect waves-light" style="width:100%;">
-            <h4 class="right-align info no-mar center-align">About Super CPR</h4>
+          <div
+            id="aboutCard"
+            class="card-panel z-depth-5 waves-effect waves-light"
+            style="width:100%;"
+          >
+            <h4 class="right-align info no-mar center-align">
+              About Super CPR
+            </h4>
             <p>&copy;&nbsp;2018 - 610 Industries, LLC</p>
-            <p>Super CPR is meant to be a tempo guide only and in no way is designed to establish any clinical standard. Use at your own risk. By using this application you agree to remove any liability associated with it's use from 610 Industries, LLC and it's owners, customers, contractors, or anyone in any way associated with 610 Insutries, LLC and this application.</p>
+            <p>
+              Super CPR is meant to be a tempo guide only and in no way is
+              designed to establish any clinical standard. Use at your own risk.
+              By using this application you agree to remove any liability
+              associated with it's use from 610 Industries, LLC and it's owners,
+              customers, contractors, or anyone in any way associated with 610
+              Insutries, LLC and this application.
+            </p>
           </div>
         </div>
       </div>
     </main>
-    <footer class="page-footer black white-text no-pad" style="position:fixed;bottom:0;left:0;width:100%;">
+    <footer
+      class="page-footer black white-text no-pad"
+      style="position:fixed;bottom:0;left:0;width:100%;"
+    >
       <div class="footer-copyright">
         <div class="container center-align">
-          <a href="https://610ind.com" class="white-text">© 2018 610 Industries, LLC</a>
+          <a href="https://610ind.com" class="white-text"
+            >© 2018 610 Industries, LLC</a
+          >
         </div>
       </div>
     </footer>
-
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -169,6 +281,5 @@
     <script type="text/javascript">
       app.initialize();
     </script>
-
   </body>
 </html>
