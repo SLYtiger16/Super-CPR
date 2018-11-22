@@ -20,6 +20,9 @@ let AdjustingInterval = function(workFunc, interval, errorFunc) {
   }
 };
 
+let beep = new Audio("sounds/beep.wav");
+let cpr_sound = app.settings.ret();
+
 let app = {
   initialize: function() {
     $(document).on("deviceready", app.onDeviceReady);
@@ -57,21 +60,9 @@ let app = {
           callback(1); // cause immediate click on 'Rate Now' button
         },
         onButtonClicked: function(buttonIndex) {
-          switch (buttonIndex) {
-            case 1:
-              // 1 = write review
-              console.log("rate dialog review");
-              break;
-            case 2:
-              // 2 = remind me later
-              console.log("rate dialog later");
-              // Clear the counter so app asks again later
-              window.localStorage.removeItem("counter");
-              break;
-            case 3:
-            // 3 = no thanks
-            default:
-              break;
+          if (buttonIndex == 2) {
+            // 2 = remind me later - Clear the counter so app asks again later
+            window.localStorage.removeItem("counter");
           }
         }
       }
@@ -107,25 +98,18 @@ let app = {
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
     app.admob();
-    if (AdMob)
-      AdMob.prepareInterstitial({
-        adId: admobid.interstitial,
-        autoShow: false
-      });
   },
 
   audio: {
-    audioCtx: new (window.AudioContext ||
-      window.webkitAudioContext ||
-      window.audioContext)(),
     beep: function() {
-      var oscillator = app.audio.audioCtx.createOscillator();
-      var gainNode = app.audio.audioCtx.createGain();
-      oscillator.connect(gainNode);
-      gainNode.connect(app.audio.audioCtx.destination);
-      oscillator.frequency.value = 535;
-      oscillator.start(app.audio.audioCtx.currentTime);
-      oscillator.stop(app.audio.audioCtx.currentTime + 200 / 1000);
+      switch (cpr_sound) {
+        case "beep":
+          beep.play();
+          break;
+        default:
+          beep.play();
+          console.log("sound switch failed");
+      }
     },
     cpr: new AdjustingInterval(
       function() {
@@ -190,7 +174,6 @@ let app = {
         $("#copyLog")
           .off("click")
           .on("click", function() {
-            console.log(app.log.retText());
             cordova.plugins.clipboard.copy(app.log.retText());
             window.plugins.toast.showWithOptions({
               message: "Log Data Copied to Clipboard!",
@@ -200,6 +183,12 @@ let app = {
           });
         break;
       case "SettingsScreen":
+        $("input#" + app.settings.ret()).attr("checked", "checked");
+        $("#soundRadio input")
+          .off("change")
+          .on("change", function() {
+            app.settings.change($(this).attr("id"));
+          });
         $("#medMin").val(Number(app.drug.ret()));
         $("#shockMin").val(Number(app.shock.ret()));
         $("#medMin, #shockMin")
@@ -233,6 +222,48 @@ let app = {
         break;
       case "AboutScreen":
         break;
+    }
+  },
+
+  settings: {
+    ret: function() {
+      let s = localStorage.getItem("sound");
+      if (s === null || s === undefined) {
+        localStorage.setItem("sound", "beep");
+        s = "beep";
+      }
+      return s;
+    },
+
+    onChangeConfirm: function(x) {
+      app.cpr.stop();
+      localStorage.setItem("sound", x);
+      $('input[type="radio"]#' + x).prop("checked", "checked");
+      window.plugins.toast.showWithOptions({
+        message: "CPR Sound has been changed!",
+        duration: "short",
+        position: "top"
+      });
+    },
+
+    change: function(x) {
+      navigator.vibrate(500);
+      if (x == cpr_sound) {
+        window.plugins.toast.showWithOptions({
+          message: "You gotta pick a different one bud!",
+          duration: "short",
+          position: "top"
+        });
+      } else {
+        navigator.notification.confirm(
+          "Change metronome sound to " + x + "?",
+          function() {
+            app.settings.onChangeConfirm(x);
+          },
+          "Are you sure?",
+          ["OK", "Cancel"]
+        );
+      }
     }
   },
 
@@ -659,21 +690,6 @@ let app = {
         error: function() {
           console.log("ADMOB: failed to create banner");
         }
-      });
-      document.addEventListener("onAdLoaded", function() {
-        // console.log('onAdLoaded')
-      });
-      document.addEventListener("onAdFailLoad", function(data) {
-        // console.log('onAdFailLoad: ' + data.error)
-      });
-      document.addEventListener("onAdPresent", function() {
-        // console.log('onAdPresent')
-      });
-      document.addEventListener("onAdDismiss", function() {
-        // console.log('onAdDismiss')
-      });
-      document.addEventListener("onAdLeaveApp", function() {
-        // console.log('onAdLeaveApp')
       });
     } else {
       console.log("AdMob Not Loaded");
