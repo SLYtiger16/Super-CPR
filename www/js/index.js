@@ -25,22 +25,11 @@ let app = {
     $(document).on("deviceready", app.onDeviceReady);
   },
 
-  useCounter: function() {
-    let s = localStorage.getItem("useCounterSCPR");
-    if (s === null || s === undefined || Number(s) >= 10) {
-      localStorage.setItem("useCounterSCPR", "0");
-      s = "0";
-    } else {
-      localStorage.setItem("useCounterSCPR", String(Number(s) + 1));
-    }
-    return Number(s);
-  },
-
   onDeviceReady: function() {
     app.clock.start();
     AppRate.preferences = {
       displayAppName: "Super CPR",
-      usesUntilPrompt: app.useCounter(),
+      usesUntilPrompt: 3,
       simpleMode: true,
       promptAgainForEachNewVersion: true,
       inAppReview: true,
@@ -54,9 +43,16 @@ let app = {
           "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
         cancelButtonLabel: "No, Thanks",
         laterButtonLabel: "Remind Me Later",
-        rateButtonLabel: "Rate It Now"
+        rateButtonLabel: "Rate It Now",
+        yesButtonLabel: "Yes!",
+        noButtonLabel: "Not really",
+        appRatePromptTitle: "Do you like using %@",
+        feedbackPromptTitle: "Mind giving us some feedback?"
       },
       callbacks: {
+        handleNegativeFeedback: function() {
+          window.open("mailto:support@610ind.com.com", "_system");
+        },
         onRateDialogShow: function(callback) {
           callback(1); // cause immediate click on 'Rate Now' button
         },
@@ -70,7 +66,7 @@ let app = {
               // 2 = remind me later
               console.log("rate dialog later");
               // Clear the counter so app asks again later
-              window.localStorage.removeItem("useCounterSCPR");
+              window.localStorage.removeItem("counter");
               break;
             case 3:
             // 3 = no thanks
@@ -128,9 +124,8 @@ let app = {
       oscillator.connect(gainNode);
       gainNode.connect(app.audio.audioCtx.destination);
       oscillator.frequency.value = 535;
-      osc.start(app.audio.audioCtx.currentTime);
-      osc.stop(app.audio.audioCtx.currentTime + 200 / 1000);
-      oscillator.start();
+      oscillator.start(app.audio.audioCtx.currentTime);
+      oscillator.stop(app.audio.audioCtx.currentTime + 200 / 1000);
     },
     cpr: new AdjustingInterval(
       function() {
@@ -214,6 +209,11 @@ let app = {
             let v = $(this).val();
             if (v > 0 && v < 6) {
               localStorage.setItem(i, String(v));
+              window.plugins.toast.showWithOptions({
+                message: "Timer Settings Saved!",
+                duration: "short",
+                position: "center"
+              });
             } else {
               window.plugins.toast.showWithOptions({
                 message: "Invalid number of minutes!, Try again. Must be 1-5!",
@@ -476,6 +476,21 @@ let app = {
         $("#shockLabel").text("SHOCK: " + app.shock.min + ":" + app.shock.sec);
         if (Number(app.shock.min) == 0 && Number(app.shock.sec) == 0) {
           app.shock.stop();
+          let medAudioCtx = new (window.AudioContext ||
+            window.webkitAudioContext ||
+            window.audioContext)();
+          let beep = function() {
+            var oscillator = medAudioCtx.createOscillator();
+            var gainNode = medAudioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(medAudioCtx.destination);
+            oscillator.frequency.value = 600;
+            oscillator.start();
+            setTimeout(function() {
+              oscillator.stop();
+            }, 1000);
+          };
+          beep();
         }
       }, 1000);
 
@@ -508,21 +523,6 @@ let app = {
         duration: "short",
         position: "top"
       });
-      let drugAudioCtx = new (window.AudioContext ||
-        window.webkitAudioContext ||
-        window.audioContext)();
-      let beep = function() {
-        var oscillator = drugAudioCtx.createOscillator();
-        var gainNode = drugAudioCtx.createGain();
-        oscillator.connect(gainNode);
-        gainNode.connect(drugAudioCtx.destination);
-        oscillator.frequency.value = 600;
-        oscillator.start();
-        setTimeout(function() {
-          oscillator.stop();
-        }, 1000);
-      };
-      beep();
     }
   },
 
