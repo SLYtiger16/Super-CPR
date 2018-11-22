@@ -25,51 +25,76 @@ let app = {
     $(document).on("deviceready", app.onDeviceReady);
   },
 
+  useCounter: function() {
+    let s = localStorage.getItem("useCounterSCPR");
+    if (s === null || s === undefined) {
+      localStorage.setItem("useCounterSCPR", "0");
+      s = "0";
+    } else {
+      localStorage.setItem("useCounterSCPR", String(Number(s) + 1));
+    }
+    return Number(s);
+  },
+
   onDeviceReady: function() {
     app.clock.start();
+    AppRate.preferences = {
+      displayAppName: "Super CPR",
+      usesUntilPrompt: app.useCounter(),
+      simpleMode: true,
+      promptAgainForEachNewVersion: true,
+      inAppReview: true,
+      storeAppURL: {
+        ios: "1355403048",
+        android: "market://details?id=com.sixten.superCPR"
+      },
+      customLocale: {
+        title: "Would you mind rating %@?",
+        message:
+          "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
+        cancelButtonLabel: "No, Thanks",
+        laterButtonLabel: "Remind Me Later",
+        rateButtonLabel: "Rate It Now",
+        yesButtonLabel: "Yes!",
+        noButtonLabel: "Not really",
+        appRatePromptTitle: "Do you like using %@",
+        feedbackPromptTitle: "Mind giving us some feedback?"
+      },
+      callbacks: {
+        handleNegativeFeedback: function() {
+          window.open("mailto:support@610ind.com.com", "_system");
+        },
+        onRateDialogShow: function(callback) {
+          callback(1); // cause immediate click on 'Rate Now' button
+        },
+        onButtonClicked: function(buttonIndex) {
+          switch (buttonIndex) {
+            case 1:
+              // 1 = write review
+              console.log("rate dialog review");
+              break;
+            case 2:
+              // 2 = remind me later
+              console.log("rate dialog later");
+              // Clear the counter so app asks again later
+              window.localStorage.removeItem("useCounterSCPR");
+              break;
+            case 3:
+            // 3 = no thanks
+            default:
+              break;
+          }
+        }
+      }
+    };
+    AppRate.promptForRating(false);
     $("#start").on("click", app.cpr.start);
     $("#drug").on("click", app.drug.start);
     $("#shock").on("click", app.shock.start);
     $(".sidebar-toggle").on("click", function() {
       app.sidebar("open");
     });
-    $("#menu_support").on("click", function() {
-      if (AdMob) AdMob.showInterstitial();
-    });
     $("#menu_rate").on("click", function() {
-      AppRate.preferences = {
-        displayAppName: "My custom app title",
-        usesUntilPrompt: 5,
-        promptAgainForEachNewVersion: false,
-        inAppReview: true,
-        storeAppURL: {
-          ios: "1355403048",
-          android: "market://details?id=com.sixten.superCPR"
-        },
-        customLocale: {
-          title: "Would you mind rating Super CPR?",
-          message:
-            "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
-          cancelButtonLabel: "No, Thanks",
-          laterButtonLabel: "Remind Me Later",
-          rateButtonLabel: "Rate It Now",
-          yesButtonLabel: "Yes!",
-          noButtonLabel: "Not really",
-          appRatePromptTitle: "Do you like using Super CPR",
-          feedbackPromptTitle: "Mind giving us some feedback?"
-        },
-        callbacks: {
-          handleNegativeFeedback: function() {
-            window.open("mailto:support@610ind.com.com", "_system");
-          },
-          onRateDialogShow: function(callback) {
-            callback(1); // cause immediate click on 'Rate Now' button
-          },
-          onButtonClicked: function(buttonIndex) {
-            console.log("onButtonClicked -> " + buttonIndex);
-          }
-        }
-      };
       AppRate.promptForRating();
     });
     $(".menuItem").on("click", function() {
@@ -113,7 +138,7 @@ let app = {
       oscillator.start();
       setTimeout(function() {
         oscillator.stop();
-      }, 250);
+      }, 100);
     },
     cpr: new AdjustingInterval(
       function() {
@@ -174,12 +199,26 @@ let app = {
           .off("click")
           .on("click", function() {
             app.log.clear();
+            window.plugins.toast.showWithOptions(
+              {
+                message: "Log Data Cleared!",
+                duration: "short",
+                position: "center"
+              }
+            );
           });
         $("#copyLog")
           .off("click")
           .on("click", function() {
             console.log(app.log.retText());
             cordova.plugins.clipboard.copy(app.log.retText());
+            window.plugins.toast.showWithOptions(
+              {
+                message: "Log Data Copied to Clipboard!",
+                duration: "short",
+                position: "center"
+              }
+            );
           });
         break;
       case "SettingsScreen":
@@ -193,7 +232,13 @@ let app = {
             if (v > 0 && v < 6) {
               localStorage.setItem(i, String(v));
             } else {
-              alert("Invalid number of minutes!, Try again. Must be 1-5!");
+              window.plugins.toast.showWithOptions(
+                {
+                  message: "Invalid number of minutes!, Try again. Must be 1-5!",
+                  duration: "short",
+                  position: "center"
+                }
+              );
               if (i === "medMin") {
                 $(this).val(4);
                 v = 4;
@@ -233,7 +278,7 @@ let app = {
           app.log.change({ Start: "Error Saving Time" });
         },
         {
-          formatLength: "medium",
+          formatLength: "short",
           selector: "date and time"
         }
       );
@@ -243,6 +288,13 @@ let app = {
         .off("click")
         .on("click", app.cpr.stop)
         .css("background-color", "red");
+        window.plugins.toast.showWithOptions(
+          {
+            message: "Start Compressions!",
+            duration: "short",
+            position: "top"
+          }
+        );
     },
 
     stop: function() {
@@ -263,7 +315,7 @@ let app = {
           app.log.change({ Stop: "Error Saving Time" });
         },
         {
-          formatLength: "medium",
+          formatLength: "short",
           selector: "date and time"
         }
       );
@@ -354,6 +406,26 @@ let app = {
         $("#drugLabel").text("MED: " + app.drug.min + ":" + app.drug.sec);
         if (Number(app.drug.min) == 0 && Number(app.drug.sec) == 0) {
           app.drug.stop();
+          window.plugins.toast.showWithOptions(
+            {
+              message: "Medication Timer Is Up",
+              duration: "short",
+              position: "top"
+            }
+          );
+          let drugAudioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
+          let beep = function() {
+            var oscillator = drugAudioCtx.createOscillator();
+            var gainNode = drugAudioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(drugAudioCtx.destination);
+            oscillator.frequency.value = 600;
+            oscillator.start();
+            setTimeout(function() {
+              oscillator.stop();
+            }, 1000);
+          beep();
+          },
         }
       }, 1000);
 
@@ -366,7 +438,7 @@ let app = {
           app.log.change({ "Med given": "Error Saving Time" });
         },
         {
-          formatLength: "medium",
+          formatLength: "short",
           selector: "date and time"
         }
       );
@@ -437,7 +509,7 @@ let app = {
           app.log.change({ "Shock delivered": "Error Saving Time" });
         },
         {
-          formatLength: "medium",
+          formatLength: "short",
           selector: "date and time"
         }
       );
@@ -452,6 +524,25 @@ let app = {
         .on("click", app.shock.start);
       app.shock.min = 4;
       app.shock.sec = 0;
+      window.plugins.toast.showWithOptions(
+        {
+          message: "Shock Timer Is Up",
+          duration: "short",
+          position: "top"
+        }
+      );
+      let drugAudioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
+      let beep = function() {
+        var oscillator = drugAudioCtx.createOscillator();
+        var gainNode = drugAudioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(drugAudioCtx.destination);
+        oscillator.frequency.value = 600;
+        oscillator.start();
+        setTimeout(function() {
+          oscillator.stop();
+        }, 1000);
+      beep();
     }
   },
 
@@ -563,12 +654,10 @@ let app = {
     var admobid = {};
     if (/(android)/i.test(navigator.userAgent)) {
       admobid = {
-        // for Android
         banner: "ca-app-pub-1667173736779668/1176510567"
       };
     } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
       admobid = {
-        // for iOS
         banner: "ca-app-pub-1667173736779668/4205998582"
       };
     }
