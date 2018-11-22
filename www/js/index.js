@@ -1,3 +1,44 @@
+let BufferLoader = function(context, urlList, callback) {
+  this.context = context;
+  this.urlList = urlList;
+  this.onload = callback;
+  this.bufferList = new Array();
+  this.loadCount = 0;
+};
+
+BufferLoader.prototype.loadBuffer = function(url, index) {
+  var request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.responseType = "arraybuffer";
+  var loader = this;
+  request.onload = function() {
+    loader.context.decodeAudioData(
+      request.response,
+      function(buffer) {
+        if (!buffer) {
+          alert("error decoding file data: " + url);
+          return;
+        }
+        loader.bufferList[index] = buffer;
+        if (++loader.loadCount == loader.urlList.length)
+          loader.onload(loader.bufferList);
+      },
+      function(error) {
+        console.error("decodeAudioData error", error);
+      }
+    );
+  };
+  request.onerror = function() {
+    alert("BufferLoader: XHR error");
+  };
+  request.send();
+};
+
+BufferLoader.prototype.load = function() {
+  for (var i = 0; i < this.urlList.length; ++i)
+    this.loadBuffer(this.urlList[i], i);
+};
+
 let AdjustingInterval = function(workFunc, interval, errorFunc) {
   var that = this;
   var expected, timeout;
@@ -20,6 +61,18 @@ let AdjustingInterval = function(workFunc, interval, errorFunc) {
   }
 };
 
+let beep = null;
+let click = null;
+let floop = null;
+let laser = null;
+let metal = null;
+let pew_pew = null;
+let zap = null;
+let bufferLoader = null;
+let cpr_audio_context = new (window.AudioContext ||
+  window.webkitAudioContext ||
+  window.audioContext)();
+
 let get_cpr_sound = function() {
   let s = localStorage.getItem("sound");
   if (s === null || s === undefined) {
@@ -29,13 +82,46 @@ let get_cpr_sound = function() {
   return s;
 };
 
-let beep = new Audio("sounds/beep.wav");
-let click = new Audio("sounds/click.wav");
-let floop = new Audio("sounds/floop.wav");
-let laser = new Audio("sounds/laser.wav");
-let metal = new Audio("sounds/metal.wav");
-let pew_pew = new Audio("sounds/pew_pew.wav");
-let zap = new Audio("sounds/zap.wav");
+let soundInit = function() {
+  bufferLoader = new BufferLoader(
+    cpr_audio_context,
+    [
+      "sounds/beep.wav",
+      "sounds/click.wav",
+      "sounds/floop.wav",
+      "sounds/laser.wav",
+      "sounds/metal.wav",
+      "sounds/pew_pew.wav",
+      "sounds/zap.wav"
+    ],
+    finishedLoading
+  );
+  bufferLoader.load();
+};
+
+let finishedLoading = function(bufferList) {
+  click = cpr_audio_context.createBufferSource();
+  beep = cpr_audio_context.createBufferSource();
+  floop = cpr_audio_context.createBufferSource();
+  laser = cpr_audio_context.createBufferSource();
+  metal = cpr_audio_context.createBufferSource();
+  pew_pew = cpr_audio_context.createBufferSource();
+  zap = cpr_audio_context.createBufferSource();
+  click.buffer = bufferList[0];
+  beep.buffer = bufferList[1];
+  floop.buffer = bufferList[2];
+  laser.buffer = bufferList[3];
+  metal.buffer = bufferList[4];
+  pew_pew.buffer = bufferList[5];
+  zap.buffer = bufferList[6];
+};
+
+let playSound = function(buff, time) {
+  let source = cpr_audio_context.createBufferSource();
+  source.buffer = buff.buffer;
+  source.connect(cpr_audio_context.destination);
+  source.start(time);
+};
 
 let app = {
   initialize: function() {
@@ -43,6 +129,7 @@ let app = {
   },
 
   onDeviceReady: function() {
+    soundInit();
     app.clock.start();
     AppRate.preferences = {
       displayAppName: "Super CPR",
@@ -119,25 +206,25 @@ let app = {
       let sound = get_cpr_sound();
       switch (sound) {
         case "click":
-          click.play();
+          playSound(click, cpr_audio_context.currentTime);
           break;
         case "floop":
-          floop.play();
+          playSound(floop, cpr_audio_context.currentTime);
           break;
         case "laser":
-          laser.play();
+          playSound(laser, cpr_audio_context.currentTime);
           break;
         case "metal":
-          metal.play();
+          playSound(metal, cpr_audio_context.currentTime);
           break;
         case "pew_pew":
-          pew_pew.play();
+          playSound(pew_pew, cpr_audio_context.currentTime);
           break;
         case "zap":
-          zap.play();
+          playSound(zap, cpr_audio_context.currentTime);
           break;
         default:
-          beep.play();
+          playSound(beep, cpr_audio_context.currentTime);
       }
     },
     cpr: new AdjustingInterval(
