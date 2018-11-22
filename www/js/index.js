@@ -199,26 +199,22 @@ let app = {
           .off("click")
           .on("click", function() {
             app.log.clear();
-            window.plugins.toast.showWithOptions(
-              {
-                message: "Log Data Cleared!",
-                duration: "short",
-                position: "center"
-              }
-            );
+            window.plugins.toast.showWithOptions({
+              message: "Log Data Cleared!",
+              duration: "short",
+              position: "center"
+            });
           });
         $("#copyLog")
           .off("click")
           .on("click", function() {
             console.log(app.log.retText());
             cordova.plugins.clipboard.copy(app.log.retText());
-            window.plugins.toast.showWithOptions(
-              {
-                message: "Log Data Copied to Clipboard!",
-                duration: "short",
-                position: "center"
-              }
-            );
+            window.plugins.toast.showWithOptions({
+              message: "Log Data Copied to Clipboard!",
+              duration: "short",
+              position: "center"
+            });
           });
         break;
       case "SettingsScreen":
@@ -232,13 +228,11 @@ let app = {
             if (v > 0 && v < 6) {
               localStorage.setItem(i, String(v));
             } else {
-              window.plugins.toast.showWithOptions(
-                {
-                  message: "Invalid number of minutes!, Try again. Must be 1-5!",
-                  duration: "short",
-                  position: "center"
-                }
-              );
+              window.plugins.toast.showWithOptions({
+                message: "Invalid number of minutes!, Try again. Must be 1-5!",
+                duration: "short",
+                position: "center"
+              });
               if (i === "medMin") {
                 $(this).val(4);
                 v = 4;
@@ -288,13 +282,11 @@ let app = {
         .off("click")
         .on("click", app.cpr.stop)
         .css("background-color", "red");
-        window.plugins.toast.showWithOptions(
-          {
-            message: "Start Compressions!",
-            duration: "short",
-            position: "top"
-          }
-        );
+      window.plugins.toast.showWithOptions({
+        message: "Start Compressions!",
+        duration: "short",
+        position: "top"
+      });
     },
 
     stop: function() {
@@ -406,14 +398,14 @@ let app = {
         $("#drugLabel").text("MED: " + app.drug.min + ":" + app.drug.sec);
         if (Number(app.drug.min) == 0 && Number(app.drug.sec) == 0) {
           app.drug.stop();
-          window.plugins.toast.showWithOptions(
-            {
-              message: "Medication Timer Is Up",
-              duration: "short",
-              position: "top"
-            }
-          );
-          let drugAudioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
+          window.plugins.toast.showWithOptions({
+            message: "Medication Timer Is Up",
+            duration: "short",
+            position: "top"
+          });
+          let drugAudioCtx = new (window.AudioContext ||
+            window.webkitAudioContext ||
+            window.audioContext)();
           let beep = function() {
             var oscillator = drugAudioCtx.createOscillator();
             var gainNode = drugAudioCtx.createGain();
@@ -424,8 +416,8 @@ let app = {
             setTimeout(function() {
               oscillator.stop();
             }, 1000);
+          };
           beep();
-          },
         }
       }, 1000);
 
@@ -524,14 +516,14 @@ let app = {
         .on("click", app.shock.start);
       app.shock.min = 4;
       app.shock.sec = 0;
-      window.plugins.toast.showWithOptions(
-        {
-          message: "Shock Timer Is Up",
-          duration: "short",
-          position: "top"
-        }
-      );
-      let drugAudioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
+      window.plugins.toast.showWithOptions({
+        message: "Shock Timer Is Up",
+        duration: "short",
+        position: "top"
+      });
+      let drugAudioCtx = new (window.AudioContext ||
+        window.webkitAudioContext ||
+        window.audioContext)();
       let beep = function() {
         var oscillator = drugAudioCtx.createOscillator();
         var gainNode = drugAudioCtx.createGain();
@@ -542,6 +534,7 @@ let app = {
         setTimeout(function() {
           oscillator.stop();
         }, 1000);
+      };
       beep();
     }
   },
