@@ -20,8 +20,22 @@ let AdjustingInterval = function(workFunc, interval, errorFunc) {
   }
 };
 
+let get_cpr_sound = function() {
+  let s = localStorage.getItem("sound");
+  if (s === null || s === undefined) {
+    localStorage.setItem("sound", "beep");
+    s = "beep";
+  }
+  return s;
+};
+
 let beep = new Audio("sounds/beep.wav");
-let cpr_sound = app.settings.ret();
+let click = new Audio("sounds/click.wav");
+let floop = new Audio("sounds/floop.wav");
+let laser = new Audio("sounds/laser.wav");
+let metal = new Audio("sounds/metal.wav");
+let pew_pew = new Audio("sounds/pew_pew.wav");
+let zap = new Audio("sounds/zap.wav");
 
 let app = {
   initialize: function() {
@@ -102,13 +116,28 @@ let app = {
 
   audio: {
     beep: function() {
-      switch (cpr_sound) {
-        case "beep":
-          beep.play();
+      let sound = get_cpr_sound();
+      switch (sound) {
+        case "click":
+          click.play();
+          break;
+        case "floop":
+          floop.play();
+          break;
+        case "laser":
+          laser.play();
+          break;
+        case "metal":
+          metal.play();
+          break;
+        case "pew_pew":
+          pew_pew.play();
+          break;
+        case "zap":
+          zap.play();
           break;
         default:
           beep.play();
-          console.log("sound switch failed");
       }
     },
     cpr: new AdjustingInterval(
@@ -183,7 +212,7 @@ let app = {
           });
         break;
       case "SettingsScreen":
-        $("input#" + app.settings.ret()).attr("checked", "checked");
+        $("input#" + get_cpr_sound()).attr("checked", "checked");
         $("#soundRadio input")
           .off("change")
           .on("change", function() {
@@ -226,19 +255,10 @@ let app = {
   },
 
   settings: {
-    ret: function() {
-      let s = localStorage.getItem("sound");
-      if (s === null || s === undefined) {
-        localStorage.setItem("sound", "beep");
-        s = "beep";
-      }
-      return s;
-    },
-
     onChangeConfirm: function(x) {
       app.cpr.stop();
       localStorage.setItem("sound", x);
-      $('input[type="radio"]#' + x).prop("checked", "checked");
+      $("input#" + x).prop("checked", "checked");
       window.plugins.toast.showWithOptions({
         message: "CPR Sound has been changed!",
         duration: "short",
@@ -248,7 +268,8 @@ let app = {
 
     change: function(x) {
       navigator.vibrate(500);
-      if (x == cpr_sound) {
+      let sound = get_cpr_sound();
+      if (x == sound) {
         window.plugins.toast.showWithOptions({
           message: "You gotta pick a different one bud!",
           duration: "short",
