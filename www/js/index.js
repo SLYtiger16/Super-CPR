@@ -27,7 +27,7 @@ let app = {
 
   useCounter: function() {
     let s = localStorage.getItem("useCounterSCPR");
-    if (s === null || s === undefined) {
+    if (s === null || s === undefined || Number(s) >= 10) {
       localStorage.setItem("useCounterSCPR", "0");
       s = "0";
     } else {
@@ -54,16 +54,9 @@ let app = {
           "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
         cancelButtonLabel: "No, Thanks",
         laterButtonLabel: "Remind Me Later",
-        rateButtonLabel: "Rate It Now",
-        yesButtonLabel: "Yes!",
-        noButtonLabel: "Not really",
-        appRatePromptTitle: "Do you like using %@",
-        feedbackPromptTitle: "Mind giving us some feedback?"
+        rateButtonLabel: "Rate It Now"
       },
       callbacks: {
-        handleNegativeFeedback: function() {
-          window.open("mailto:support@610ind.com.com", "_system");
-        },
         onRateDialogShow: function(callback) {
           callback(1); // cause immediate click on 'Rate Now' button
         },
@@ -135,10 +128,9 @@ let app = {
       oscillator.connect(gainNode);
       gainNode.connect(app.audio.audioCtx.destination);
       oscillator.frequency.value = 535;
+      osc.start(app.audio.audioCtx.currentTime);
+      osc.stop(app.audio.audioCtx.currentTime + 200 / 1000);
       oscillator.start();
-      setTimeout(function() {
-        oscillator.stop();
-      }, 100);
     },
     cpr: new AdjustingInterval(
       function() {
@@ -199,11 +191,6 @@ let app = {
           .off("click")
           .on("click", function() {
             app.log.clear();
-            window.plugins.toast.showWithOptions({
-              message: "Log Data Cleared!",
-              duration: "short",
-              position: "center"
-            });
           });
         $("#copyLog")
           .off("click")
@@ -576,6 +563,11 @@ let app = {
       if (x == 1) {
         localStorage.setItem("log", "[]");
         $("#logList").html(app.log.ret());
+        window.plugins.toast.showWithOptions({
+          message: "Log Data Cleared!",
+          duration: "short",
+          position: "center"
+        });
       }
     },
 
