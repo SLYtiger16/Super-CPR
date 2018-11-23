@@ -48,6 +48,7 @@ let pew_pew = null;
 let zap = null;
 let bufferLoader = null;
 let current_sound = null;
+let metronome_running = false;
 let cpr_audio_context = new (window.AudioContext ||
   window.webkitAudioContext ||
   window.audioContext)();
@@ -101,7 +102,15 @@ let playSound = function(buff, time) {
   source.connect(cpr_audio_context.destination);
   source.loop = true;
   source.start(time);
+  metronome_running = true;
   current_sound = source;
+};
+
+let playSoundOnce = function(buff, time) {
+  let source = cpr_audio_context.createBufferSource();
+  source.buffer = buff.buffer;
+  source.connect(cpr_audio_context.destination);
+  source.start(time);
 };
 
 let app = {
@@ -214,6 +223,7 @@ let app = {
       },
       stop: function() {
         if (current_sound) current_sound.stop();
+        metronome_running = false;
       }
     }
   },
@@ -323,6 +333,7 @@ let app = {
 
   settings: {
     onChangeConfirm: function(x) {
+      let running = metronome_running ? true : false;
       app.cpr.stop();
       localStorage.setItem("sound", x);
       $("input#" + x).prop("checked", "checked");
@@ -331,6 +342,7 @@ let app = {
         duration: "short",
         position: "top"
       });
+      if (running) app.cpr.start();
     },
 
     change: function(x) {
@@ -343,14 +355,34 @@ let app = {
           position: "top"
         });
       } else {
-        navigator.notification.confirm(
-          "Change metronome sound to " + x + "?",
-          function() {
-            app.settings.onChangeConfirm(x);
-          },
-          "Are you sure?",
-          ["OK", "Cancel"]
-        );
+        app.settings.onChangeConfirm(x);
+        if (!metronome_running) {
+          switch (x) {
+            case "click":
+              playSoundOnce(click, cpr_audio_context.currentTime);
+              break;
+            case "floop":
+              playSoundOnce(floop, cpr_audio_context.currentTime);
+              break;
+            case "laser":
+              playSoundOnce(laser, cpr_audio_context.currentTime);
+              break;
+            case "metal":
+              playSoundOnce(metal, cpr_audio_context.currentTime);
+              break;
+            case "pew_pew":
+              playSoundOnce(pew_pew, cpr_audio_context.currentTime);
+              break;
+            case "zap":
+              playSoundOnce(zap, cpr_audio_context.currentTime);
+              break;
+            case "beep":
+              playSoundOnce(beep, cpr_audio_context.currentTime);
+              break;
+            default:
+              playSoundOnce(beep, cpr_audio_context.currentTime);
+          }
+        }
       }
     }
   },
