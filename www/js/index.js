@@ -549,11 +549,11 @@ let app = {
             var gainNode = drugAudioCtx.createGain();
             oscillator.connect(gainNode);
             gainNode.connect(drugAudioCtx.destination);
-            oscillator.frequency.value = 600;
+            oscillator.frequency.value = 700;
             oscillator.start();
             setTimeout(function() {
               oscillator.stop();
-            }, 1000);
+            }, 1500);
           };
           beep();
         }
@@ -635,11 +635,11 @@ let app = {
             var gainNode = medAudioCtx.createGain();
             oscillator.connect(gainNode);
             gainNode.connect(medAudioCtx.destination);
-            oscillator.frequency.value = 600;
+            oscillator.frequency.value = 700;
             oscillator.start();
             setTimeout(function() {
               oscillator.stop();
-            }, 1000);
+            }, 1500);
           };
           beep();
         }
