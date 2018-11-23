@@ -39,28 +39,6 @@ BufferLoader.prototype.load = function() {
     this.loadBuffer(this.urlList[i], i);
 };
 
-let AdjustingInterval = function(workFunc, interval, errorFunc) {
-  var that = this;
-  var expected, timeout;
-  this.interval = interval;
-  this.start = function() {
-    expected = Date.now() + this.interval;
-    timeout = setTimeout(step, this.interval);
-  };
-  this.stop = function() {
-    clearTimeout(timeout);
-  };
-  function step() {
-    var drift = Date.now() - expected;
-    if (drift > that.interval) {
-      if (errorFunc) errorFunc();
-    }
-    workFunc();
-    expected += that.interval;
-    timeout = setTimeout(step, Math.max(0, that.interval - drift));
-  }
-};
-
 let beep = null;
 let click = null;
 let floop = null;
@@ -69,6 +47,7 @@ let metal = null;
 let pew_pew = null;
 let zap = null;
 let bufferLoader = null;
+let current_sound = null;
 let cpr_audio_context = new (window.AudioContext ||
   window.webkitAudioContext ||
   window.audioContext)();
@@ -86,13 +65,13 @@ let soundInit = function() {
   bufferLoader = new BufferLoader(
     cpr_audio_context,
     [
-      "sounds/beep.wav",
-      "sounds/click.wav",
-      "sounds/floop.wav",
-      "sounds/laser.wav",
-      "sounds/metal.wav",
-      "sounds/pew_pew.wav",
-      "sounds/zap.wav"
+      "sounds/click522.wav",
+      "sounds/beep522.wav",
+      "sounds/floop522.wav",
+      "sounds/laser522.wav",
+      "sounds/metal522.wav",
+      "sounds/pew_pew522.wav",
+      "sounds/zap522.wav"
     ],
     finishedLoading
   );
@@ -120,7 +99,9 @@ let playSound = function(buff, time) {
   let source = cpr_audio_context.createBufferSource();
   source.buffer = buff.buffer;
   source.connect(cpr_audio_context.destination);
+  source.loop = true;
   source.start(time);
+  current_sound = source;
 };
 
 let app = {
@@ -202,40 +183,39 @@ let app = {
   },
 
   audio: {
-    beep: function() {
-      let sound = get_cpr_sound();
-      switch (sound) {
-        case "click":
-          playSound(click, cpr_audio_context.currentTime);
-          break;
-        case "floop":
-          playSound(floop, cpr_audio_context.currentTime);
-          break;
-        case "laser":
-          playSound(laser, cpr_audio_context.currentTime);
-          break;
-        case "metal":
-          playSound(metal, cpr_audio_context.currentTime);
-          break;
-        case "pew_pew":
-          playSound(pew_pew, cpr_audio_context.currentTime);
-          break;
-        case "zap":
-          playSound(zap, cpr_audio_context.currentTime);
-          break;
-        default:
-          playSound(beep, cpr_audio_context.currentTime);
-      }
-    },
-    cpr: new AdjustingInterval(
-      function() {
-        app.audio.beep();
+    cpr: {
+      start: function() {
+        let sound = get_cpr_sound();
+        switch (sound) {
+          case "click":
+            playSound(click, cpr_audio_context.currentTime);
+            break;
+          case "floop":
+            playSound(floop, cpr_audio_context.currentTime);
+            break;
+          case "laser":
+            playSound(laser, cpr_audio_context.currentTime);
+            break;
+          case "metal":
+            playSound(metal, cpr_audio_context.currentTime);
+            break;
+          case "pew_pew":
+            playSound(pew_pew, cpr_audio_context.currentTime);
+            break;
+          case "zap":
+            playSound(zap, cpr_audio_context.currentTime);
+            break;
+          case "beep":
+            playSound(beep, cpr_audio_context.currentTime);
+            break;
+          default:
+            playSound(beep, cpr_audio_context.currentTime);
+        }
       },
-      522,
-      function() {
-        console.log("ERROR in beep interval");
+      stop: function() {
+        if (current_sound) current_sound.stop();
       }
-    )
+    }
   },
 
   sidebar: function(x) {
