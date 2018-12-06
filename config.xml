@@ -22,7 +22,7 @@ This applications is designed to be easy to use. Simply press the start button t
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="1.2.4" />
-    <plugin name="cordova-plugin-admobpro-firebase" spec="~2.35.4" />
+    <plugin name="cordova-plugin-admobpro-firebase" spec="2.35.4" />
     <plugin name="cordova-plugin-device" source="npm" spec="1.1.6" />
     <plugin name="cordova-plugin-dialogs" source="npm" spec="1.3.3" />
     <plugin name="cordova-plugin-globalization" source="npm" spec="1.0.7" />
