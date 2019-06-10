@@ -20,8 +20,7 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
           return;
         }
         loader.bufferList[index] = buffer;
-        if (++loader.loadCount == loader.urlList.length)
-          loader.onload(loader.bufferList);
+        if (++loader.loadCount == loader.urlList.length) loader.onload(loader.bufferList);
       },
       function(error) {
         console.error("decodeAudioData error", error);
@@ -35,8 +34,7 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
 };
 
 BufferLoader.prototype.load = function() {
-  for (var i = 0; i < this.urlList.length; ++i)
-    this.loadBuffer(this.urlList[i], i);
+  for (var i = 0; i < this.urlList.length; ++i) this.loadBuffer(this.urlList[i], i);
 };
 
 let beep = null;
@@ -49,9 +47,7 @@ let zap = null;
 let bufferLoader = null;
 let current_sound = null;
 let metronome_running = false;
-let cpr_audio_context = new (window.AudioContext ||
-  window.webkitAudioContext ||
-  window.audioContext)();
+let cpr_audio_context = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
 
 let get_cpr_sound = function() {
   let s = localStorage.getItem("sound");
@@ -133,8 +129,7 @@ let app = {
       },
       customLocale: {
         title: "Would you mind rating %@?",
-        message:
-          "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
+        message: "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
         cancelButtonLabel: "No, Thanks",
         laterButtonLabel: "Remind Me Later",
         rateButtonLabel: "Rate It Now",
@@ -231,9 +226,10 @@ let app = {
   sidebar: function(x) {
     let s = $(".sidebar"),
       o = true;
-    if (s.offset().left == "-250" && x === "open") {
+    console.log(s.offset());
+    if (x === "open") {
       s.css("left", "0px");
-    } else if (s.offset().left == "0" && x === "close") {
+    } else if (x === "close") {
       s.css("left", "-250px");
     } else {
       o = false;
@@ -457,17 +453,9 @@ let app = {
         .on("click", app.cpr.start)
         .css("background-color", "rgba(0,0,255,0.7)");
 
-      if (
-        (app.drug.min !== 4 && app.drug.sec !== 0) ||
-        (app.shock.min !== 2 && app.shock.sec !== 0)
-      ) {
+      if ((app.drug.min !== 4 && app.drug.sec !== 0) || (app.shock.min !== 2 && app.shock.sec !== 0)) {
         navigator.vibrate(500);
-        navigator.notification.confirm(
-          "Reset other timers?",
-          app.cpr.onChangeConfirm,
-          "Are you sure?",
-          ["Yes", "No"]
-        );
+        navigator.notification.confirm("Reset other timers?", app.cpr.onChangeConfirm, "Are you sure?", ["Yes", "No"]);
       }
     },
 
@@ -487,10 +475,8 @@ let app = {
       if (app.cpr.min === 60) {
         app.cpr.min = 0;
       }
-      app.cpr.min =
-        String(app.cpr.min).length < 2 ? "0" + app.cpr.min : "" + app.cpr.min;
-      app.cpr.sec =
-        String(app.cpr.sec).length < 2 ? "0" + app.cpr.sec : "" + app.cpr.sec;
+      app.cpr.min = String(app.cpr.min).length < 2 ? "0" + app.cpr.min : "" + app.cpr.min;
+      app.cpr.sec = String(app.cpr.sec).length < 2 ? "0" + app.cpr.sec : "" + app.cpr.sec;
       $("#timer").text(app.cpr.min + ":" + app.cpr.sec);
     }
   },
@@ -509,8 +495,7 @@ let app = {
     },
     start: function() {
       app.drug.min =
-        localStorage.getItem("medMin") === null ||
-        localStorage.getItem("medMin") === undefined
+        localStorage.getItem("medMin") === null || localStorage.getItem("medMin") === undefined
           ? 4
           : Number(localStorage.getItem("medMin"));
       navigator.vibrate(500);
@@ -525,14 +510,8 @@ let app = {
           app.drug.sec = 59;
           app.drug.min--;
         }
-        app.drug.min =
-          String(app.drug.min).length < 2
-            ? "0" + app.drug.min
-            : "" + app.drug.min;
-        app.drug.sec =
-          String(app.drug.sec).length < 2
-            ? "0" + app.drug.sec
-            : "" + app.drug.sec;
+        app.drug.min = String(app.drug.min).length < 2 ? "0" + app.drug.min : "" + app.drug.min;
+        app.drug.sec = String(app.drug.sec).length < 2 ? "0" + app.drug.sec : "" + app.drug.sec;
         $("#drugLabel").text("MED: " + app.drug.min + ":" + app.drug.sec);
         if (Number(app.drug.min) == 0 && Number(app.drug.sec) == 0) {
           app.drug.stop();
@@ -541,9 +520,7 @@ let app = {
             duration: "short",
             position: "top"
           });
-          let drugAudioCtx = new (window.AudioContext ||
-            window.webkitAudioContext ||
-            window.audioContext)();
+          let drugAudioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
           let beep = function() {
             var oscillator = drugAudioCtx.createOscillator();
             var gainNode = drugAudioCtx.createGain();
@@ -600,8 +577,7 @@ let app = {
     },
     start: function() {
       app.shock.min =
-        localStorage.getItem("shockMin") === null ||
-        localStorage.getItem("shockMin") === undefined
+        localStorage.getItem("shockMin") === null || localStorage.getItem("shockMin") === undefined
           ? 2
           : Number(localStorage.getItem("shockMin"));
       navigator.vibrate(500);
@@ -616,20 +592,12 @@ let app = {
           app.shock.sec = 59;
           app.shock.min--;
         }
-        app.shock.min =
-          String(app.shock.min).length < 2
-            ? "0" + app.shock.min
-            : "" + app.shock.min;
-        app.shock.sec =
-          String(app.shock.sec).length < 2
-            ? "0" + app.shock.sec
-            : "" + app.shock.sec;
+        app.shock.min = String(app.shock.min).length < 2 ? "0" + app.shock.min : "" + app.shock.min;
+        app.shock.sec = String(app.shock.sec).length < 2 ? "0" + app.shock.sec : "" + app.shock.sec;
         $("#shockLabel").text("SHOCK: " + app.shock.min + ":" + app.shock.sec);
         if (Number(app.shock.min) == 0 && Number(app.shock.sec) == 0) {
           app.shock.stop();
-          let medAudioCtx = new (window.AudioContext ||
-            window.webkitAudioContext ||
-            window.audioContext)();
+          let medAudioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
           let beep = function() {
             var oscillator = medAudioCtx.createOscillator();
             var gainNode = medAudioCtx.createGain();
@@ -702,12 +670,7 @@ let app = {
   log: {
     clear: function(x) {
       navigator.vibrate(500);
-      navigator.notification.confirm(
-        "Clear entire log?",
-        app.log.onChangeConfirm,
-        "Are you sure?",
-        ["OK", "Cancel"]
-      );
+      navigator.notification.confirm("Clear entire log?", app.log.onChangeConfirm, "Are you sure?", ["OK", "Cancel"]);
     },
 
     onChangeConfirm: function(x) {
@@ -724,10 +687,7 @@ let app = {
 
     change: function(x) {
       let log =
-        localStorage.getItem("log") === null ||
-        localStorage.getItem("log") === undefined
-          ? "[]"
-          : localStorage.getItem("log");
+        localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
       json.unshift(x);
       if (json.length > 30) {
@@ -738,10 +698,7 @@ let app = {
 
     retText: function() {
       let log =
-        localStorage.getItem("log") === null ||
-        localStorage.getItem("log") === undefined
-          ? "[]"
-          : localStorage.getItem("log");
+        localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
       let text = "";
       for (var k in json) {
@@ -758,26 +715,15 @@ let app = {
 
     ret: function() {
       let log =
-        localStorage.getItem("log") === null ||
-        localStorage.getItem("log") === undefined
-          ? "[]"
-          : localStorage.getItem("log");
+        localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
       let html = "";
       for (var k in json) {
         if (json.hasOwnProperty(k)) {
           for (var l in json[k]) {
             if (json[k].hasOwnProperty(l)) {
-              let type =
-                l === "Start" ? "#efe06e" : l === "Stop" ? "red" : "white";
-              html +=
-                "<hr/><li style='color:" +
-                type +
-                ";'>" +
-                l +
-                ": " +
-                json[k][l] +
-                "</li>";
+              let type = l === "Start" ? "#efe06e" : l === "Stop" ? "red" : "white";
+              html += "<hr/><li style='color:" + type + ";'>" + l + ": " + json[k][l] + "</li>";
             }
           }
         }
