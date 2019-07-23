@@ -1,4 +1,4 @@
-let BufferLoader = function(context, urlList, callback) {
+const BufferLoader = function(context, urlList, callback) {
   this.context = context;
   this.urlList = urlList;
   this.onload = callback;
@@ -20,40 +20,75 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
           return;
         }
         loader.bufferList[index] = buffer;
-        if (++loader.loadCount == loader.urlList.length)
-          loader.onload(loader.bufferList);
+        if (++loader.loadCount == loader.urlList.length) loader.onload(loader.bufferList);
       },
       function(error) {
         console.error("decodeAudioData error", error);
       }
     );
   };
-  request.onerror = function() {
-    alert("BufferLoader: XHR error");
-  };
+  request.onerror = () => alert("BufferLoader: XHR error");
   request.send();
 };
 
 BufferLoader.prototype.load = function() {
-  for (var i = 0; i < this.urlList.length; ++i)
-    this.loadBuffer(this.urlList[i], i);
+  for (var i = 0; i < this.urlList.length; ++i) this.loadBuffer(this.urlList[i], i);
 };
 
-let beep = null;
-let click = null;
-let floop = null;
-let laser = null;
-let metal = null;
-let pew_pew = null;
-let zap = null;
+let sounds = {
+  100: {
+    beep: null,
+    click: null,
+    floop: null,
+    laser: null,
+    metal: null,
+    pew: null,
+    zap: null
+  },
+  105: {
+    beep: null,
+    click: null,
+    floop: null,
+    laser: null,
+    metal: null,
+    pew: null,
+    zap: null
+  },
+  110: {
+    beep: null,
+    click: null,
+    floop: null,
+    laser: null,
+    metal: null,
+    pew: null,
+    zap: null
+  },
+  115: {
+    beep: null,
+    click: null,
+    floop: null,
+    laser: null,
+    metal: null,
+    pew: null,
+    zap: null
+  },
+  120: {
+    beep: null,
+    click: null,
+    floop: null,
+    laser: null,
+    metal: null,
+    pew: null,
+    zap: null
+  }
+};
+let alert = null;
 let bufferLoader = null;
 let current_sound = null;
 let metronome_running = false;
-let cpr_audio_context = new (window.AudioContext ||
-  window.webkitAudioContext ||
-  window.audioContext)();
+let cpr_audio_context = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
 
-let get_cpr_sound = function() {
+let get_cpr_sound = () => {
   let s = localStorage.getItem("sound");
   if (s === null || s === undefined) {
     localStorage.setItem("sound", "beep");
@@ -62,41 +97,80 @@ let get_cpr_sound = function() {
   return s;
 };
 
-let soundInit = function() {
+let get_cpr_speed = () => {
+  let s = localStorage.getItem("speed");
+  if (s === null || s === undefined) {
+    localStorage.setItem("speed", "110");
+    s = "110";
+  }
+  return s;
+};
+
+let soundInit = () => {
   bufferLoader = new BufferLoader(
     cpr_audio_context,
     [
-      "sounds/click522.wav",
-      "sounds/beep522.wav",
-      "sounds/floop522.wav",
-      "sounds/laser522.wav",
-      "sounds/metal522.wav",
-      "sounds/pew_pew522.wav",
-      "sounds/zap522.wav"
+      "sounds/alert.wav",
+
+      "sounds/100/beep100.wav",
+      "sounds/100/click100.wav",
+      "sounds/100/floop100.wav",
+      "sounds/100/laser100.wav",
+      "sounds/100/metal100.wav",
+      "sounds/100/pew100.wav",
+      "sounds/100/zap100.wav",
+
+      "sounds/105/beep105.wav",
+      "sounds/105/click105.wav",
+      "sounds/105/floop105.wav",
+      "sounds/105/laser105.wav",
+      "sounds/105/metal105.wav",
+      "sounds/105/pew105.wav",
+      "sounds/105/zap105.wav",
+
+      "sounds/110/beep110.wav",
+      "sounds/110/click110.wav",
+      "sounds/110/floop110.wav",
+      "sounds/110/laser110.wav",
+      "sounds/110/metal110.wav",
+      "sounds/110/pew110.wav",
+      "sounds/110/zap110.wav",
+
+      "sounds/115/beep115.wav",
+      "sounds/115/click115.wav",
+      "sounds/115/floop115.wav",
+      "sounds/115/laser115.wav",
+      "sounds/115/metal115.wav",
+      "sounds/115/pew115.wav",
+      "sounds/115/zap115.wav",
+
+      "sounds/120/beep120.wav",
+      "sounds/120/click120.wav",
+      "sounds/120/floop120.wav",
+      "sounds/120/laser120.wav",
+      "sounds/120/metal120.wav",
+      "sounds/120/pew120.wav",
+      "sounds/120/zap120.wav"
     ],
     finishedLoading
   );
   bufferLoader.load();
 };
 
-let finishedLoading = function(bufferList) {
-  click = cpr_audio_context.createBufferSource();
-  beep = cpr_audio_context.createBufferSource();
-  floop = cpr_audio_context.createBufferSource();
-  laser = cpr_audio_context.createBufferSource();
-  metal = cpr_audio_context.createBufferSource();
-  pew_pew = cpr_audio_context.createBufferSource();
-  zap = cpr_audio_context.createBufferSource();
-  click.buffer = bufferList[0];
-  beep.buffer = bufferList[1];
-  floop.buffer = bufferList[2];
-  laser.buffer = bufferList[3];
-  metal.buffer = bufferList[4];
-  pew_pew.buffer = bufferList[5];
-  zap.buffer = bufferList[6];
+let finishedLoading = bufferList => {
+  alert = cpr_audio_context.createBufferSource();
+  alert.buffer = bufferList[0];
+  let index = 1;
+  for (let speedSetting in sounds) {
+    for (let file in sounds[speedSetting]) {
+      sounds[speedSetting][file] = cpr_audio_context.createBufferSource();
+      sounds[speedSetting][file].buffer = bufferList[index];
+      index++;
+    }
+  }
 };
 
-let playSound = function(buff, time) {
+let playSound = (buff, time) => {
   let source = cpr_audio_context.createBufferSource();
   source.buffer = buff.buffer;
   source.connect(cpr_audio_context.destination);
@@ -104,9 +178,10 @@ let playSound = function(buff, time) {
   source.start(time);
   metronome_running = true;
   current_sound = source;
+  console.log(source);
 };
 
-let playSoundOnce = function(buff, time) {
+let playSoundOnce = (buff, time) => {
   let source = cpr_audio_context.createBufferSource();
   source.buffer = buff.buffer;
   source.connect(cpr_audio_context.destination);
@@ -114,77 +189,34 @@ let playSoundOnce = function(buff, time) {
 };
 
 let app = {
-  initialize: function() {
-    $(document).on("deviceready", app.onDeviceReady);
-  },
+  initialize: () => $(document).on("deviceready", app.onDeviceReady),
 
-  onDeviceReady: function() {
+  onDeviceReady: () => {
     soundInit();
     app.clock.start();
-    AppRate.preferences = {
-      displayAppName: "Super CPR",
-      usesUntilPrompt: 3,
-      simpleMode: true,
-      promptAgainForEachNewVersion: true,
-      inAppReview: true,
-      storeAppURL: {
-        ios: "1355403048",
-        android: "market://details?id=com.sixten.superCPR"
-      },
-      customLocale: {
-        title: "Would you mind rating %@?",
-        message:
-          "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
-        cancelButtonLabel: "No, Thanks",
-        laterButtonLabel: "Remind Me Later",
-        rateButtonLabel: "Rate It Now",
-        yesButtonLabel: "Yes!",
-        noButtonLabel: "Not really",
-        appRatePromptTitle: "Do you like using %@",
-        feedbackPromptTitle: "Mind giving us some feedback?"
-      },
-      callbacks: {
-        handleNegativeFeedback: function() {
-          window.open("mailto:support@610ind.com.com", "_system");
-        },
-        onRateDialogShow: function(callback) {
-          callback(1); // cause immediate click on 'Rate Now' button
-        },
-        onButtonClicked: function(buttonIndex) {
-          if (buttonIndex == 2) {
-            // 2 = remind me later - Clear the counter so app asks again later
-            window.localStorage.removeItem("counter");
-          }
-        }
-      }
-    };
-    AppRate.promptForRating(false);
     $("#start").on("click", app.cpr.start);
     $("#drug").on("click", app.drug.start);
     $("#shock").on("click", app.shock.start);
-    $(".sidebar-toggle").on("click", function() {
+    $(".sidebar-toggle").on("click", () => {
       app.sidebar("open");
     });
-    $("#menu_rate").on("click", function() {
-      AppRate.promptForRating();
-    });
-    $(".menuItem").on("click", function() {
-      app.nav($(this).attr("target"));
+    $(".menuItem").on("click", event => {
+      if ($(event.currentTarget).attr("target") === "rate") {
+        window.open("market://details?id=com.sixten.superCPR", "_system");
+      } else {
+        console.log($(event.currentTarget).attr("target"));
+        app.nav($(event.currentTarget).attr("target"));
+      }
       app.sidebar("close");
     });
-    $("#menuImg").on("click", function() {
-      app.sidebar("close");
-    });
+    $("#soundSelect").material_select();
+    $("#menuImg").on("click", () => app.sidebar("close"));
     $(".Screen")
       .hammer()
-      .on("swiperight", function() {
-        app.sidebar("open");
-      });
+      .on("swiperight", () => app.sidebar("open"));
     $("#overlay, #sidebar")
       .hammer()
-      .on("swipeleft", function() {
-        app.sidebar("close");
-      });
+      .on("swipeleft", () => app.sidebar("close"));
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
@@ -193,47 +225,25 @@ let app = {
 
   audio: {
     cpr: {
-      start: function() {
+      start: () => {
         let sound = get_cpr_sound();
-        switch (sound) {
-          case "click":
-            playSound(click, cpr_audio_context.currentTime);
-            break;
-          case "floop":
-            playSound(floop, cpr_audio_context.currentTime);
-            break;
-          case "laser":
-            playSound(laser, cpr_audio_context.currentTime);
-            break;
-          case "metal":
-            playSound(metal, cpr_audio_context.currentTime);
-            break;
-          case "pew_pew":
-            playSound(pew_pew, cpr_audio_context.currentTime);
-            break;
-          case "zap":
-            playSound(zap, cpr_audio_context.currentTime);
-            break;
-          case "beep":
-            playSound(beep, cpr_audio_context.currentTime);
-            break;
-          default:
-            playSound(beep, cpr_audio_context.currentTime);
-        }
+        let speed = get_cpr_speed();
+        console.log(speed, sound);
+        playSound(sounds[speed][sound], cpr_audio_context.currentTime);
       },
-      stop: function() {
+      stop: () => {
         if (current_sound) current_sound.stop();
         metronome_running = false;
       }
     }
   },
 
-  sidebar: function(x) {
+  sidebar: x => {
     let s = $(".sidebar"),
       o = true;
-    if (s.offset().left == "-250" && x === "open") {
+    if (x == "open") {
       s.css("left", "0px");
-    } else if (s.offset().left == "0" && x === "close") {
+    } else if (x == "close") {
       s.css("left", "-250px");
     } else {
       o = false;
@@ -242,21 +252,18 @@ let app = {
       $(".overlay")
         .toggle()
         .off("click")
-        .on("click", function() {
-          app.sidebar("close");
-        });
+        .on("click", () => app.sidebar("close"));
     }
   },
 
-  nav: function(x) {
-    $(".Screen").each(function(i, e) {
+  nav: x => {
+    console.log(x);
+    $(".Screen").each((i, e) => {
       if ($(e).hasClass("active")) {
-        if ($(e).attr("id") === x) {
-          return;
-        }
+        if ($(e).attr("id") === x) return;
         let w = $(e).width() + 250;
         $(e).removeClass("active");
-        $(e).hide("fast", function() {
+        $(e).hide("fast", () => {
           $("#" + x).show("fast");
           $("#" + x).css("display", "flex");
         });
@@ -264,7 +271,6 @@ let app = {
     });
 
     $("#" + x).addClass("active");
-
     switch (x) {
       case "HomeScreen":
         break;
@@ -274,57 +280,33 @@ let app = {
         $("#logList").height($("#logListCard").height() - 50);
         $("#clearLog")
           .off("click")
-          .on("click", function() {
-            app.log.clear();
-          });
+          .on("click", () => app.log.clear());
         $("#copyLog")
           .off("click")
-          .on("click", function() {
-            cordova.plugins.clipboard.copy(app.log.retText());
+          .on("click", () => window.plugins.socialsharing.share("Super CPR Log", app.log.retText()));
+        break;
+      case "SettingsScreen":
+        $("#soundSelect option[value='" + get_cpr_sound() + "']").prop("selected", true);
+        $("#soundSelect")
+          .off("change")
+          .on("change", () => app.settings.change($("#soundSelect option:selected").val()));
+        $("#medMin").val(app.drug.ret());
+        $("#shockMin").val(app.shock.ret());
+        // $("#speed").val(get_cpr_speed());
+        $("#medMin, #shockMin, #speed"); ///////////////////////REMOVE WHEN PREMIUM IS CREATED
+        $("#medMin, #shockMin")
+          .off("change")
+          .on("change", event => {
+            let i = $(event.currentTarget).attr("id");
+            let v = $(event.currentTarget).val();
+            localStorage.setItem(i, String(v));
             window.plugins.toast.showWithOptions({
-              message: "Log Data Copied to Clipboard!",
+              message: "Timer Settings Saved!",
               duration: "short",
               position: "center"
             });
           });
-        break;
-      case "SettingsScreen":
-        $("input#" + get_cpr_sound()).attr("checked", "checked");
-        $("#soundRadio input")
-          .off("change")
-          .on("change", function() {
-            app.settings.change($(this).attr("id"));
-          });
-        $("#medMin").val(Number(app.drug.ret()));
-        $("#shockMin").val(Number(app.shock.ret()));
-        $("#medMin, #shockMin")
-          .off("change")
-          .on("change", function() {
-            let i = $(this).attr("id");
-            let v = $(this).val();
-            if (v > 0 && v < 6) {
-              localStorage.setItem(i, String(v));
-              window.plugins.toast.showWithOptions({
-                message: "Timer Settings Saved!",
-                duration: "short",
-                position: "center"
-              });
-            } else {
-              window.plugins.toast.showWithOptions({
-                message: "Invalid number of minutes!, Try again. Must be 1-5!",
-                duration: "short",
-                position: "center"
-              });
-              if (i === "medMin") {
-                $(this).val(4);
-                v = 4;
-              } else {
-                $(this).val(2);
-                v = 2;
-              }
-              localStorage.setItem(i, String(v));
-            }
-          });
+        $("#soundSelect").material_select();
         break;
       case "AboutScreen":
         break;
@@ -332,11 +314,10 @@ let app = {
   },
 
   settings: {
-    onChangeConfirm: function(x) {
+    onChangeConfirm: x => {
       let running = metronome_running ? true : false;
       app.cpr.stop();
       localStorage.setItem("sound", x);
-      $("input#" + x).prop("checked", "checked");
       window.plugins.toast.showWithOptions({
         message: "CPR Sound has been changed!",
         duration: "short",
@@ -345,7 +326,7 @@ let app = {
       if (running) app.cpr.start();
     },
 
-    change: function(x) {
+    change: x => {
       navigator.vibrate(500);
       let sound = get_cpr_sound();
       if (x == sound) {
@@ -357,31 +338,8 @@ let app = {
       } else {
         app.settings.onChangeConfirm(x);
         if (!metronome_running) {
-          switch (x) {
-            case "click":
-              playSoundOnce(click, cpr_audio_context.currentTime);
-              break;
-            case "floop":
-              playSoundOnce(floop, cpr_audio_context.currentTime);
-              break;
-            case "laser":
-              playSoundOnce(laser, cpr_audio_context.currentTime);
-              break;
-            case "metal":
-              playSoundOnce(metal, cpr_audio_context.currentTime);
-              break;
-            case "pew_pew":
-              playSoundOnce(pew_pew, cpr_audio_context.currentTime);
-              break;
-            case "zap":
-              playSoundOnce(zap, cpr_audio_context.currentTime);
-              break;
-            case "beep":
-              playSoundOnce(beep, cpr_audio_context.currentTime);
-              break;
-            default:
-              playSoundOnce(beep, cpr_audio_context.currentTime);
-          }
+          let speed = get_cpr_speed();
+          playSoundOnce(sounds[speed][x], cpr_audio_context.currentTime);
         }
       }
     }
@@ -392,23 +350,17 @@ let app = {
     min: 0,
     timerInt: null,
 
-    start: function() {
+    start: () => {
       window.plugins.insomnia.keepAwake();
       navigator.vibrate(500);
-      app.cpr.timerInt = setInterval(function() {
-        app.cpr.timer();
-      }, 1000);
+      app.cpr.timerInt = setInterval(app.cpr.timer, 1000);
       $(".timerToggle").toggle();
       $("#startBtn").text("STOP");
 
       navigator.globalization.dateToString(
         new Date(),
-        function(date) {
-          app.log.change({ Start: date.value });
-        },
-        function() {
-          app.log.change({ Start: "Error Saving Time" });
-        },
+        date => app.log.change({ Start: date.value }),
+        () => app.log.change({ Start: "Error Saving Time" }),
         {
           formatLength: "short",
           selector: "date and time"
@@ -427,7 +379,7 @@ let app = {
       });
     },
 
-    stop: function() {
+    stop: () => {
       clearInterval(app.cpr.timerInt);
       app.cpr.timerInt = null;
       window.plugins.insomnia.allowSleepAgain();
@@ -438,12 +390,8 @@ let app = {
 
       navigator.globalization.dateToString(
         new Date(),
-        function(date) {
-          app.log.change({ Stop: date.value });
-        },
-        function() {
-          app.log.change({ Stop: "Error Saving Time" });
-        },
+        date => app.log.change({ Stop: date.value }),
+        () => app.log.change({ Stop: "Error Saving Time" }),
         {
           formatLength: "short",
           selector: "date and time"
@@ -457,28 +405,20 @@ let app = {
         .on("click", app.cpr.start)
         .css("background-color", "rgba(0,0,255,0.7)");
 
-      if (
-        (app.drug.min !== 4 && app.drug.sec !== 0) ||
-        (app.shock.min !== 2 && app.shock.sec !== 0)
-      ) {
+      if ((app.drug.min !== 4 && app.drug.sec !== 0) || (app.shock.min !== 2 && app.shock.sec !== 0)) {
         navigator.vibrate(500);
-        navigator.notification.confirm(
-          "Reset other timers?",
-          app.cpr.onChangeConfirm,
-          "Are you sure?",
-          ["Yes", "No"]
-        );
+        navigator.notification.confirm("Reset other timers?", app.cpr.onChangeConfirm, "Are you sure?", ["Yes", "No"]);
       }
     },
 
-    onChangeConfirm: function(x) {
+    onChangeConfirm: x => {
       if (x == 1) {
         app.drug.stop();
         app.shock.stop();
       }
     },
 
-    timer: function() {
+    timer: () => {
       app.cpr.sec++;
       if (app.cpr.sec === 60) {
         app.cpr.sec = 0;
@@ -487,10 +427,8 @@ let app = {
       if (app.cpr.min === 60) {
         app.cpr.min = 0;
       }
-      app.cpr.min =
-        String(app.cpr.min).length < 2 ? "0" + app.cpr.min : "" + app.cpr.min;
-      app.cpr.sec =
-        String(app.cpr.sec).length < 2 ? "0" + app.cpr.sec : "" + app.cpr.sec;
+      app.cpr.min = String(app.cpr.min).length < 2 ? "0" + app.cpr.min : "" + app.cpr.min;
+      app.cpr.sec = String(app.cpr.sec).length < 2 ? "0" + app.cpr.sec : "" + app.cpr.sec;
       $("#timer").text(app.cpr.min + ":" + app.cpr.sec);
     }
   },
@@ -499,7 +437,7 @@ let app = {
     min: 0,
     sec: 0,
     timer: null,
-    ret: function() {
+    ret: () => {
       let s = localStorage.getItem("medMin");
       if (s === null || s === undefined) {
         localStorage.setItem("medMin", "4");
@@ -507,10 +445,9 @@ let app = {
       }
       return s;
     },
-    start: function() {
+    start: () => {
       app.drug.min =
-        localStorage.getItem("medMin") === null ||
-        localStorage.getItem("medMin") === undefined
+        localStorage.getItem("medMin") === null || localStorage.getItem("medMin") === undefined
           ? 4
           : Number(localStorage.getItem("medMin"));
       navigator.vibrate(500);
@@ -519,20 +456,14 @@ let app = {
       $("#drug")
         .off("click")
         .on("click", app.drug.stop);
-      app.drug.timer = setInterval(function() {
+      app.drug.timer = setInterval(() => {
         app.drug.sec--;
         if (app.drug.sec === -1) {
           app.drug.sec = 59;
           app.drug.min--;
         }
-        app.drug.min =
-          String(app.drug.min).length < 2
-            ? "0" + app.drug.min
-            : "" + app.drug.min;
-        app.drug.sec =
-          String(app.drug.sec).length < 2
-            ? "0" + app.drug.sec
-            : "" + app.drug.sec;
+        app.drug.min = String(app.drug.min).length < 2 ? "0" + app.drug.min : "" + app.drug.min;
+        app.drug.sec = String(app.drug.sec).length < 2 ? "0" + app.drug.sec : "" + app.drug.sec;
         $("#drugLabel").text("MED: " + app.drug.min + ":" + app.drug.sec);
         if (Number(app.drug.min) == 0 && Number(app.drug.sec) == 0) {
           app.drug.stop();
@@ -541,39 +472,21 @@ let app = {
             duration: "short",
             position: "top"
           });
-          let drugAudioCtx = new (window.AudioContext ||
-            window.webkitAudioContext ||
-            window.audioContext)();
-          let beep = function() {
-            var oscillator = drugAudioCtx.createOscillator();
-            var gainNode = drugAudioCtx.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(drugAudioCtx.destination);
-            oscillator.frequency.value = 700;
-            oscillator.start();
-            setTimeout(function() {
-              oscillator.stop();
-            }, 1500);
-          };
-          beep();
+          playSoundOnce(alert, cpr_audio_context.currentTime);
         }
       }, 1000);
 
       navigator.globalization.dateToString(
         new Date(),
-        function(date) {
-          app.log.change({ "Med given": date.value });
-        },
-        function() {
-          app.log.change({ "Med given": "Error Saving Time" });
-        },
+        date => app.log.change({ "Med given": date.value }),
+        () => app.log.change({ "Med given": "Error Saving Time" }),
         {
           formatLength: "short",
           selector: "date and time"
         }
       );
     },
-    stop: function() {
+    stop: () => {
       navigator.vibrate(500);
       clearInterval(app.drug.timer);
       $("#drugLabel").text("MED");
@@ -590,7 +503,7 @@ let app = {
     min: 0,
     sec: 0,
     timer: null,
-    ret: function() {
+    ret: () => {
       let s = localStorage.getItem("shockMin");
       if (s === null || s === undefined) {
         localStorage.setItem("shockMin", "2");
@@ -598,10 +511,9 @@ let app = {
       }
       return s;
     },
-    start: function() {
+    start: () => {
       app.shock.min =
-        localStorage.getItem("shockMin") === null ||
-        localStorage.getItem("shockMin") === undefined
+        localStorage.getItem("shockMin") === null || localStorage.getItem("shockMin") === undefined
           ? 2
           : Number(localStorage.getItem("shockMin"));
       navigator.vibrate(500);
@@ -610,56 +522,37 @@ let app = {
       $("#shock")
         .off("click")
         .on("click", app.shock.stop);
-      app.shock.timer = setInterval(function() {
+      app.shock.timer = setInterval(() => {
         app.shock.sec--;
         if (app.shock.sec === -1) {
           app.shock.sec = 59;
           app.shock.min--;
         }
-        app.shock.min =
-          String(app.shock.min).length < 2
-            ? "0" + app.shock.min
-            : "" + app.shock.min;
-        app.shock.sec =
-          String(app.shock.sec).length < 2
-            ? "0" + app.shock.sec
-            : "" + app.shock.sec;
+        app.shock.min = String(app.shock.min).length < 2 ? "0" + app.shock.min : "" + app.shock.min;
+        app.shock.sec = String(app.shock.sec).length < 2 ? "0" + app.shock.sec : "" + app.shock.sec;
         $("#shockLabel").text("SHOCK: " + app.shock.min + ":" + app.shock.sec);
         if (Number(app.shock.min) == 0 && Number(app.shock.sec) == 0) {
           app.shock.stop();
-          let medAudioCtx = new (window.AudioContext ||
-            window.webkitAudioContext ||
-            window.audioContext)();
-          let beep = function() {
-            var oscillator = medAudioCtx.createOscillator();
-            var gainNode = medAudioCtx.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(medAudioCtx.destination);
-            oscillator.frequency.value = 700;
-            oscillator.start();
-            setTimeout(function() {
-              oscillator.stop();
-            }, 1500);
-          };
-          beep();
+          window.plugins.toast.showWithOptions({
+            message: "Shock Timer Is Up",
+            duration: "short",
+            position: "top"
+          });
+          playSoundOnce(alert, cpr_audio_context.currentTime);
         }
       }, 1000);
 
       navigator.globalization.dateToString(
         new Date(),
-        function(date) {
-          app.log.change({ "Shock delivered": date.value });
-        },
-        function() {
-          app.log.change({ "Shock delivered": "Error Saving Time" });
-        },
+        date => app.log.change({ "Shock delivered": date.value }),
+        () => app.log.change({ "Shock delivered": "Error Saving Time" }),
         {
           formatLength: "short",
           selector: "date and time"
         }
       );
     },
-    stop: function() {
+    stop: () => {
       navigator.vibrate(500);
       clearInterval(app.shock.timer);
       $("#shockLabel").text("SHOCK");
@@ -679,38 +572,24 @@ let app = {
 
   clock: {
     clockInt: null,
-    start: function() {
+    start: () => {
       let c = $("#clock");
       app.clock.clockInt = setInterval(function() {
-        navigator.globalization.dateToString(
-          new Date(),
-          function(date) {
-            c.text(date.value);
-          },
-          function(e) {
-            c.text("Error");
-          },
-          {
-            formatLength: "short",
-            selector: "time"
-          }
-        );
+        navigator.globalization.dateToString(new Date(), date => c.text(date.value), () => c.text("Error"), {
+          formatLength: "short",
+          selector: "time"
+        });
       }, 1000);
     }
   },
 
   log: {
-    clear: function(x) {
+    clear: x => {
       navigator.vibrate(500);
-      navigator.notification.confirm(
-        "Clear entire log?",
-        app.log.onChangeConfirm,
-        "Are you sure?",
-        ["OK", "Cancel"]
-      );
+      navigator.notification.confirm("Clear entire log?", app.log.onChangeConfirm, "Are you sure?", ["OK", "Cancel"]);
     },
 
-    onChangeConfirm: function(x) {
+    onChangeConfirm: x => {
       if (x == 1) {
         localStorage.setItem("log", "[]");
         $("#logList").html(app.log.ret());
@@ -722,12 +601,9 @@ let app = {
       }
     },
 
-    change: function(x) {
+    change: x => {
       let log =
-        localStorage.getItem("log") === null ||
-        localStorage.getItem("log") === undefined
-          ? "[]"
-          : localStorage.getItem("log");
+        localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
       json.unshift(x);
       if (json.length > 30) {
@@ -736,12 +612,9 @@ let app = {
       localStorage.setItem("log", JSON.stringify(json));
     },
 
-    retText: function() {
+    retText: () => {
       let log =
-        localStorage.getItem("log") === null ||
-        localStorage.getItem("log") === undefined
-          ? "[]"
-          : localStorage.getItem("log");
+        localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
       let text = "";
       for (var k in json) {
@@ -756,28 +629,17 @@ let app = {
       return text;
     },
 
-    ret: function() {
+    ret: () => {
       let log =
-        localStorage.getItem("log") === null ||
-        localStorage.getItem("log") === undefined
-          ? "[]"
-          : localStorage.getItem("log");
+        localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
       let html = "";
       for (var k in json) {
         if (json.hasOwnProperty(k)) {
           for (var l in json[k]) {
             if (json[k].hasOwnProperty(l)) {
-              let type =
-                l === "Start" ? "#efe06e" : l === "Stop" ? "red" : "white";
-              html +=
-                "<hr/><li style='color:" +
-                type +
-                ";'>" +
-                l +
-                ": " +
-                json[k][l] +
-                "</li>";
+              let type = l === "Start" ? "#efe06e" : l === "Stop" ? "red" : "white";
+              html += "<hr/><li style='color:" + type + ";'>" + l + ": " + json[k][l] + "</li>";
             }
           }
         }
@@ -786,7 +648,7 @@ let app = {
     }
   },
 
-  admob: function() {
+  admob: () => {
     var admobid = {};
     if (/(android)/i.test(navigator.userAgent)) {
       admobid = {
@@ -804,12 +666,8 @@ let app = {
         position: AdMob.AD_POSITION.BOTTOM_CENTER,
         autoShow: true,
         isTesting: false,
-        success: function() {
-          console.log("ADMOB: banner created");
-        },
-        error: function() {
-          console.log("ADMOB: failed to create banner");
-        }
+        success: () => console.log("ADMOB: banner created"),
+        error: () => console.log("ADMOB: failed to create banner")
       });
     } else {
       console.log("AdMob Not Loaded");
