@@ -106,6 +106,103 @@ let get_cpr_speed = () => {
   return s;
 };
 
+let get_duper_status = () => {
+  let s = localStorage.getItem("duper");
+  if (s === null || s === undefined) {
+    localStorage.setItem("duper", "locked");
+    s = "locked";
+  }
+  return s;
+};
+
+let purchaseDuper = () =>
+  window.store
+    .order(store.get("superdupercpr"))
+    .then(storeRender)
+    .error(error => console.log(error));
+
+let storeRender = () => {
+  let product = store.get("superdupercpr");
+  if (!product) {
+    $("#menu_duper")
+      .html("")
+      .off("click");
+    $("#speedLi").html("");
+  } else if (product.state === store.REGISTERED) {
+    $("#menu_duper")
+      .html("Loading...")
+      .off("click");
+    $("#speedLi").html("");
+  } else if (product.state === store.INVALID) {
+    $("#menu_duper")
+      .html("")
+      .off("click");
+    $("#speedLi").html("");
+  } else {
+    $("#menu_duper")
+      .html("<i class='small material-icons'>attach_money</i>Get Super-Duper CPR")
+      .off("click")
+      .on("click", () =>
+        navigator.notification.confirm(
+          "Purchase " + product.title + "?",
+          purchaseDuper,
+          "Description: " + product.description + "\r\n" + product.price,
+          ["Yes", "No"]
+        )
+      );
+    if (product.owned)
+      $("#menu_duper")
+        .html("<i class='small material-icons'>attach_money</i>Super-Duper CPR - owned")
+        .off("click");
+    $("#speedLi").html(
+      '<label class="yellowText" style="font-size:15px;" for="speed">Metronome Speed <span style="font-size:10px;color:white;">(100-120):</span></label><p class="range-field"><input type="range" id="speed" min="100" max="120" step="5" /></p>'
+    );
+    $("#speed")
+      .off("change")
+      .on("change", event => {
+        let i = $(event.currentTarget).attr("id");
+        let v = $(event.currentTarget).val();
+        localStorage.setItem(i, String(v));
+        window.plugins.toast.showWithOptions({
+          message: "Timer Settings Saved!",
+          duration: "short",
+          position: "center"
+        });
+      });
+    localStorage.setItem("duper", "unlocked");
+    if (product.canPurchase) {
+      $("#menu_duper")
+        .html("<i class='small material-icons'>attach_money</i>Get Super-Duper CPR")
+        .off("click")
+        .on("click", () =>
+          navigator.notification.confirm(
+            "Purchase " + product.title + "?",
+            purchaseDuper,
+            "Description: " + product.description + "\r\n" + product.price,
+            ["Yes", "No"]
+          )
+        );
+    } else {
+      $("#speedLi").html("");
+      $("#menu_duper")
+        .html("")
+        .off("click");
+    }
+  }
+};
+
+let initStore = () => {
+  if (!window.store) return console.log("Store not available");
+  store.register({
+    id: "superdupercpr",
+    alias: "Super Duper CPR",
+    type: store.NON_CONSUMABLE
+  });
+  store.error(error => console.log("ERROR " + error.code + ": " + error.message));
+  store.when("superdupercpr").updated(storeRender);
+  store.refresh();
+};
+
 let soundInit = () => {
   bufferLoader = new BufferLoader(
     cpr_audio_context,
@@ -192,19 +289,20 @@ let app = {
   initialize: () => $(document).on("deviceready", app.onDeviceReady),
 
   onDeviceReady: () => {
+    app.admob();
+    initStore();
+    get_duper_status();
     soundInit();
     app.clock.start();
     $("#start").on("click", app.cpr.start);
     $("#drug").on("click", app.drug.start);
     $("#shock").on("click", app.shock.start);
-    $(".sidebar-toggle").on("click", () => {
-      app.sidebar("open");
-    });
-    $(".menuItem").on("click", event => {
+    $(".sidebar-toggle").on("click", () => app.sidebar("open"));
+    $(".menuItem:not(.ignore)").on("click", event => {
+      navigator.vibrate(500);
       if ($(event.currentTarget).attr("target") === "rate") {
         window.open("market://details?id=com.sixten.superCPR", "_system");
       } else {
-        console.log($(event.currentTarget).attr("target"));
         app.nav($(event.currentTarget).attr("target"));
       }
       app.sidebar("close");
@@ -220,7 +318,6 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
-    app.admob();
   },
 
   audio: {
@@ -292,9 +389,8 @@ let app = {
           .on("change", () => app.settings.change($("#soundSelect option:selected").val()));
         $("#medMin").val(app.drug.ret());
         $("#shockMin").val(app.shock.ret());
-        // $("#speed").val(get_cpr_speed());
-        $("#medMin, #shockMin, #speed"); ///////////////////////REMOVE WHEN PREMIUM IS CREATED
-        $("#medMin, #shockMin")
+        $("#speed").val(get_cpr_speed());
+        $("#medMin, #shockMin, #speed")
           .off("change")
           .on("change", event => {
             let i = $(event.currentTarget).attr("id");
@@ -664,10 +760,9 @@ let app = {
         adId: admobid.banner,
         overlap: true,
         position: AdMob.AD_POSITION.BOTTOM_CENTER,
-        autoShow: true,
-        isTesting: false,
+        isTesting: true,
         success: () => console.log("ADMOB: banner created"),
-        error: () => console.log("ADMOB: failed to create banner")
+        error: error => console.log("ADMOB: failed to create banner: ", error)
       });
     } else {
       console.log("AdMob Not Loaded");

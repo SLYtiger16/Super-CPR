@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sixten.superCPR" version="1.3.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.sixten.superCPR" version="1.4.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Super CPR</name>
     <description>
       **** FOR ENTERTAINMENT/TRAINING ONLY ****
@@ -26,7 +26,6 @@ This applications is designed to be easy to use. Simply press the start button t
     <plugin name="cordova-plugin-dialogs" source="npm" spec="1.3.3" />
     <plugin name="cordova-plugin-globalization" source="npm" spec="1.0.7" />
     <plugin name="cordova-plugin-inappbrowser" source="npm" spec="1.7.1" />
-    <plugin name="cordova-plugin-network-information" source="npm" spec="1.3.3" />
     <plugin name="cordova-plugin-vibration" source="npm" spec="2.1.5" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="1.3.3" />
     <plugin name="cordova-plugin-statusbar" source="npm" spec="2.2.3" />
@@ -34,6 +33,10 @@ This applications is designed to be easy to use. Simply press the start button t
     <plugin name="cordova-plugin-insomnia" source="npm" version="4.3.0" />
     <plugin name="cordova-plugin-x-socialsharing" spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-x-toast" source="npm" spec="2.7.2" />
+    <plugin name="cc.fovea.cordova.purchase" source="npm" spec="6.0.0">
+        <variable name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgiBoadKVwIaK0jRUw+wua9Ng4pGy8BVyHaVRqLnKDBpaici6TZ4tOp+ad8Y7OGhDKJV3VUhG+sW6x4DiawlXCODSisizP0rxvpsq5T9U/vlZCeXjgiTzpfzzisPnJEdnGBUN1sekS5Is8BiALYMurwVMcXMCM5L3vhdvN2PY+C5BZ1g2kc8yVdp5196gl1U7dhSJYz7GVwjU+0IZi4m6TAT5XcwygOaOgJBSxHJyPl3ljTTdulx4fiSRXjr6ix2v5RFavz5IwgPoMHd4bRIRlnjDDnBxhDsy+pLnf+F22PBfNQ1+ugxWATll+6StqmGdfPy4L+ElCzW/mFvABMqoDQIDAQAB" />
+    </plugin>
+    <plugin name="cordova-plugin-network-information" spec="~1.3.4" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
@@ -82,7 +85,5 @@ This applications is designed to be easy to use. Simply press the start button t
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
-    <!-- <plugin name="cc.fovea.cordova.purchase" spec="~8.1.1">
-        <variable name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgiBoadKVwIaK0jRUw+wua9Ng4pGy8BVyHaVRqLnKDBpaici6TZ4tOp+ad8Y7OGhDKJV3VUhG+sW6x4DiawlXCODSisizP0rxvpsq5T9U/vlZCeXjgiTzpfzzisPnJEdnGBUN1sekS5Is8BiALYMurwVMcXMCM5L3vhdvN2PY+C5BZ1g2kc8yVdp5196gl1U7dhSJYz7GVwjU+0IZi4m6TAT5XcwygOaOgJBSxHJyPl3ljTTdulx4fiSRXjr6ix2v5RFavz5IwgPoMHd4bRIRlnjDDnBxhDsy+pLnf+F22PBfNQ1+ugxWATll+6StqmGdfPy4L+ElCzW/mFvABMqoDQIDAQAB" />
-    </plugin> -->
+    <plugin name="cordova-plugin-admobpro-firebase" spec="~2.35.4" />
 </widget>
