@@ -33,8 +33,7 @@ This applications is designed to be easy to use. Simply press the start button t
     <plugin name="cordova-plugin-statusbar" spec="2.2.3" />
     <plugin name="cordova-plugin-splashscreen" spec="4.0.3" />
     <plugin name="cordova-plugin-insomnia" source="npm" version="4.3.0" />
-    <plugin name="cordova-clipboard" spec="~1.2.1" />
-    <plugin name="cordova-plugin-apprate" spec="~1.4.0" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-x-toast" spec="~2.7.2" />
     <platform name="android">
         <allow-intent href="market:*" />

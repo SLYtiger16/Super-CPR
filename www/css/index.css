@@ -2,7 +2,8 @@ html {
   font-family: GillSans, Calibri, Trebuchet, sans-serif;
 }
 
-html,body {
+html,
+body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   overflow: hidden;
@@ -15,55 +16,55 @@ div.header {
   min-height: 50px;
   height: 50px;
   color: white;
-  background-color:black;
+  background-color: black;
   width: 100%;
 }
 
 main {
   background-image: url(../img/background.png);
   background-size: 100%;
-  min-height:calc(100vh - 100px);
-  height:calc(100vh - 100px);
+  min-height: calc(100vh - 100px);
+  height: calc(100vh - 100px);
 }
 
-footer{
+footer {
   z-index: 1100;
 }
 
-.flex{
-  flex:1;
+.flex {
+  flex: 1;
 }
 
-.flex_p{
-  display:flex;
+.flex_p {
+  display: flex;
 }
 
-.flex_col{
+.flex_col {
   flex-direction: column;
 }
 
-.center-margin{
-  margin:0 auto;
+.center-margin {
+  margin: 0 auto;
 }
 
-#super{
+#super {
   width: 150px;
   height: auto;
 }
 
 .Screen {
-  min-height:100%;
-  height:100%;
+  min-height: 100%;
+  height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
-  display:none;
+  display: none;
   padding: 15px;
 }
 
-.Screen.active{
-  display:flex;
-  flex:1;
-  flex-direction:column;
+.Screen.active {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   overflow-y: auto;
 }
 
@@ -71,44 +72,44 @@ footer{
   z-index: 10000;
   background-color: black;
   opacity: 0.7;
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: none;
 }
 
 .no-mar {
-  margin:0;
+  margin: 0;
 }
 
 .no-pad {
-  padding:0;
+  padding: 0;
 }
 
-#clock{
+#clock {
   color: #efe06e;
 }
 
-#cpr{
+#cpr {
   background-color: rgba(255, 0, 0, 0.3);
   color: yellow;
 }
 
-.button-card{
-  background-color: rgba(0,100,255,0.4);
+.button-card {
+  background-color: rgba(0, 100, 255, 0.4);
 }
 
-#start{
-  background-color: rgba(0,0,255,0.5);
+#start {
+  background-color: rgba(0, 0, 255, 0.5);
 }
 
 #timer {
   font-weight: bold;
 }
 
-.button-text{
+.button-text {
   color: yellow;
 }
 
@@ -121,60 +122,63 @@ footer{
 }
 
 .yellowText {
-  color:#efe06e;
+  color: #efe06e;
 }
 
-input[type="radio"].with-gap:checked+label:before,
-input[type="radio"].with-gap:checked+label:after {
-border: 2px solid blue !important;
+input[type="radio"].with-gap:checked + label:before,
+input[type="radio"].with-gap:checked + label:after {
+  border: 2px solid blue !important;
 }
 
-input[type="radio"].with-gap:checked+label:after {
-background-color: blue !important;
+input[type="radio"].with-gap:checked + label:after {
+  background-color: blue !important;
 }
 
-input[type="radio"].with-gap+label:before,
-input[type="radio"].with-gap+label:after {
-border: 2px solid #efe06e !important;
+input[type="radio"].with-gap + label:before,
+input[type="radio"].with-gap + label:after {
+  border: 2px solid #efe06e !important;
 }
 
-#logListCard{
+#logListCard {
   background-color: rgba(0, 0, 255, 0.3);
 }
 
-#aboutCard, #settingsCard{
+#aboutCard,
+#settingsCard {
   background-color: rgba(255, 0, 0, 0.3);
-  color:#efe06e;
+  color: #efe06e;
 }
 
 #settingsList > li > label {
   color: #efe06e;
 }
 
-#logList li, #settingsList li {
+#logList li,
+#settingsList li {
   margin: 8px;
 }
 
 .card-panel {
   border-radius: 10px;
-  padding:15px !important;
+  padding: 15px !important;
 }
 
-hr{
+hr {
   margin: 10px 0;
 }
 
-ul > li.menuItem *, .header * {
+ul > li.menuItem *,
+.header * {
   vertical-align: middle !important;
 }
 
 .menuItem > i {
-  margin-right:15px;
+  margin-right: 15px;
   color: red;
 }
 
-#menuImg{
-  height:150px;
+#menuImg {
+  height: 150px;
   width: 250px;
 }
 
@@ -188,10 +192,10 @@ ul > li.menuItem *, .header * {
   background-color: black;
   transition: all 0.5s ease-in-out;
   z-index: 20000;
-  color:#efe06e;
+  color: #efe06e;
 }
 
 /* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+@media screen and (min-aspect-ratio: 1/1) and (min-width: 400px) {
   /**/
 }
