@@ -231,9 +231,9 @@ let refreshProductUI = function(product) {
     .on("click", function() {
       product.loaded
         ? navigator.notification.confirm(
-            "Purchase " + product.title,
-            purchaseDuper,
             "Description:\r\n" + product.description + "\r\n$" + product.price,
+            purchaseDuper,
+            product.title,
             ["Buy Now!", "Cancel"]
           )
         : window.plugins.toast.showWithOptions({
