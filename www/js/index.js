@@ -211,8 +211,18 @@ let initStore = function() {
   store.error(function(error) {
     console.log("ERROR " + error.code + ": " + error.message);
   });
-  store.when("superdupercpr").updated(refreshProductUI);
+  store.when("superdupercpr updated", refreshProductUI);
+  store.when("superdupercpr approved", function(p) {
+    p.verify();
+  });
+  store.when("superdupercpr verified", finishPurchase);
   store.refresh();
+};
+
+let finishPurchase = function(p) {
+  localStorage.setItem("duper", "unlocked");
+  refreshProductUI();
+  p.finish();
 };
 
 let refreshProductUI = function(product) {
@@ -222,7 +232,7 @@ let refreshProductUI = function(product) {
       product.loaded
         ? navigator.notification.confirm(
             "Purchase " + product.title,
-            app.cpr.onChangeConfirm,
+            purchaseDuper,
             "Description:\r\n" + product.description + "\r\n$" + product.price,
             ["Buy Now!", "Cancel"]
           )
@@ -232,11 +242,10 @@ let refreshProductUI = function(product) {
             position: "center"
           });
     });
-  if (product.canPurchase) {
-    $("#duper").show();
-  } else {
-    $("#duper").hide();
-  }
+};
+
+let purchaseDuper = function() {
+  store.order("superdupercpr");
 };
 
 let app = {
