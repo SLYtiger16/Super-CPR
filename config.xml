@@ -35,6 +35,9 @@ This applications is designed to be easy to use. Simply press the start button t
     <plugin name="cordova-plugin-insomnia" source="npm" version="4.3.0" />
     <plugin name="cordova-plugin-x-socialsharing" spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-x-toast" spec="~2.7.2" />
+    <plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0">
+        <param name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgiBoadKVwIaK0jRUw+wua9Ng4pGy8BVyHaVRqLnKDBpaici6TZ4tOp+ad8Y7OGhDKJV3VUhG+sW6x4DiawlXCODSisizP0rxvpsq5T9U/vlZCeXjgiTzpfzzisPnJEdnGBUN1sekS5Is8BiALYMurwVMcXMCM5L3vhdvN2PY+C5BZ1g2kc8yVdp5196gl1U7dhSJYz7GVwjU+0IZi4m6TAT5XcwygOaOgJBSxHJyPl3ljTTdulx4fiSRXjr6ix2v5RFavz5IwgPoMHd4bRIRlnjDDnBxhDsy+pLnf+F22PBfNQ1+ugxWATll+6StqmGdfPy4L+ElCzW/mFvABMqoDQIDAQAB"/>
+    </plugin>
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />

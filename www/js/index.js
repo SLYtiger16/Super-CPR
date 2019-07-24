@@ -109,6 +109,15 @@ let get_cpr_speed = function() {
   return s;
 };
 
+let get_duper_status = function() {
+  let s = localStorage.getItem("duper");
+  if (s === null || s === undefined) {
+    localStorage.setItem("duper", "locked");
+    s = "locked";
+  }
+  return s;
+};
+
 let soundInit = function() {
   bufferLoader = new BufferLoader(
     cpr_audio_context,
@@ -190,12 +199,53 @@ let playSoundOnce = function(buff, time) {
   source.start(time);
 };
 
+let initStore = function() {
+  if (!window.store) {
+    console.log("Store not available");
+    return;
+  }
+  store.register({
+    id: "superdupercpr",
+    type: store.NON_CONSUMABLE
+  });
+  store.error(function(error) {
+    console.log("ERROR " + error.code + ": " + error.message);
+  });
+  store.when("superdupercpr").updated(refreshProductUI);
+  store.refresh();
+};
+
+let refreshProductUI = function(product) {
+  $("#duper")
+    .off("click")
+    .on("click", function() {
+      product.loaded
+        ? navigator.notification.confirm(
+            "Purchase " + product.title,
+            app.cpr.onChangeConfirm,
+            "Description:\r\n" + product.description + "\r\n$" + product.price,
+            ["Buy Now!", "Cancel"]
+          )
+        : window.plugins.toast.showWithOptions({
+            message: "Retrieving info...",
+            duration: "short",
+            position: "center"
+          });
+    });
+  if (product.canPurchase) {
+    $("#duper").show();
+  } else {
+    $("#duper").hide();
+  }
+};
+
 let app = {
   initialize: function() {
     $(document).on("deviceready", app.onDeviceReady);
   },
 
   onDeviceReady: function() {
+    initStore();
     soundInit();
     app.clock.start();
     $("#start").on("click", app.cpr.start);
