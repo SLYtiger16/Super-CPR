@@ -205,14 +205,15 @@ let app = {
       app.sidebar("open");
     });
     $(".menuItem").on("click", function() {
-      // if ($(this).attr("target") === "rate") {
-      //   window.open("market://details?id=com.sixten.superCPR", "_system");
-      // } else {
-      //   app.nav($(this).attr("target"));
-      // }
+      if ($(this).attr("target") === "rate") {
+        window.open("market://details?id=com.sixten.superCPR", "_system");
+      } else {
+        app.nav($(this).attr("target"));
+      }
       app.nav($(this).attr("target"));
       app.sidebar("close");
     });
+    $("#soundSelect").material_select();
     $("#menuImg").on("click", function() {
       app.sidebar("close");
     });
@@ -304,42 +305,26 @@ let app = {
           });
         break;
       case "SettingsScreen":
-        $("input#" + get_cpr_sound()).attr("checked", "checked");
-        $("#soundRadio input")
+        $("#soundSelect option[value='" + get_cpr_sound() + "']").prop("selected", true);
+        $("#soundSelect")
           .off("change")
-          .on("change", function() {
-            app.settings.change($(this).attr("id"));
-          });
-        $("#medMin").val(Number(app.drug.ret()));
-        $("#shockMin").val(Number(app.shock.ret()));
+          .on("change", () => app.settings.change($("#soundSelect option:selected").val()));
+        $("#medMin").val(app.drug.ret());
+        $("#shockMin").val(app.shock.ret());
+        $("#speed").val(get_cpr_speed());
         $("#medMin, #shockMin")
           .off("change")
-          .on("change", function() {
-            let i = $(this).attr("id");
-            let v = $(this).val();
-            if (v > 0 && v < 6) {
-              localStorage.setItem(i, String(v));
-              window.plugins.toast.showWithOptions({
-                message: "Timer Settings Saved!",
-                duration: "short",
-                position: "center"
-              });
-            } else {
-              window.plugins.toast.showWithOptions({
-                message: "Invalid number of minutes!, Try again. Must be 1-5!",
-                duration: "short",
-                position: "center"
-              });
-              if (i === "medMin") {
-                $(this).val(4);
-                v = 4;
-              } else {
-                $(this).val(2);
-                v = 2;
-              }
-              localStorage.setItem(i, String(v));
-            }
+          .on("change", event => {
+            let i = $(event.currentTarget).attr("id");
+            let v = $(event.currentTarget).val();
+            localStorage.setItem(i, String(v));
+            window.plugins.toast.showWithOptions({
+              message: "Timer Settings Saved!",
+              duration: "short",
+              position: "center"
+            });
           });
+        $("#soundSelect").material_select();
         break;
       case "AboutScreen":
         break;

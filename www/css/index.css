@@ -190,6 +190,7 @@ ul > li.menuItem *,
   width: 250px;
   left: -250px;
   background-color: black;
+  -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
   z-index: 20000;
   color: #efe06e;
