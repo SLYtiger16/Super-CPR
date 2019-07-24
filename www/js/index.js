@@ -251,9 +251,9 @@ let app = {
   sidebar: function(x) {
     let s = $(".sidebar"),
       o = true;
-    if (s.offset().left == "-250" && x === "open") {
+    if (x == "open") {
       s.css("left", "0px");
-    } else if (s.offset().left == "0" && x === "close") {
+    } else if (x == "close") {
       s.css("left", "-250px");
     } else {
       o = false;
