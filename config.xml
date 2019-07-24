@@ -10,6 +10,7 @@ This applications is designed to be easy to use. Simply press the start button t
         610 Industries, LLC
     </author>
     <content src="index.html" />
+    <preference name="android-targetSdkVersion" value="28" />
     <preference name="android-minSdkVersion" value="15" />
     <preference name="phonegap-version" value="cli-7.1.0" />
     <preference name="pgb-builder-version" value="2" />
