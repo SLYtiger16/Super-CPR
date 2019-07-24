@@ -1,4 +1,4 @@
-const BufferLoader = function(context, urlList, callback) {
+let BufferLoader = function(context, urlList, callback) {
   this.context = context;
   this.urlList = urlList;
   this.onload = callback;
@@ -27,7 +27,9 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
       }
     );
   };
-  request.onerror = () => alert("BufferLoader: XHR error");
+  request.onerror = function() {
+    alert("BufferLoader: XHR error");
+  };
   request.send();
 };
 
@@ -82,13 +84,14 @@ let sounds = {
     zap: null
   }
 };
+
 let alert = null;
 let bufferLoader = null;
 let current_sound = null;
 let metronome_running = false;
 let cpr_audio_context = new (window.AudioContext || window.webkitAudioContext || window.audioContext)();
 
-let get_cpr_sound = () => {
+let get_cpr_sound = function() {
   let s = localStorage.getItem("sound");
   if (s === null || s === undefined) {
     localStorage.setItem("sound", "beep");
@@ -97,7 +100,7 @@ let get_cpr_sound = () => {
   return s;
 };
 
-let get_cpr_speed = () => {
+let get_cpr_speed = function() {
   let s = localStorage.getItem("speed");
   if (s === null || s === undefined) {
     localStorage.setItem("speed", "110");
@@ -106,104 +109,7 @@ let get_cpr_speed = () => {
   return s;
 };
 
-let get_duper_status = () => {
-  let s = localStorage.getItem("duper");
-  if (s === null || s === undefined) {
-    localStorage.setItem("duper", "locked");
-    s = "locked";
-  }
-  return s;
-};
-
-let purchaseDuper = () =>
-  window.store
-    .order(store.get("superdupercpr"))
-    .then(storeRender)
-    .error(error => console.log(error));
-
-let storeRender = () => {
-  let product = store.get("superdupercpr");
-  if (!product) {
-    $("#menu_duper")
-      .html("")
-      .off("click");
-    $("#speedLi").html("");
-  } else if (product.state === store.REGISTERED) {
-    $("#menu_duper")
-      .html("Loading...")
-      .off("click");
-    $("#speedLi").html("");
-  } else if (product.state === store.INVALID) {
-    $("#menu_duper")
-      .html("")
-      .off("click");
-    $("#speedLi").html("");
-  } else {
-    $("#menu_duper")
-      .html("<i class='small material-icons'>attach_money</i>Get Super-Duper CPR")
-      .off("click")
-      .on("click", () =>
-        navigator.notification.confirm(
-          "Purchase " + product.title + "?",
-          purchaseDuper,
-          "Description: " + product.description + "\r\n" + product.price,
-          ["Yes", "No"]
-        )
-      );
-    if (product.owned)
-      $("#menu_duper")
-        .html("<i class='small material-icons'>attach_money</i>Super-Duper CPR - owned")
-        .off("click");
-    $("#speedLi").html(
-      '<label class="yellowText" style="font-size:15px;" for="speed">Metronome Speed <span style="font-size:10px;color:white;">(100-120):</span></label><p class="range-field"><input type="range" id="speed" min="100" max="120" step="5" /></p>'
-    );
-    $("#speed")
-      .off("change")
-      .on("change", event => {
-        let i = $(event.currentTarget).attr("id");
-        let v = $(event.currentTarget).val();
-        localStorage.setItem(i, String(v));
-        window.plugins.toast.showWithOptions({
-          message: "Timer Settings Saved!",
-          duration: "short",
-          position: "center"
-        });
-      });
-    localStorage.setItem("duper", "unlocked");
-    if (product.canPurchase) {
-      $("#menu_duper")
-        .html("<i class='small material-icons'>attach_money</i>Get Super-Duper CPR")
-        .off("click")
-        .on("click", () =>
-          navigator.notification.confirm(
-            "Purchase " + product.title + "?",
-            purchaseDuper,
-            "Description: " + product.description + "\r\n" + product.price,
-            ["Yes", "No"]
-          )
-        );
-    } else {
-      $("#speedLi").html("");
-      $("#menu_duper")
-        .html("")
-        .off("click");
-    }
-  }
-};
-
-let initStore = () => {
-  if (!window.store) return console.log("Store not available");
-  store.register({
-    id: "superdupercpr",
-    alias: "Super Duper CPR",
-    type: store.NON_CONSUMABLE
-  });
-  store.error(error => console.log("ERROR " + error.code + ": " + error.message));
-  store.when("superdupercpr").updated(storeRender);
-  store.refresh();
-};
-
-let soundInit = () => {
+let soundInit = function() {
   bufferLoader = new BufferLoader(
     cpr_audio_context,
     [
@@ -254,7 +160,7 @@ let soundInit = () => {
   bufferLoader.load();
 };
 
-let finishedLoading = bufferList => {
+let finishedLoading = function(bufferList) {
   alert = cpr_audio_context.createBufferSource();
   alert.buffer = bufferList[0];
   let index = 1;
@@ -267,7 +173,7 @@ let finishedLoading = bufferList => {
   }
 };
 
-let playSound = (buff, time) => {
+let playSound = function(buff, time) {
   let source = cpr_audio_context.createBufferSource();
   source.buffer = buff.buffer;
   source.connect(cpr_audio_context.destination);
@@ -275,10 +181,9 @@ let playSound = (buff, time) => {
   source.start(time);
   metronome_running = true;
   current_sound = source;
-  console.log(source);
 };
 
-let playSoundOnce = (buff, time) => {
+let playSoundOnce = function(buff, time) {
   let source = cpr_audio_context.createBufferSource();
   source.buffer = buff.buffer;
   source.connect(cpr_audio_context.destination);
@@ -286,56 +191,64 @@ let playSoundOnce = (buff, time) => {
 };
 
 let app = {
-  initialize: () => $(document).on("deviceready", app.onDeviceReady),
+  initialize: function() {
+    $(document).on("deviceready", app.onDeviceReady);
+  },
 
-  onDeviceReady: () => {
-    app.admob();
-    initStore();
-    get_duper_status();
+  onDeviceReady: function() {
     soundInit();
     app.clock.start();
     $("#start").on("click", app.cpr.start);
     $("#drug").on("click", app.drug.start);
     $("#shock").on("click", app.shock.start);
-    $(".sidebar-toggle").on("click", () => app.sidebar("open"));
-    $(".menuItem:not(.ignore)").on("click", event => {
-      navigator.vibrate(500);
-      if ($(event.currentTarget).attr("target") === "rate") {
+    $(".sidebar-toggle").on("click", function() {
+      app.sidebar("open");
+    });
+    $(".menuItem").on("click", function() {
+      if ($(this).attr("target") === "rate") {
         window.open("market://details?id=com.sixten.superCPR", "_system");
       } else {
-        app.nav($(event.currentTarget).attr("target"));
+        app.nav($(this).attr("target"));
       }
+      app.nav($(this).attr("target"));
       app.sidebar("close");
     });
     $("#soundSelect").material_select();
-    $("#menuImg").on("click", () => app.sidebar("close"));
+    $("#menuImg").on("click", function() {
+      app.sidebar("close");
+    });
     $(".Screen")
       .hammer()
-      .on("swiperight", () => app.sidebar("open"));
+      .on("swiperight", function() {
+        app.sidebar("open");
+      });
     $("#overlay, #sidebar")
       .hammer()
-      .on("swipeleft", () => app.sidebar("close"));
+      .on("swipeleft", function() {
+        app.sidebar("close");
+      });
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
+    app.admob();
   },
 
   audio: {
     cpr: {
-      start: () => {
+      start: function() {
         let sound = get_cpr_sound();
         let speed = get_cpr_speed();
         console.log(speed, sound);
         playSound(sounds[speed][sound], cpr_audio_context.currentTime);
       },
-      stop: () => {
+      stop: function() {
         if (current_sound) current_sound.stop();
         metronome_running = false;
       }
     }
   },
 
-  sidebar: x => {
+  sidebar: function(x) {
     let s = $(".sidebar"),
       o = true;
     if (x == "open") {
@@ -349,18 +262,21 @@ let app = {
       $(".overlay")
         .toggle()
         .off("click")
-        .on("click", () => app.sidebar("close"));
+        .on("click", function() {
+          app.sidebar("close");
+        });
     }
   },
 
-  nav: x => {
-    console.log(x);
-    $(".Screen").each((i, e) => {
+  nav: function(x) {
+    $(".Screen").each(function(i, e) {
       if ($(e).hasClass("active")) {
-        if ($(e).attr("id") === x) return;
+        if ($(e).attr("id") === x) {
+          return;
+        }
         let w = $(e).width() + 250;
         $(e).removeClass("active");
-        $(e).hide("fast", () => {
+        $(e).hide("fast", function() {
           $("#" + x).show("fast");
           $("#" + x).css("display", "flex");
         });
@@ -368,6 +284,7 @@ let app = {
     });
 
     $("#" + x).addClass("active");
+
     switch (x) {
       case "HomeScreen":
         break;
@@ -377,10 +294,15 @@ let app = {
         $("#logList").height($("#logListCard").height() - 50);
         $("#clearLog")
           .off("click")
-          .on("click", () => app.log.clear());
+          .on("click", function() {
+            app.log.clear();
+          });
         $("#copyLog")
           .off("click")
-          .on("click", () => window.plugins.socialsharing.share("Super CPR Log", app.log.retText()));
+          .on("click", function() {
+            let message = app.log.retText();
+            window.plugins.socialsharing.share("Super CPR Log", message);
+          });
         break;
       case "SettingsScreen":
         $("#soundSelect option[value='" + get_cpr_sound() + "']").prop("selected", true);
@@ -390,7 +312,7 @@ let app = {
         $("#medMin").val(app.drug.ret());
         $("#shockMin").val(app.shock.ret());
         $("#speed").val(get_cpr_speed());
-        $("#medMin, #shockMin, #speed")
+        $("#medMin, #shockMin")
           .off("change")
           .on("change", event => {
             let i = $(event.currentTarget).attr("id");
@@ -410,10 +332,11 @@ let app = {
   },
 
   settings: {
-    onChangeConfirm: x => {
+    onChangeConfirm: function(x) {
       let running = metronome_running ? true : false;
       app.cpr.stop();
       localStorage.setItem("sound", x);
+      $("input#" + x).prop("checked", "checked");
       window.plugins.toast.showWithOptions({
         message: "CPR Sound has been changed!",
         duration: "short",
@@ -422,7 +345,7 @@ let app = {
       if (running) app.cpr.start();
     },
 
-    change: x => {
+    change: function(x) {
       navigator.vibrate(500);
       let sound = get_cpr_sound();
       if (x == sound) {
@@ -446,17 +369,23 @@ let app = {
     min: 0,
     timerInt: null,
 
-    start: () => {
+    start: function() {
       window.plugins.insomnia.keepAwake();
       navigator.vibrate(500);
-      app.cpr.timerInt = setInterval(app.cpr.timer, 1000);
+      app.cpr.timerInt = setInterval(function() {
+        app.cpr.timer();
+      }, 1000);
       $(".timerToggle").toggle();
       $("#startBtn").text("STOP");
 
       navigator.globalization.dateToString(
         new Date(),
-        date => app.log.change({ Start: date.value }),
-        () => app.log.change({ Start: "Error Saving Time" }),
+        function(date) {
+          app.log.change({ Start: date.value });
+        },
+        function() {
+          app.log.change({ Start: "Error Saving Time" });
+        },
         {
           formatLength: "short",
           selector: "date and time"
@@ -475,7 +404,7 @@ let app = {
       });
     },
 
-    stop: () => {
+    stop: function() {
       clearInterval(app.cpr.timerInt);
       app.cpr.timerInt = null;
       window.plugins.insomnia.allowSleepAgain();
@@ -486,8 +415,12 @@ let app = {
 
       navigator.globalization.dateToString(
         new Date(),
-        date => app.log.change({ Stop: date.value }),
-        () => app.log.change({ Stop: "Error Saving Time" }),
+        function(date) {
+          app.log.change({ Stop: date.value });
+        },
+        function() {
+          app.log.change({ Stop: "Error Saving Time" });
+        },
         {
           formatLength: "short",
           selector: "date and time"
@@ -507,14 +440,14 @@ let app = {
       }
     },
 
-    onChangeConfirm: x => {
+    onChangeConfirm: function(x) {
       if (x == 1) {
         app.drug.stop();
         app.shock.stop();
       }
     },
 
-    timer: () => {
+    timer: function() {
       app.cpr.sec++;
       if (app.cpr.sec === 60) {
         app.cpr.sec = 0;
@@ -533,7 +466,7 @@ let app = {
     min: 0,
     sec: 0,
     timer: null,
-    ret: () => {
+    ret: function() {
       let s = localStorage.getItem("medMin");
       if (s === null || s === undefined) {
         localStorage.setItem("medMin", "4");
@@ -541,7 +474,7 @@ let app = {
       }
       return s;
     },
-    start: () => {
+    start: function() {
       app.drug.min =
         localStorage.getItem("medMin") === null || localStorage.getItem("medMin") === undefined
           ? 4
@@ -552,7 +485,7 @@ let app = {
       $("#drug")
         .off("click")
         .on("click", app.drug.stop);
-      app.drug.timer = setInterval(() => {
+      app.drug.timer = setInterval(function() {
         app.drug.sec--;
         if (app.drug.sec === -1) {
           app.drug.sec = 59;
@@ -574,15 +507,19 @@ let app = {
 
       navigator.globalization.dateToString(
         new Date(),
-        date => app.log.change({ "Med given": date.value }),
-        () => app.log.change({ "Med given": "Error Saving Time" }),
+        function(date) {
+          app.log.change({ "Med given": date.value });
+        },
+        function() {
+          app.log.change({ "Med given": "Error Saving Time" });
+        },
         {
           formatLength: "short",
           selector: "date and time"
         }
       );
     },
-    stop: () => {
+    stop: function() {
       navigator.vibrate(500);
       clearInterval(app.drug.timer);
       $("#drugLabel").text("MED");
@@ -599,7 +536,7 @@ let app = {
     min: 0,
     sec: 0,
     timer: null,
-    ret: () => {
+    ret: function() {
       let s = localStorage.getItem("shockMin");
       if (s === null || s === undefined) {
         localStorage.setItem("shockMin", "2");
@@ -607,7 +544,7 @@ let app = {
       }
       return s;
     },
-    start: () => {
+    start: function() {
       app.shock.min =
         localStorage.getItem("shockMin") === null || localStorage.getItem("shockMin") === undefined
           ? 2
@@ -618,7 +555,7 @@ let app = {
       $("#shock")
         .off("click")
         .on("click", app.shock.stop);
-      app.shock.timer = setInterval(() => {
+      app.shock.timer = setInterval(function() {
         app.shock.sec--;
         if (app.shock.sec === -1) {
           app.shock.sec = 59;
@@ -640,15 +577,19 @@ let app = {
 
       navigator.globalization.dateToString(
         new Date(),
-        date => app.log.change({ "Shock delivered": date.value }),
-        () => app.log.change({ "Shock delivered": "Error Saving Time" }),
+        function(date) {
+          app.log.change({ "Shock delivered": date.value });
+        },
+        function() {
+          app.log.change({ "Shock delivered": "Error Saving Time" });
+        },
         {
           formatLength: "short",
           selector: "date and time"
         }
       );
     },
-    stop: () => {
+    stop: function() {
       navigator.vibrate(500);
       clearInterval(app.shock.timer);
       $("#shockLabel").text("SHOCK");
@@ -668,24 +609,33 @@ let app = {
 
   clock: {
     clockInt: null,
-    start: () => {
+    start: function() {
       let c = $("#clock");
       app.clock.clockInt = setInterval(function() {
-        navigator.globalization.dateToString(new Date(), date => c.text(date.value), () => c.text("Error"), {
-          formatLength: "short",
-          selector: "time"
-        });
+        navigator.globalization.dateToString(
+          new Date(),
+          function(date) {
+            c.text(date.value);
+          },
+          function(e) {
+            c.text("Error");
+          },
+          {
+            formatLength: "short",
+            selector: "time"
+          }
+        );
       }, 1000);
     }
   },
 
   log: {
-    clear: x => {
+    clear: function(x) {
       navigator.vibrate(500);
       navigator.notification.confirm("Clear entire log?", app.log.onChangeConfirm, "Are you sure?", ["OK", "Cancel"]);
     },
 
-    onChangeConfirm: x => {
+    onChangeConfirm: function(x) {
       if (x == 1) {
         localStorage.setItem("log", "[]");
         $("#logList").html(app.log.ret());
@@ -697,7 +647,7 @@ let app = {
       }
     },
 
-    change: x => {
+    change: function(x) {
       let log =
         localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
@@ -708,7 +658,7 @@ let app = {
       localStorage.setItem("log", JSON.stringify(json));
     },
 
-    retText: () => {
+    retText: function() {
       let log =
         localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
@@ -725,7 +675,7 @@ let app = {
       return text;
     },
 
-    ret: () => {
+    ret: function() {
       let log =
         localStorage.getItem("log") === null || localStorage.getItem("log") === undefined ? "[]" : localStorage.getItem("log");
       let json = JSON.parse(log);
@@ -744,7 +694,7 @@ let app = {
     }
   },
 
-  admob: () => {
+  admob: function() {
     var admobid = {};
     if (/(android)/i.test(navigator.userAgent)) {
       admobid = {
@@ -760,9 +710,14 @@ let app = {
         adId: admobid.banner,
         overlap: true,
         position: AdMob.AD_POSITION.BOTTOM_CENTER,
-        isTesting: true,
-        success: () => console.log("ADMOB: banner created"),
-        error: error => console.log("ADMOB: failed to create banner: ", error)
+        autoShow: true,
+        isTesting: false,
+        success: function() {
+          console.log("ADMOB: banner created");
+        },
+        error: function() {
+          console.log("ADMOB: failed to create banner");
+        }
       });
     } else {
       console.log("AdMob Not Loaded");
