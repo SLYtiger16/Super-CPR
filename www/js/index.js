@@ -233,22 +233,31 @@ let duperFeatures = function() {
 };
 
 let refreshProductUI = function(product) {
-  $("#duper")
-    .off("click")
-    .on("click", function() {
-      product.loaded
-        ? navigator.notification.confirm(
-            "Description:\r\n" + product.description + " - " + product.price,
-            purchaseDuper,
-            product.title,
-            ["Upgrade!", "Cancel"]
-          )
-        : window.plugins.toast.showWithOptions({
-            message: "Retrieving info...",
-            duration: "short",
-            position: "center"
-          });
-    });
+  if (product.owned) {
+    localStorage.setItem("duper", "unlocked");
+    $("#duper").hide();
+    $("#HeadingTitle").text("Super (Duper) CPR");
+  } else {
+    localStorage.setItem("duper", "locked");
+    $("#duper").show();
+    $("#HeadingTitle").text("Super CPR");
+    $("#duper")
+      .off("click")
+      .on("click", function() {
+        product.loaded
+          ? navigator.notification.confirm(
+              "Description:\r\n" + product.description + " - " + product.price,
+              purchaseDuper,
+              product.title,
+              ["Upgrade!", "Cancel"]
+            )
+          : window.plugins.toast.showWithOptions({
+              message: "Retrieving info...",
+              duration: "short",
+              position: "center"
+            });
+      });
+  }
   if (get_duper_status() === "unlocked") {
     duperFeatures();
   }
