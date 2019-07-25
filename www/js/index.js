@@ -233,8 +233,8 @@ let duperFeatures = function() {
 };
 
 let refreshProductUI = function(product) {
-  if (product.owned) {
-    localStorage.setItem("duper", "unlocked");
+  let duperStatus = get_duper_status();
+  if (duperStatus === "unlocked") {
     $("#duper").hide();
     $("#HeadingTitle").text("Super (Duper) CPR");
   } else {
@@ -291,7 +291,6 @@ let app = {
     $(".menuItem").on("click", function() {
       if ($(this).attr("target") === "rate") {
         window.open("market://details?id=com.sixten.superCPR", "_system");
-        $("#topRightIcon").attr("src", "img/homeLarge.png");
       } else if ($(this).attr("target") === "duper") {
         return;
       } else {
