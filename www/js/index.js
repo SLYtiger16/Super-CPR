@@ -1,3 +1,5 @@
+let version = "1.3.11";
+
 let BufferLoader = function(context, urlList, callback) {
   this.context = context;
   this.urlList = urlList;
@@ -220,10 +222,10 @@ let initStore = function() {
 };
 
 let finishPurchase = function(p) {
+  p.finish();
   localStorage.setItem("duper", "unlocked");
   duperFeatures();
   refreshProductUI();
-  p.finish();
 };
 
 let duperFeatures = function() {
@@ -420,6 +422,7 @@ let app = {
         break;
       case "AboutScreen":
         $("#topRightIcon").attr("src", "img/homeLarge.png");
+        $("#version").text(version);
         break;
     }
   },
