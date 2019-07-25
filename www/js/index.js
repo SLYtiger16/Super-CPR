@@ -230,15 +230,16 @@ let duperFeatures = function() {
   $("#speedLi").html(
     '<label class="yellowText" style="font-size:15px;" for="speed">Metronome Speed <span style="font-size:10px;color:white;">(100-120):</span></label><p class="range-field"><input type="range" id="speed" min="100" max="120" step="5" /></p>'
   );
+  $("#duper").hide();
+  $("#HeadingTitle").text("Super (Duper) CPR");
+  AdMob.hideBanner();
 };
 
 let refreshProductUI = function(product) {
   let duperStatus = get_duper_status();
+  console.log(product.owned);
   if (duperStatus === "unlocked") {
-    $("#duper").hide();
-    $("#HeadingTitle").text("Super (Duper) CPR");
     duperFeatures();
-    AdMob.hideBanner();
   } else {
     localStorage.setItem("duper", "locked");
     $("#duper").show();
