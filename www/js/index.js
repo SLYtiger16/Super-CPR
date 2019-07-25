@@ -227,21 +227,9 @@ let finishPurchase = function(p) {
 };
 
 let duperFeatures = function() {
-  $("#timeSettingsList").append(
-    '<li><label class="yellowText" style="font-size:15px;" for="speed">Metronome Speed <span style="font-size:10px;color:white;">(100-120):</span></label><p class="range-field"><input type="range" id="speed" min="100" max="120" step="5" /></p></li>'
+  $("#speedLi").html(
+    '<label class="yellowText" style="font-size:15px;" for="speed">Metronome Speed <span style="font-size:10px;color:white;">(100-120):</span></label><p class="range-field"><input type="range" id="speed" min="100" max="120" step="5" /></p>'
   );
-  $("#speed")
-    .off("change")
-    .on("change", event => {
-      let i = $(event.currentTarget).attr("id");
-      let v = $(event.currentTarget).val();
-      localStorage.setItem(i, String(v));
-      window.plugins.toast.showWithOptions({
-        message: "Speed Settings Saved!",
-        duration: "short",
-        position: "center"
-      });
-    });
 };
 
 let refreshProductUI = function(product) {
@@ -396,14 +384,14 @@ let app = {
         $("#medMin").val(app.drug.ret());
         $("#shockMin").val(app.shock.ret());
         $("#speed").val(get_cpr_speed());
-        $("#medMin, #shockMin")
+        $("#medMin, #shockMin, #speed")
           .off("change")
           .on("change", event => {
             let i = $(event.currentTarget).attr("id");
             let v = $(event.currentTarget).val();
             localStorage.setItem(i, String(v));
             window.plugins.toast.showWithOptions({
-              message: "Timer Settings Saved!",
+              message: "Time Settings Saved!",
               duration: "short",
               position: "center"
             });
