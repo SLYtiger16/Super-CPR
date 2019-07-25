@@ -231,10 +231,10 @@ let refreshProductUI = function(product) {
     .on("click", function() {
       product.loaded
         ? navigator.notification.confirm(
-            "Description:\r\n" + product.description + "\r\n$" + product.price,
+            "Description:\r\n" + product.description + " - " + product.price,
             purchaseDuper,
             product.title,
-            ["Buy Now!", "Cancel"]
+            ["Upgrade!", "Cancel"]
           )
         : window.plugins.toast.showWithOptions({
             message: "Retrieving info...",
