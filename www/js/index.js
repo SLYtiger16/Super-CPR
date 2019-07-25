@@ -390,8 +390,10 @@ let app = {
         $("#copyLog")
           .off("click")
           .on("click", function() {
-            let message = app.log.retText();
-            window.plugins.socialsharing.share("Super CPR Log", message);
+            let logText = app.log.retText();
+            setTimeout(function() {
+              window.plugins.socialsharing.share("Super CPR Log\r\n" + logText);
+            }, 500);
           });
         break;
       case "SettingsScreen":
