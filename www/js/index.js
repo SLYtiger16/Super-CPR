@@ -221,8 +221,27 @@ let initStore = function() {
 
 let finishPurchase = function(p) {
   localStorage.setItem("duper", "unlocked");
+  duperFeatures();
   refreshProductUI();
   p.finish();
+};
+
+let duperFeatures = function() {
+  $("#timeSettingsList").append(
+    '<li><label class="yellowText" style="font-size:15px;" for="speed">Metronome Speed <span style="font-size:10px;color:white;">(100-120):</span></label><p class="range-field"><input type="range" id="speed" min="100" max="120" step="5" /></p></li>'
+  );
+  $("#speed")
+    .off("change")
+    .on("change", event => {
+      let i = $(event.currentTarget).attr("id");
+      let v = $(event.currentTarget).val();
+      localStorage.setItem(i, String(v));
+      window.plugins.toast.showWithOptions({
+        message: "Speed Settings Saved!",
+        duration: "short",
+        position: "center"
+      });
+    });
 };
 
 let refreshProductUI = function(product) {
@@ -242,6 +261,9 @@ let refreshProductUI = function(product) {
             position: "center"
           });
     });
+  if (get_duper_status() === "unlocked") {
+    duperFeatures();
+  }
 };
 
 let purchaseDuper = function() {
@@ -266,10 +288,11 @@ let app = {
     $(".menuItem").on("click", function() {
       if ($(this).attr("target") === "rate") {
         window.open("market://details?id=com.sixten.superCPR", "_system");
+      } else if ($(this).attr("target") === "duper") {
+        return;
       } else {
         app.nav($(this).attr("target"));
       }
-      app.nav($(this).attr("target"));
       app.sidebar("close");
     });
     $("#soundSelect").material_select();
@@ -289,7 +312,9 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
-    app.admob();
+    if (get_duper_status() !== "unlocked") {
+      app.admob();
+    }
   },
 
   audio: {
