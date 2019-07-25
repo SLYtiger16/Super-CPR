@@ -315,9 +315,8 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
-    if (get_duper_status() !== "unlocked") {
-      app.admob();
-    }
+    let duperStatus = get_duper_status();
+    app.admob(duperStatus);
   },
 
   audio: {
@@ -787,7 +786,8 @@ let app = {
     }
   },
 
-  admob: function() {
+  admob: function(duperStatus) {
+    if (duperStatus == "unlocked") return;
     var admobid = {};
     if (/(android)/i.test(navigator.userAgent)) {
       admobid = {
