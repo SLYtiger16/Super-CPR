@@ -236,11 +236,8 @@ let duperFeatures = function() {
 };
 
 let refreshProductUI = function(product) {
-  let duperStatus = get_duper_status();
   console.log(product.owned);
-  if (duperStatus === "unlocked") {
-    duperFeatures();
-  } else {
+  if (product.owned === false) {
     localStorage.setItem("duper", "locked");
     $("#duper").show();
     $("#HeadingTitle").text("Super CPR");
@@ -261,6 +258,10 @@ let refreshProductUI = function(product) {
             });
       });
     app.admob();
+  } else {
+    localStorage.setItem("duper", "unlocked");
+    console.log("Duper Features Activated");
+    duperFeatures();
   }
 };
 
@@ -797,6 +798,7 @@ let app = {
       };
     }
     if (AdMob) {
+      console.log("Start AdMob");
       AdMob.createBanner({
         adId: admobid.banner,
         overlap: true,
