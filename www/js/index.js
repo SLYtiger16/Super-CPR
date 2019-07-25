@@ -240,6 +240,7 @@ let refreshProductUI = function(product) {
   if (product.owned === false) {
     localStorage.setItem("duper", "locked");
     $("#duper").show();
+    $("#speedLi").html("");
     $("#HeadingTitle").text("Super CPR");
     $("#duper")
       .off("click")
