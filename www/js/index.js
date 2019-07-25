@@ -282,9 +282,16 @@ let app = {
     $(".sidebar-toggle").on("click", function() {
       app.sidebar("open");
     });
+    $("#topRightIcon")
+      .attr("src", "img/logo.png")
+      .off("click")
+      .on("click", function() {
+        app.nav("HomeScreen");
+      });
     $(".menuItem").on("click", function() {
       if ($(this).attr("target") === "rate") {
         window.open("market://details?id=com.sixten.superCPR", "_system");
+        $("#topRightIcon").attr("src", "img/homeLarge.png");
       } else if ($(this).attr("target") === "duper") {
         return;
       } else {
@@ -368,8 +375,10 @@ let app = {
 
     switch (x) {
       case "HomeScreen":
+        $("#topRightIcon").attr("src", "img/logo.png");
         break;
       case "LogScreen":
+        $("#topRightIcon").attr("src", "img/homeLarge.png");
         $("#logList").html(app.log.ret());
         $("#logListCard").css("height", "calc(100vh - 150px)");
         $("#logList").height($("#logListCard").height() - 50);
@@ -386,6 +395,7 @@ let app = {
           });
         break;
       case "SettingsScreen":
+        $("#topRightIcon").attr("src", "img/homeLarge.png");
         $("#soundSelect option[value='" + get_cpr_sound() + "']").prop("selected", true);
         $("#soundSelect")
           .off("change")
@@ -408,6 +418,7 @@ let app = {
         $("#soundSelect").material_select();
         break;
       case "AboutScreen":
+        $("#topRightIcon").attr("src", "img/homeLarge.png");
         break;
     }
   },
