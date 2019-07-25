@@ -237,6 +237,8 @@ let refreshProductUI = function(product) {
   if (duperStatus === "unlocked") {
     $("#duper").hide();
     $("#HeadingTitle").text("Super (Duper) CPR");
+    duperFeatures();
+    AdMob.hideBanner();
   } else {
     localStorage.setItem("duper", "locked");
     $("#duper").show();
@@ -257,9 +259,7 @@ let refreshProductUI = function(product) {
               position: "center"
             });
       });
-  }
-  if (get_duper_status() === "unlocked") {
-    duperFeatures();
+    app.admob();
   }
 };
 
@@ -315,8 +315,6 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
-    let duperStatus = get_duper_status();
-    app.admob(duperStatus);
   },
 
   audio: {
@@ -786,8 +784,7 @@ let app = {
     }
   },
 
-  admob: function(duperStatus) {
-    if (duperStatus == "unlocked") return;
+  admob: function() {
     var admobid = {};
     if (/(android)/i.test(navigator.userAgent)) {
       admobid = {
