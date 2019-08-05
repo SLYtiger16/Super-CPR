@@ -284,12 +284,22 @@ let openCounter = function() {
     case 5:
     case 10:
     case 15:
+    case 25:
+    case 35:
+    case 45:
+    case 55:
+    case 65:
+    case 75:
+    case 85:
+    case 95:
       if (duper == "locked") {
         navigator.vibrate(500);
         navigator.notification.confirm(
           "Go ad free and set metronome tempo?",
-          function() {
-            $("#duper").trigger("click");
+          function(x) {
+            if (x == 1) {
+              $("#duper").trigger("click");
+            }
           },
           "Get Super (Duper) CPR",
           ["Yes", "No"]
@@ -299,11 +309,17 @@ let openCounter = function() {
     case 3:
     case 6:
     case 9:
+    case 20:
+    case 40:
+    case 75:
+    case 100:
       navigator.vibrate(500);
       navigator.notification.confirm(
         "Leave a rating for Super CPR in the store?",
-        function() {
-          $("#menu_rate").trigger("click");
+        function(x) {
+          if (x == 1) {
+            $("#menu_rate").trigger("click");
+          }
         },
         "Rate Super CPR",
         ["Yes", "No"]
@@ -340,7 +356,7 @@ let app = {
         if (/(android)/i.test(navigator.userAgent)) {
           window.open("market://details?id=com.sixten.superCPR", "_system");
         } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
-          window.open("https://itunes.apple.com/us/app/YOUR-APP-SLUG-HERE/id000000000?mt=8&uo=4", "_system");
+          window.open("https://apps.apple.com/us/app/super-cpr/id1355403048?ls=1", "_system");
         }
       } else if ($(this).attr("target") === "duper") {
         return;
