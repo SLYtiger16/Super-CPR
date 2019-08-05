@@ -238,7 +238,6 @@ let duperFeatures = function() {
 };
 
 let refreshProductUI = function(product) {
-  console.log(product.owned);
   if (product.owned === false) {
     localStorage.setItem("duper", "locked");
     $("#duper").show();
@@ -272,6 +271,49 @@ let purchaseDuper = function() {
   store.order("superdupercpr");
 };
 
+let openCounter = function() {
+  let s = localStorage.getItem("openCounter");
+  if (s === null || s === undefined) {
+    localStorage.setItem("openCounter", 1);
+  } else {
+    s = Number(s) + 1;
+    localStorage.setItem("openCounter", s);
+  }
+  let duper = get_duper_status();
+  switch (s) {
+    case 5:
+    case 10:
+    case 15:
+      if (duper == "locked") {
+        navigator.vibrate(500);
+        navigator.notification.confirm(
+          "Go ad free and set metronome tempo?",
+          function() {
+            $("#duper").trigger("click");
+          },
+          "Get Super (Duper) CPR",
+          ["Yes", "No"]
+        );
+      }
+      break;
+    case 3:
+    case 6:
+    case 9:
+      navigator.vibrate(500);
+      navigator.notification.confirm(
+        "Leave a rating for Super CPR in the store?",
+        function() {
+          $("#menu_rate").trigger("click");
+        },
+        "Rate Super CPR",
+        ["Yes", "No"]
+      );
+      break;
+    default:
+      break;
+  }
+};
+
 let app = {
   initialize: function() {
     $(document).on("deviceready", app.onDeviceReady);
@@ -295,7 +337,11 @@ let app = {
       });
     $(".menuItem").on("click", function() {
       if ($(this).attr("target") === "rate") {
-        window.open("market://details?id=com.sixten.superCPR", "_system");
+        if (/(android)/i.test(navigator.userAgent)) {
+          window.open("market://details?id=com.sixten.superCPR", "_system");
+        } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
+          window.open("https://itunes.apple.com/us/app/YOUR-APP-SLUG-HERE/id000000000?mt=8&uo=4", "_system");
+        }
       } else if ($(this).attr("target") === "duper") {
         return;
       } else {
@@ -320,6 +366,7 @@ let app = {
     StatusBar.backgroundColorByName("black");
     StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
+    openCounter();
   },
 
   audio: {
